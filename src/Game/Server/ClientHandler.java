@@ -43,9 +43,10 @@ public class ClientHandler implements Runnable
                 int read4 = in.read(buffer4);
                 int read5 = in.read(buffer5);
 
-                System.out.println("RECV from " + ": " + new String(buffer1, 0, read1)
-                       +" " + new String(buffer2, 0, read2) + " " + new String(buffer3, 0, read3)
-                 + " " + new String(buffer4, 0, read4) + " " + new String(buffer5, 0, read5));
+//                System.out.println("RECV from " + ": " + new String(buffer1, 0, read1)
+//                       +" " + new String(buffer2, 0, read2) + " " + new String(buffer3, 0, read3)
+//                 + " " + new String(buffer4, 0, read4) + " " +
+//                 new String(buffer5, 0, read5));
 
                 data.add(new String(buffer1, 0, read1));
                 data.add(new String(buffer2, 0, read2));

@@ -105,21 +105,6 @@ public class Tank implements Runnable
         }
 
 
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                System.out.println(synchronizedArrayList.get().get(0)
-                        + " " + synchronizedArrayList.get().get(1)
-                        + " " + synchronizedArrayList.get().get(2)
-                        + " " + synchronizedArrayList.get().get(3)
-                        + " " + synchronizedArrayList.get().get(4));
-            }
-        }).start();
-
-
-
     }
 
     public void setProtection (boolean hasProtection) {
@@ -383,6 +368,18 @@ public class Tank implements Runnable
 
     public void update()
     {
+
+        System.out.println("Looking for data");
+
+        ArrayList<String> hh = synchronizedArrayList.get();
+
+
+        System.out.println(hh.get(0)
+                + "*" + hh.get(1)
+                + "*" + hh.get(2)
+                + "*" + hh.get(3)
+                + "*" + hh.get(4));
+
         if(mousePress)
         {
             this.setLocY( mouseY - 30 / 2 );

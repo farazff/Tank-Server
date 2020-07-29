@@ -20,7 +20,7 @@ public class SynchronizedArrayList
             }
         }
         data.add(temp);
-        System.out.println("wwwwwwwwwwwwwwwwwwwww");
+        System.out.println("write" + temp);
         notifyAll();
     }
 
@@ -30,6 +30,8 @@ public class SynchronizedArrayList
         {
             try
             {
+                System.out.println("datanum +=" + data.size());
+                System.out.println("waiting.....");
                 wait();
             }
             catch(InterruptedException e)
@@ -38,6 +40,7 @@ public class SynchronizedArrayList
             }
         }
         ArrayList<String> current  = new ArrayList<>();
+        System.out.println("Giving data");
         current.add(data.get(0));
         current.add(data.get(1));
         current.add(data.get(2));

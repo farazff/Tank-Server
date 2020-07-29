@@ -19,27 +19,27 @@ public class Client
             byte[] buffer = new byte[2048];
             while (true)
             {
-//                Scanner scanner = new Scanner(System.in);
-//                out.write(scanner.next().getBytes());
-//                out.write(scanner.next().getBytes());
-//                out.write(scanner.next().getBytes());
-//                out.write(scanner.next().getBytes());
-//                out.write(scanner.next().getBytes());
-                for(int i=1;i<=10;i++)
-                {
-                    out.write("1".getBytes());
-                    out.write("2".getBytes());
-                    out.write("3".getBytes());
-                    out.write("4".getBytes());
-                    out.write("5".getBytes());
-                    try {
-                        Thread.sleep(1000);
-                    }
-                    catch (InterruptedException ex)
-                    {
-
-                    }
-                }
+                Scanner scanner = new Scanner(System.in);
+                out.write(scanner.next().getBytes());
+                out.write(scanner.next().getBytes());
+                out.write(scanner.next().getBytes());
+                out.write(scanner.next().getBytes());
+                out.write(scanner.next().getBytes());
+//                for(int i=1;i<=10;i++)
+//                {
+//                    out.write("1".getBytes());
+//                    out.write("2".getBytes());
+//                    out.write("3".getBytes());
+//                    out.write("4".getBytes());
+//                    out.write("5".getBytes());
+//                    try {
+//                        Thread.sleep(1000);
+//                    }
+//                    catch (InterruptedException ex)
+//                    {
+//
+//                    }
+//                }
             }
         }
         catch (IOException ex)
