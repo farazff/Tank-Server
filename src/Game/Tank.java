@@ -1,6 +1,5 @@
 package Game;
 
-import Game.Server.SynchronizedArrayList;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,7 +21,7 @@ public class Tank implements Runnable , Serializable
     private static BufferedImage fireImage,fireDestroyImage;
     private Prize prizeOwn;
     private Prizes prizes;
-    private SynchronizedArrayList synchronizedArrayList;
+    private ArrayList<String> data;
 
     static
     {
@@ -39,9 +38,9 @@ public class Tank implements Runnable , Serializable
 
     public Tank (ArrayList<Bullet> bullets, ArrayList<Wall> walls, ArrayList<Tank> tanks, Prizes prizes,
                 int tankStamina,int canonPower , Maps maps ,
-                 SynchronizedArrayList synchronizedArrayList)
+                ArrayList<String> data)
     {
-        this.synchronizedArrayList = synchronizedArrayList;
+        this.data = data;
         this.canonPower = canonPower;
         this.prizes = prizes;
         this.bullets = bullets;
@@ -291,12 +290,12 @@ public class Tank implements Runnable , Serializable
 
     public void update()
     {
-        ArrayList<String> hh = synchronizedArrayList.get();
-//        System.out.println(hh.get(0)
-//                + "*" + hh.get(1)
-//                + "*" + hh.get(2)
-//                + "*" + hh.get(3)
-//                + "*" + hh.get(4));
+        ArrayList<String> hh = data;
+        System.out.println(hh.get(0)
+                + "*" + hh.get(1)
+                + "*" + hh.get(2)
+                + "*" + hh.get(3)
+                + "*" + hh.get(4));
 
         if(hh.get(0).equals("1"))
             keyUP = true;

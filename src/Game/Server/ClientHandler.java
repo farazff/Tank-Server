@@ -4,14 +4,16 @@ import Game.GameFrame;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientHandler implements Runnable
 {
 
     private Socket connectionSocket;
-    private SynchronizedArrayList data = new SynchronizedArrayList();
+    private ArrayList<String> data = new ArrayList<>();
     private GameFrame frame;
-    public SynchronizedArrayList getData()
+
+    public ArrayList<String> getData()
     {
         return data;
     }
@@ -31,17 +33,15 @@ public class ClientHandler implements Runnable
             InputStream in = connectionSocket.getInputStream();
 
             byte[] buffer1 = new byte[5];
-            byte[] buffer2 = new byte[1];
-            byte[] buffer3 = new byte[1];
-            byte[] buffer4 = new byte[1];
-            byte[] buffer5 = new byte[1];
+
 
             while(true)
             {
                 int read1 = in.read(buffer1);
 
-                System.out.println(new String(buffer1,0,read1));
+                //System.out.println(new String(buffer1,0,read1));
 
+                data.clear();
                 data.add(String.valueOf(new String(buffer1, 0, read1).charAt(0)));
                 data.add(String.valueOf(new String(buffer1, 0, read1).charAt(1)));
                 data.add(String.valueOf(new String(buffer1, 0, read1).charAt(2)));
