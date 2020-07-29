@@ -2,10 +2,11 @@ package Game;
 
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Prizes implements Runnable
+public class Prizes implements Runnable , Serializable
 {
     private ArrayList<Prize> prizes;
     private ArrayList<Tank> tanks;

@@ -1,6 +1,8 @@
 package Game;
 
-public class Wall
+import java.io.Serializable;
+
+public class Wall implements Serializable
 {
     private int x,y,length;
     private String type;

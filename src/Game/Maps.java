@@ -3,12 +3,13 @@ package Game;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import Game.Graph.*;
 
-public class Maps
+public class Maps implements Serializable
 {
     private ArrayList<Wall> walls;
     private ArrayList< ArrayList<Character> > data = new ArrayList<>();

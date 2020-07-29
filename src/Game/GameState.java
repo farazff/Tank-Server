@@ -2,6 +2,7 @@ package Game;
 
 import Game.Server.ClientHandler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors;
  *
  * @author Seyed Mohammad Ghaffarian
  */
-public class GameState
+public class GameState implements Serializable
 {
 
 	private ArrayList<Tank> tanks;

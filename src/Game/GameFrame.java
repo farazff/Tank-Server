@@ -1,7 +1,5 @@
 package Game;
 
-
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
@@ -10,22 +8,13 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-/**
- * The window on which the rendering is performed.
- * This example uses the modern BufferStrategy approach for double-buffering,
- * actually it performs triple-buffering!
- * For more information on BufferStrategy check out:
- *    http://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
- *    http://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferStrategy.html
- *
- * @author Seyed Mohammad Ghaffarian
- */
-public class GameFrame extends JFrame
+public class GameFrame extends JFrame implements Serializable
 {
 	public static final int GAME_HEIGHT = 720;                  // 720p game resolution
 	public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
@@ -33,7 +22,7 @@ public class GameFrame extends JFrame
 	private long lastRender;
 	private ArrayList<Float> fpsHistory;
 	private BufferStrategy bufferStrategy;
-	private int mapTheme ;
+	private int mapTheme;
 	private BufferedImage theme;
 	private BufferedImage wallNDH;
 	private BufferedImage wallDH;
@@ -74,7 +63,8 @@ public class GameFrame extends JFrame
 	 *    frame.setVisible(true);
 	 * and before any rendering is started.
 	 */
-	public void initBufferStrategy() {
+	public void initBufferStrategy()
+	{
 		// Triple-buffering
 		createBufferStrategy(3);
 		bufferStrategy = getBufferStrategy();
@@ -85,15 +75,10 @@ public class GameFrame extends JFrame
 	 */
 	public void render(GameState state) throws IOException
 	{
-		// Render single frame
 		do
 		{
-			// The following loop ensures that the contents of the drawing buffer
-			// are consistent in case the underlying surface was recreated
 			do
 			{
-				// Get a new graphics context every time through the loop
-				// to make sure the strategy is validated
 				Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
 				try
 				{
@@ -101,19 +86,13 @@ public class GameFrame extends JFrame
 				}
 				finally
 				{
-					// Dispose the graphics
 					graphics.dispose();
 				}
-				// Repeat the rendering if the drawing buffer contents were restored
-			} while (bufferStrategy.contentsRestored());
+			}while(bufferStrategy.contentsRestored());
 
-			// Display the buffer
 			bufferStrategy.show();
-			// Tell the system to do the drawing NOW;
-			// otherwise it can take a few extra ms and will feel jerky!
 			Toolkit.getDefaultToolkit().sync();
 
-			// Repeat the rendering if the drawing buffer was lost
 		}while(bufferStrategy.contentsLost());
 	}
 

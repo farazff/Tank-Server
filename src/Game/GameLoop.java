@@ -3,9 +3,10 @@ package Game;
 import Game.Server.ClientHandler;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameLoop implements Runnable
+public class GameLoop implements Runnable , Serializable
 {
 
 	/**

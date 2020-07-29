@@ -5,11 +5,12 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Tank implements Runnable
+public class Tank implements Runnable , Serializable
 {
     private int locX,locY,stamina,degree,height,width ,canonPower;
     private static String bulletType;
@@ -291,11 +292,11 @@ public class Tank implements Runnable
     public void update()
     {
         ArrayList<String> hh = synchronizedArrayList.get();
-        System.out.println(hh.get(0)
-                + "*" + hh.get(1)
-                + "*" + hh.get(2)
-                + "*" + hh.get(3)
-                + "*" + hh.get(4));
+//        System.out.println(hh.get(0)
+//                + "*" + hh.get(1)
+//                + "*" + hh.get(2)
+//                + "*" + hh.get(3)
+//                + "*" + hh.get(4));
 
         if(hh.get(0).equals("1"))
             keyUP = true;
@@ -343,7 +344,7 @@ public class Tank implements Runnable
 
         if(!keyRIGHT  && keyLEFT)
             this.decreaseDegree();
-        
+
 
         this.setLocX(Math.max(this.getLocX(), 0));
         this.setLocX(Math.min(this.getLocX(), GameFrame.GAME_WIDTH - 30));

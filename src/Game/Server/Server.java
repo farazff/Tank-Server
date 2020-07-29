@@ -19,16 +19,17 @@ public class Server
 
     public static void main(String[] args)
     {
+        final GameFrame frame = new GameFrame("Simple Ball !");;
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
             int players = 0;
             System.out.print("Server started.\nWaiting for a client ... ");
-           for(int i=1;i<=1;i++)
+            for(int i=1;i<=1;i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();
                 System.out.println("client accepted!");
-                ClientHandler clientHandler = new ClientHandler(connectionSocket);
+                ClientHandler clientHandler = new ClientHandler(connectionSocket,frame);
                 players++;
                 clientHandlers.add(clientHandler);
                 pool.execute(clientHandler);
@@ -42,8 +43,6 @@ public class Server
                 @Override
                 public void run()
                 {
-                    GameFrame frame = null;
-                    frame = new GameFrame("Simple Ball !");
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.setVisible(true);
