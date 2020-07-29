@@ -2,13 +2,14 @@ package Game.Server;
 
 import Game.GameFrame;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable
 {
-
     private Socket connectionSocket;
     private ArrayList<String> data = new ArrayList<>();
     private GameFrame frame;
@@ -29,24 +30,39 @@ public class ClientHandler implements Runnable
     {
         try
         {
-            OutputStream out = connectionSocket.getOutputStream();
-            InputStream in = connectionSocket.getInputStream();
+            InputStream inputStream = connectionSocket.getInputStream();
+            OutputStream outputStream = connectionSocket.getOutputStream();
 
-            byte[] buffer1 = new byte[5];
+            byte[] buffer = new byte[100];
 
+            try
+            {
+                Thread.sleep(3000);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
 
             while(true)
             {
-                int read1 = in.read(buffer1);
+                int l = inputStream.read(buffer);
+                String temp = new String(buffer,0,l);
 
-                //System.out.println(new String(buffer1,0,read1));
+                System.out.println("server got number");
 
                 data.clear();
-                data.add(String.valueOf(new String(buffer1, 0, read1).charAt(0)));
-                data.add(String.valueOf(new String(buffer1, 0, read1).charAt(1)));
-                data.add(String.valueOf(new String(buffer1, 0, read1).charAt(2)));
-                data.add(String.valueOf(new String(buffer1, 0, read1).charAt(3)));
-                data.add(String.valueOf(new String(buffer1, 0, read1).charAt(4)));
+                data.add(String.valueOf(temp.charAt(0)));
+                data.add(String.valueOf(temp.charAt(1)));
+                data.add(String.valueOf(temp.charAt(2)));
+                data.add(String.valueOf(temp.charAt(3)));
+                data.add(String.valueOf(temp.charAt(4)));
+
+                System.out.println("server going to send image");
+                BufferedImage img = frame.getFinalImg().get();
+
+                ImageIO.write(img, "jpg", outputStream);
+                System.out.println("server sent image");
 
             }
 

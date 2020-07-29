@@ -1,11 +1,14 @@
 package Game;
 
+import Game.Server.Buffer;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,6 +31,13 @@ public class GameFrame extends JFrame implements Serializable
 	private BufferedImage wallDH;
 	private BufferedImage wallNDV;
 	private BufferedImage wallDV;
+	private BufferedImage img;
+	private Buffer finalImg = new Buffer();
+
+	public Buffer getFinalImg()
+	{
+		return finalImg;
+	}
 
 	public GameFrame(String title)
 	{
@@ -73,7 +83,7 @@ public class GameFrame extends JFrame implements Serializable
 	/**
 	 * Game rendering with triple-buffering using BufferStrategy.
 	 */
-	public void render(GameState state) throws IOException
+	public void render(GameState state) throws IOException, InterruptedException
 	{
 		do
 		{
@@ -99,8 +109,12 @@ public class GameFrame extends JFrame implements Serializable
 	/**
 	 * Rendering all game elements based on the game state.
 	 */
-	private void doRendering(Graphics2D g2d, GameState state) throws IOException
-	{
+	private void doRendering(Graphics2D g3d, GameState state) throws IOException, InterruptedException {
+		img = new BufferedImage(1280, 720,
+				BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g2d = img.createGraphics();
+
 		g2d.setColor(Color.GRAY);
 		g2d.fillRect(0,0,GAME_WIDTH, GAME_HEIGHT);
 		try
@@ -328,6 +342,13 @@ public class GameFrame extends JFrame implements Serializable
 			int strWidth = g2d.getFontMetrics().stringWidth(str);
 			g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
 		}
+
+		System.out.println("Writinggggg");
+		finalImg.put(img);
+		System.out.println("doooone");
+
+		g3d.drawImage(img,0,0,null);
+
 	}
 
 	private static BufferedImage rotateImage(BufferedImage sourceImage, double angle)

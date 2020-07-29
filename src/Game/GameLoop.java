@@ -68,7 +68,7 @@ public class GameLoop implements Runnable , Serializable
 		{
 			canvas.render(state);
 		}
-		catch (IOException e)
+		catch (IOException | InterruptedException e)
 		{
 			e.printStackTrace();
 		}

@@ -291,11 +291,20 @@ public class Tank implements Runnable , Serializable
     public void update()
     {
         ArrayList<String> hh = data;
-        System.out.println(hh.get(0)
-                + "*" + hh.get(1)
-                + "*" + hh.get(2)
-                + "*" + hh.get(3)
-                + "*" + hh.get(4));
+//        System.out.println(hh.get(0)
+//                + "*" + hh.get(1)
+//                + "*" + hh.get(2)
+//                + "*" + hh.get(3)
+//                + "*" + hh.get(4));
+
+        if(hh.size()==0)
+        {
+            hh.add("0");
+            hh.add("0");
+            hh.add("0");
+            hh.add("0");
+            hh.add("0");
+        }
 
         if(hh.get(0).equals("1"))
             keyUP = true;

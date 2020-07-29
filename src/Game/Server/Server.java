@@ -19,7 +19,7 @@ public class Server
 
     public static void main(String[] args)
     {
-        final GameFrame frame = new GameFrame("Simple Ball !");;
+        final GameFrame frame = new GameFrame("Simple Ball !");
         ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
@@ -38,11 +38,12 @@ public class Server
             int finalPlayers = players;
 
             ThreadPool.init();
-            EventQueue.invokeLater(new Runnable()
+            new Thread(new Runnable()
             {
                 @Override
                 public void run()
                 {
+
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.setVisible(true);
@@ -53,7 +54,7 @@ public class Server
                     game.init();
                     ThreadPool.execute(game);
                 }
-            });
+            }).start();
         }
 
         catch (IOException ex)
