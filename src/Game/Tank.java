@@ -1,56 +1,36 @@
 package Game;
 
 import Game.Server.SynchronizedArrayList;
-
 import javax.imageio.ImageIO;
-import javax.swing.plaf.TableHeaderUI;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Tank implements Runnable
 {
-    private int locX,locY,stamina;
-    private int degree;
-    private static String imageAddress = "Images/Tanks/red315.png";
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
-    private boolean shot;
-    private boolean hasProtection;
-    private String bulletType;
-    private boolean fireDestroyed;
-    private boolean destroyed;
-    private boolean mousePress;
-    private int height;
-    private int width;
-    private int mouseX, mouseY;
-    private KeyHandler keyHandler;
-    private boolean canShot;
+    private int locX,locY,stamina,degree,height,width ,canonPower;
+    private static String bulletType;
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT,shot,hasProtection,fireDestroyed,destroyed,canShot;
     private ArrayList<Bullet> bullets;
     private ArrayList<Wall> walls;
     private ArrayList<Tank> tanks;
-    private  BufferedImage tankImage;
-    private static BufferedImage fireImage;
-    private static BufferedImage fireDestroyImage;
+    private BufferedImage tankImage;
+    private static BufferedImage fireImage,fireDestroyImage;
     private Prize prizeOwn;
     private Prizes prizes;
-    public Prize getPrizeOwn()
-    {
-        return prizeOwn;
-    }
-    private int canonPower;
-    private Maps maps;
     private SynchronizedArrayList synchronizedArrayList;
 
-    static {
-        try {
+    static
+    {
+        try
+        {
             fireImage = ImageIO.read (new File ("./Images/Bullet/shotLarge.png"));
             fireDestroyImage = ImageIO.read (new File ("./Images/Explosion/explosion3.png"));
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace ();
         }
@@ -61,7 +41,6 @@ public class Tank implements Runnable
                  SynchronizedArrayList synchronizedArrayList)
     {
         this.synchronizedArrayList = synchronizedArrayList;
-        this.maps = maps;
         this.canonPower = canonPower;
         this.prizes = prizes;
         this.bullets = bullets;
@@ -76,13 +55,8 @@ public class Tank implements Runnable
         keyRIGHT = false;
         keyLEFT = false;
         shot = false;
-        mousePress = false;
-        mouseX = 0;
-        mouseY = 0;
-        keyHandler = new KeyHandler ();
         prizeOwn = null;
         bulletType = "Normal";
-
         do
         {
             locX = new Random().nextInt(((16 * 720) / 9) - 200) + 100;
@@ -90,11 +64,8 @@ public class Tank implements Runnable
 
         }while(!canMoveForward() || !maps.canPut(locX,locY) || !isEmpty(0,0,1));
 
-
         stamina = tankStamina;
-
         degree = 45;
-
         try
         {
             tankImage = ImageIO.read (new File (getImageAddress ()));
@@ -103,36 +74,14 @@ public class Tank implements Runnable
         } catch (IOException e) {
             e.printStackTrace ();
         }
-
-
     }
 
-    public void setProtection (boolean hasProtection) {
-        this.hasProtection = hasProtection;
-    }
-
-
-
-    public void setBulletType (String bulletType) {
-        this.bulletType = bulletType;
-    }
-
-    public String getBulletType () {
-        return bulletType;
-    }
-
-    public int getHeight () {
-        return height;
-    }
-
-    public int getWidth () {
-        return width;
-    }
-
-    public void looseStamina (int damage) {
-        if (!hasProtection)
+    public void looseStamina (int damage)
+    {
+        if(!hasProtection)
             stamina -= damage;
-        if (stamina <= 0) {
+        if(stamina <= 0)
+        {
             fireDestroyed = true;
             keyUP = false;
             keyDOWN = false;
@@ -140,102 +89,19 @@ public class Tank implements Runnable
             keyRIGHT = false;
             new Thread (new Runnable () {
                 @Override
-                public void run () {
-                    try {
+                public void run ()
+                {
+                    try
+                    {
                         Thread.sleep (200);
                         destroyed = true;
-                    } catch (InterruptedException e) {
+                    }
+                    catch (InterruptedException e)
+                    {
                         e.printStackTrace ();
                     }
                 }
             }).start ();
-        }
-
-    }
-
-    public KeyHandler getKeyHandler () {
-        return keyHandler;
-    }
-
-
-    public int getCenterX () {
-        return locX + width / 2 - 2;
-    }
-
-    public int getCenterY () {
-        return locY + height / 2 - 2;
-    }
-
-    public int getCanonStartX () {
-
-        return getCenterX () +
-                ((int) (Math.sqrt (968) * Math.cos (Math.toRadians (degree))));
-    }
-
-    public int getCanonStartY () {
-        return getCenterY () +
-                ((int) (Math.sqrt (968) * Math.sin (Math.toRadians (degree))));
-    }
-
-
-    public String getImageAddress () {
-        return imageAddress;
-    }
-
-    public int getLocX () {
-        return locX;
-    }
-
-    public void setLocX (int locX) {
-        this.locX = locX;
-    }
-
-    public void addLocX (int adder) {
-        locX += adder;
-    }
-
-    public int getLocY () {
-        return locY;
-    }
-
-    public void setLocY (int locY) {
-        this.locY = locY;
-    }
-
-    public void addLocY (int adder) {
-        locY += adder;
-    }
-
-    public int getStamina () {
-        return stamina;
-    }
-
-    public ArrayList<Tank> getTanks () {
-        return tanks;
-    }
-
-    public ArrayList<Bullet> getBullets () {
-        return bullets;
-    }
-
-    public ArrayList<Wall> getWalls () {
-        return walls;
-    }
-
-    public int getDegree () {
-        return degree;
-    }
-
-    public void increaseDegree () {
-        degree += 10;
-        if (degree >= 360)
-            degree = 0;
-    }
-
-    public void decreaseDegree () {
-        degree -= 10;
-        if (degree <= 0) {
-            degree = 359;
         }
     }
 
@@ -281,11 +147,8 @@ public class Tank implements Runnable
                 }
             }
         }
-
-
         return ans;
     }
-
 
     public boolean canMoveBackward()
     {
@@ -333,7 +196,6 @@ public class Tank implements Runnable
                 }
             }
         }
-
         return ans;
     }
 
@@ -361,57 +223,7 @@ public class Tank implements Runnable
                 }
             }
         }
-
         return ans;
-    }
-
-
-    public void update()
-    {
-
-        System.out.println("Looking for data");
-
-        ArrayList<String> hh = synchronizedArrayList.get();
-
-
-        System.out.println(hh.get(0)
-                + "*" + hh.get(1)
-                + "*" + hh.get(2)
-                + "*" + hh.get(3)
-                + "*" + hh.get(4));
-
-        if(mousePress)
-        {
-            this.setLocY( mouseY - 30 / 2 );
-            this.setLocX( mouseX - 30 / 2 );
-        }
-
-        int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
-        int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));
-
-        if(keyUP && canMoveForward() && isEmpty(forX,forY,1))
-        {
-            this.addLocX(forX);
-            this.addLocY(forY);
-        }
-        if(keyDOWN && canMoveBackward() && isEmpty(forX,forY,-1))
-        {
-            this.addLocX(-1*forX);
-            this.addLocY(-1*forY);
-        }
-
-        checkPrize();
-
-        if(keyRIGHT && !keyLEFT)
-            this.increaseDegree();
-
-        if(!keyRIGHT  && keyLEFT)
-            this.decreaseDegree();
-
-        this.setLocX(Math.max(this.getLocX(), 0));
-        this.setLocX(Math.min(this.getLocX(), GameFrame.GAME_WIDTH - 30));
-        this.setLocY(Math.max(this.getLocY(), 0));
-        this.setLocY(Math.min(this.getLocY(), GameFrame.GAME_HEIGHT - 30));
     }
 
     public void checkPrize()
@@ -470,13 +282,74 @@ public class Tank implements Runnable
                                 }
                             }
                         }).start();
-
                     }
                 }
             }
         }
     }
 
+    public void update()
+    {
+        ArrayList<String> hh = synchronizedArrayList.get();
+        System.out.println(hh.get(0)
+                + "*" + hh.get(1)
+                + "*" + hh.get(2)
+                + "*" + hh.get(3)
+                + "*" + hh.get(4));
+
+        if(hh.get(0).equals("1"))
+            keyUP = true;
+        if(hh.get(0).equals("0"))
+            keyUP = false;
+
+        if(hh.get(1).equals("1"))
+            keyDOWN = true;
+        if(hh.get(1).equals("0"))
+            keyDOWN = false;
+
+        if(hh.get(2).equals("1"))
+            keyLEFT = true;
+        if(hh.get(2).equals("0"))
+            keyLEFT = false;
+
+        if(hh.get(3).equals("1"))
+            keyRIGHT = true;
+        if(hh.get(3).equals("0"))
+            keyRIGHT = false;
+
+        if(hh.get(4).equals("1"))
+            shot = true;
+        if(hh.get(4).equals("0"))
+            shot = false;
+
+        int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
+        int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));
+
+        if(keyUP && canMoveForward() && isEmpty(forX,forY,1))
+        {
+            this.addLocX(forX);
+            this.addLocY(forY);
+        }
+        if(keyDOWN && canMoveBackward() && isEmpty(forX,forY,-1))
+        {
+            this.addLocX(-1*forX);
+            this.addLocY(-1*forY);
+        }
+
+        checkPrize();
+
+        if(keyRIGHT && !keyLEFT)
+            this.increaseDegree();
+
+        if(!keyRIGHT  && keyLEFT)
+            this.decreaseDegree();
+        
+
+        this.setLocX(Math.max(this.getLocX(), 0));
+        this.setLocX(Math.min(this.getLocX(), GameFrame.GAME_WIDTH - 30));
+        this.setLocY(Math.max(this.getLocY(), 0));
+        this.setLocY(Math.min(this.getLocY(), GameFrame.GAME_HEIGHT - 30));
+    }
 
     @Override
     public void run()
@@ -484,135 +357,165 @@ public class Tank implements Runnable
         this.update();
     }
 
-    public boolean isFireDestroyed () {
+    public boolean isFireDestroyed ()
+    {
         return fireDestroyed;
     }
 
-    public boolean isDestroyed () {
+    public boolean isDestroyed ()
+    {
         return destroyed;
     }
 
-    public boolean isShot () {
+    public boolean isShot ()
+    {
         return shot;
     }
 
-    public boolean isCanShot () {
+    public boolean isCanShot ()
+    {
         return canShot;
     }
 
-    public void setDegree (int degree) {
-        this.degree = degree;
-    }
-
-    public void setCanShot (boolean canShot) {
-        this.canShot = canShot;
-    }
-
-    public void setShot (boolean shot) {
-        this.shot = shot;
-    }
-
-    public  BufferedImage getTankImage () {
+    public  BufferedImage getTankImage ()
+    {
         return tankImage;
     }
 
-    public static BufferedImage getFireDestroyImage () {
+    public static BufferedImage getFireDestroyImage ()
+    {
         return fireDestroyImage;
     }
 
-    public static BufferedImage getFireImage () {
+    public static BufferedImage getFireImage ()
+    {
         return fireImage;
     }
 
-    protected class KeyHandler extends KeyAdapter {
-
-        @Override
-        public void keyPressed (KeyEvent e) {
-            if (!(destroyed || fireDestroyed)) {
-                switch (e.getKeyCode ()) {
-                    case KeyEvent.VK_UP:
-                        keyUP = true;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        keyDOWN = true;
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        keyLEFT = true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        keyRIGHT = true;
-                        break;
-                }
-            }
-        }
-
-        @Override
-        public void keyReleased (KeyEvent e) {
-            if (!(destroyed || fireDestroyed)) {
-                switch (e.getKeyCode ()) {
-                    case KeyEvent.VK_UP:
-                        keyUP = false;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        keyDOWN = false;
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        keyLEFT = false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        keyRIGHT = false;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        if (canShot) {
-                            Music music = new Music ();
-                            music.setFilePath ("Files/Sounds/Bullet.au", false);
-                            music.execute ();
-                            if (getBulletType ().equals ("Laser"))
-                            {
-                                bullets.add (new LaserBullet (getCanonStartX (), getCanonStartY (),
-                                        getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
-                                setBulletType ("Normal");
-                            } else
-                            {
-                                bullets.add (new Bullet (getCanonStartX (), getCanonStartY (),
-                                        getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
-                            }
-
-                            canShot = false;
-                            shot = true;
-                            new Thread (new Runnable () {
-                                @Override
-                                public void run () {
-                                    try {
-                                        Thread.sleep (100);
-                                        shot = false;
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace ();
-                                    }
-                                }
-                            }).start ();
-                            new Thread (new Runnable () {
-                                @Override
-                                public void run () {
-                                    try {
-                                        Thread.sleep (500);
-                                        canShot = true;
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace ();
-                                    }
-                                }
-                            }).start ();
-                        }
-                }
-            }
-
-        }
-    }
-
-    public int getCanonPower()
+    public int getCenterX ()
     {
-        return canonPower;
+        return locX + width / 2 - 2;
     }
+
+    public int getCenterY ()
+    {
+        return locY + height / 2 - 2;
+    }
+
+    public int getCanonStartX ()
+    {
+        return getCenterX () +
+                ((int) (Math.sqrt (968) * Math.cos (Math.toRadians (degree))));
+    }
+
+    public int getCanonStartY ()
+    {
+        return getCenterY () +
+                ((int) (Math.sqrt (968) * Math.sin (Math.toRadians (degree))));
+    }
+
+    public String getImageAddress ()
+    {
+        String imageAddress = "Images/Tanks/red315.png";
+        return imageAddress;
+    }
+
+    public int getLocX ()
+    {
+        return locX;
+    }
+
+    public void setLocX (int locX)
+    {
+        this.locX = locX;
+    }
+
+    public void addLocX (int adder)
+    {
+        locX += adder;
+    }
+
+    public int getLocY ()
+    {
+        return locY;
+    }
+
+    public void setLocY (int locY)
+    {
+        this.locY = locY;
+    }
+
+    public void addLocY (int adder)
+    {
+        locY += adder;
+    }
+
+    public int getStamina ()
+    {
+        return stamina;
+    }
+
+    public ArrayList<Tank> getTanks ()
+    {
+        return tanks;
+    }
+
+    public ArrayList<Bullet> getBullets ()
+    {
+        return bullets;
+    }
+
+    public ArrayList<Wall> getWalls ()
+    {
+        return walls;
+    }
+
+    public int getDegree ()
+    {
+        return degree;
+    }
+
+    public void increaseDegree ()
+    {
+        degree += 10;
+        if (degree >= 360)
+            degree = 0;
+    }
+
+    public void decreaseDegree ()
+    {
+        degree -= 10;
+        if (degree <= 0)
+        {
+            degree = 359;
+        }
+    }
+
+    public void setProtection (boolean hasProtection)
+    {
+        this.hasProtection = hasProtection;
+    }
+
+    public void setBulletType (String bulletType)
+    {
+        this.bulletType = bulletType;
+    }
+
+    public String getBulletType ()
+    {
+        return bulletType;
+    }
+
+    public int getHeight ()
+    {
+        return height;
+    }
+
+    public Prize getPrizeOwn()
+    {
+        return prizeOwn;
+    }
+
 }
 
 

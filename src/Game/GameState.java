@@ -23,7 +23,7 @@ public class GameState
 	private Maps maps;
 	private Prizes prizes;
 	private Thread t1;
-	private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+	private ArrayList<ClientHandler> clientHandlers;
 
 	public GameState(int players,int tankStamina,int canonPower,int wallStamina,
 					 ArrayList<ClientHandler> clientHandlers)
@@ -107,7 +107,6 @@ public class GameState
 			e.printStackTrace ();
 		}
 	}
-
 
 	public ArrayList<Bullet> getBullets () {
 		return bullets;

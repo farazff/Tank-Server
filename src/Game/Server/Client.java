@@ -32,13 +32,6 @@ public class Client
 //                    out.write("3".getBytes());
 //                    out.write("4".getBytes());
 //                    out.write("5".getBytes());
-//                    try {
-//                        Thread.sleep(1000);
-//                    }
-//                    catch (InterruptedException ex)
-//                    {
-//
-//                    }
 //                }
             }
         }

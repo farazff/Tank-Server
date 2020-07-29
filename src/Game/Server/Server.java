@@ -36,7 +36,6 @@ public class Server
 
             int finalPlayers = players;
 
-
             ThreadPool.init();
             EventQueue.invokeLater(new Runnable()
             {
@@ -56,7 +55,6 @@ public class Server
                     ThreadPool.execute(game);
                 }
             });
-
         }
 
         catch (IOException ex)

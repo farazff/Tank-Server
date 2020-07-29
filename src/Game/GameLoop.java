@@ -17,7 +17,7 @@ public class GameLoop implements Runnable
 	private GameFrame canvas;
 	private GameState state;
 	private int players,tankStamina,canonPower, wallStamina;
-	private ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+	private ArrayList<ClientHandler> clientHandlers;
 
 	public GameLoop(GameFrame frame , int players,
 					int tankStamina, int canonPower, int wallStamina,
