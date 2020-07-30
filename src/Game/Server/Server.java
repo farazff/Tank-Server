@@ -20,7 +20,6 @@ public class Server
     public static void main(String[] args)
     {
         final GameFrame frame = new GameFrame("Simple Ball !");
-        ExecutorService pool = Executors.newCachedThreadPool();
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
             int players = 0;
@@ -32,7 +31,6 @@ public class Server
                 ClientHandler clientHandler = new ClientHandler(connectionSocket,frame);
                 players++;
                 clientHandlers.add(clientHandler);
-                pool.execute(clientHandler);
             }
 
             int finalPlayers = players;

@@ -5,6 +5,8 @@ import Game.Server.ClientHandler;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GameLoop implements Runnable , Serializable
 {
@@ -52,6 +54,10 @@ public class GameLoop implements Runnable , Serializable
 				//
 				state.update();
 				canvas.render(state);
+				ExecutorService pool = Executors.newCachedThreadPool ();
+				for (ClientHandler clientHandler : clientHandlers)
+					pool.execute (clientHandler);
+				pool.shutdown ();
 				gameOver = state.gameOver;
 				//
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
@@ -67,6 +73,10 @@ public class GameLoop implements Runnable , Serializable
 		try
 		{
 			canvas.render(state);
+			ExecutorService pool = Executors.newCachedThreadPool ();
+			for (ClientHandler clientHandler : clientHandlers)
+				pool.execute (clientHandler);
+			pool.shutdown ();
 		}
 		catch (IOException | InterruptedException e)
 		{
