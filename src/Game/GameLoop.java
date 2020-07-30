@@ -54,6 +54,7 @@ public class GameLoop implements Runnable , Serializable
 				//
 				state.update();
 				canvas.render(state);
+				Thread.sleep(100);
 				ExecutorService pool = Executors.newCachedThreadPool ();
 				for (ClientHandler clientHandler : clientHandlers)
 					pool.execute (clientHandler);

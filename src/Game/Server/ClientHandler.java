@@ -14,12 +14,12 @@ import java.util.ArrayList;
 public class ClientHandler implements Runnable
 {
     private Socket connectionSocket;
-    private char[] data = new char[5];
+    private ArrayList<Character> data = new ArrayList<>();
     private GameFrame frame;
     private DataInputStream in = null;
     private ObjectOutputStream out = null;
 
-    public char[] getData()
+    public ArrayList<Character> getData()
     {
         return data;
     }
@@ -56,8 +56,12 @@ public class ClientHandler implements Runnable
             String temp = in.readUTF ();
             System.out.println("server got number");
 
-            data = new char[5];
-            data = temp.toCharArray ();
+            data.clear();
+            data.add('0');
+            data.add('0');
+            data.add('1');
+            data.add('0');
+            data.add('0');
 
 
             System.out.println("server going to send image");
@@ -66,7 +70,10 @@ public class ClientHandler implements Runnable
             out.writeObject (new ImageIcon (img));
             out.flush ();
             System.out.println("server sent image");
-        }catch (IllegalArgumentException e)
+
+
+        }
+        catch (IllegalArgumentException e)
         {
             System.err.println ("Some went Wrong in start");
         }

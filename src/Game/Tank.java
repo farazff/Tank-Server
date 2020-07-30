@@ -1,6 +1,7 @@
 package Game;
 
 import javax.imageio.ImageIO;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Tank implements Runnable , Serializable
     private static BufferedImage fireImage,fireDestroyImage;
     private Prize prizeOwn;
     private Prizes prizes;
-    private char[] data;
+    private ArrayList<Character> data;
 
     static
     {
@@ -37,8 +38,8 @@ public class Tank implements Runnable , Serializable
     }
 
     public Tank (ArrayList<Bullet> bullets, ArrayList<Wall> walls, ArrayList<Tank> tanks, Prizes prizes,
-                int tankStamina,int canonPower , Maps maps ,
-                char[] data)
+                 int tankStamina, int canonPower , Maps maps ,
+                 ArrayList<Character> data)
     {
         this.data = data;
         this.canonPower = canonPower;
@@ -290,11 +291,11 @@ public class Tank implements Runnable , Serializable
 
     public void update()
     {
-        keyUP = data[0] == 1;
-        keyDOWN = data[1] == 1;
-        keyLEFT = data[2] == 1;
-        keyRIGHT = data[3] == 1;
-        shot = data[4] == 1;
+        keyUP = data.get(0) == '1';
+        keyDOWN = data.get(1) == '1';
+        keyLEFT = data.get(2) == '1';
+        keyRIGHT = data.get(3) == '1';
+        shot = data.get(4) == '1';
 
 
         int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
