@@ -59,7 +59,7 @@ public class Server
 
         catch (IOException ex)
         {
-            System.err.println(ex);
+            ex.printStackTrace ();
         }
 
         System.out.println("done.");

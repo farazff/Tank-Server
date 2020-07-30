@@ -21,7 +21,7 @@ public class Tank implements Runnable , Serializable
     private static BufferedImage fireImage,fireDestroyImage;
     private Prize prizeOwn;
     private Prizes prizes;
-    private ArrayList<String> data;
+    private char[] data;
 
     static
     {
@@ -38,7 +38,7 @@ public class Tank implements Runnable , Serializable
 
     public Tank (ArrayList<Bullet> bullets, ArrayList<Wall> walls, ArrayList<Tank> tanks, Prizes prizes,
                 int tankStamina,int canonPower , Maps maps ,
-                ArrayList<String> data)
+                char[] data)
     {
         this.data = data;
         this.canonPower = canonPower;
@@ -290,46 +290,12 @@ public class Tank implements Runnable , Serializable
 
     public void update()
     {
-        ArrayList<String> hh = data;
-//        System.out.println(hh.get(0)
-//                + "*" + hh.get(1)
-//                + "*" + hh.get(2)
-//                + "*" + hh.get(3)
-//                + "*" + hh.get(4));
+        keyUP = data[0] == 1;
+        keyDOWN = data[1] == 1;
+        keyLEFT = data[2] == 1;
+        keyRIGHT = data[3] == 1;
+        shot = data[4] == 1;
 
-        if(hh.size()==0)
-        {
-            hh.add("0");
-            hh.add("0");
-            hh.add("0");
-            hh.add("0");
-            hh.add("0");
-        }
-
-        if(hh.get(0).equals("1"))
-            keyUP = true;
-        if(hh.get(0).equals("0"))
-            keyUP = false;
-
-        if(hh.get(1).equals("1"))
-            keyDOWN = true;
-        if(hh.get(1).equals("0"))
-            keyDOWN = false;
-
-        if(hh.get(2).equals("1"))
-            keyLEFT = true;
-        if(hh.get(2).equals("0"))
-            keyLEFT = false;
-
-        if(hh.get(3).equals("1"))
-            keyRIGHT = true;
-        if(hh.get(3).equals("0"))
-            keyRIGHT = false;
-
-        if(hh.get(4).equals("1"))
-            shot = true;
-        if(hh.get(4).equals("0"))
-            shot = false;
 
         int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
         int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));

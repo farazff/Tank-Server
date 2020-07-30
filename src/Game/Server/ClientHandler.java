@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public class ClientHandler implements Runnable
 {
     private Socket connectionSocket;
-    private ArrayList<String> data = new ArrayList<>();
+    private char[] data = new char[5];
     private GameFrame frame;
 
-    public ArrayList<String> getData()
+    public char[] getData()
     {
         return data;
     }
@@ -28,35 +28,24 @@ public class ClientHandler implements Runnable
     @Override
     public void run()
     {
-        try
+
+        try (DataInputStream inputStream = new DataInputStream (connectionSocket.getInputStream());
+             ObjectOutputStream outputStream = new ObjectOutputStream (connectionSocket.getOutputStream()))
         {
-            InputStream inputStream = connectionSocket.getInputStream();
-            OutputStream outputStream = connectionSocket.getOutputStream();
 
-            byte[] buffer = new byte[100];
 
-            try
-            {
-                Thread.sleep(3000);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            Thread.sleep(3000);
+
 
             while(true)
             {
-                int l = inputStream.read(buffer);
-                String temp = new String(buffer,0,l);
 
+                String temp = inputStream.readUTF ();
                 System.out.println("server got number");
 
-                data.clear();
-                data.add(String.valueOf(temp.charAt(0)));
-                data.add(String.valueOf(temp.charAt(1)));
-                data.add(String.valueOf(temp.charAt(2)));
-                data.add(String.valueOf(temp.charAt(3)));
-                data.add(String.valueOf(temp.charAt(4)));
+                data = new char[5];
+                data = temp.toCharArray ();
+
 
                 System.out.println("server going to send image");
                 BufferedImage img = frame.getFinalImg().get();
@@ -66,13 +55,10 @@ public class ClientHandler implements Runnable
 
             }
 
-        }
-        catch (IOException e)
+        } catch (InterruptedException | IOException e)
         {
-            e.printStackTrace();
-        }
-
-        finally
+            e.printStackTrace ();
+        } finally
         {
             try
             {
@@ -80,8 +66,10 @@ public class ClientHandler implements Runnable
             }
             catch (IOException ex)
             {
-                System.err.println(ex);
+                System.err.println(ex.getMessage ());
             }
         }
     }
+
+
 }
