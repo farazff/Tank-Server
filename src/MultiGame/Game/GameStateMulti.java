@@ -102,34 +102,34 @@ public class GameStateMulti implements Serializable
 		}
 		executorService.shutdown();
 
-//		try
-//		{
-//			while(!executorService.isTerminated())
-//			{
-//				Thread.sleep(1);
-//			}
-//		}
-//		catch(InterruptedException e)
-//		{
-//			e.printStackTrace ();
-//		}
+		try
+		{
+			while(!executorService.isTerminated())
+			{
+				Thread.sleep(1);
+			}
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace ();
+		}
 
-//		try
-//		{
-//			while(true)
-//			{
-//				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
-//				if(isDone)
-//				{
-//					status = new GameStatus(tanks,bullets,maps,prizes,players);
-//					break;
-//				}
-//			}
-//		}
-//		catch (InterruptedException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			while(true)
+			{
+				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
+				if(isDone)
+				{
+					status = new GameStatus(tanks,bullets,maps,prizes,players);
+					break;
+				}
+			}
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<BulletMulti> getBullets () {
