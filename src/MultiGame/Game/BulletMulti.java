@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

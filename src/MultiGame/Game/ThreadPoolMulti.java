@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

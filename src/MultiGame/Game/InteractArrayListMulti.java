@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import java.io.Serializable;
 import java.util.ArrayList;

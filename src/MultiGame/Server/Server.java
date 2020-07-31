@@ -1,15 +1,13 @@
-package Server;
+package MultiGame.Server;
 
-import Game.*;
+import MultiGame.Game.*;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.concurrent.*;
 
 public class Server
 {
@@ -21,10 +19,10 @@ public class Server
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
             int players = 1;
-            GameFrameMulti frame = new GameFrameMulti("Server side !");
+            GameFrameMulti frame = new GameFrameMulti("MultiGame.Server side !");
             GameLoopMulti game = new GameLoopMulti(frame, players,
                     100,100,100,clientHandlers);
-            System.out.print("Server started.\nWaiting for a client ... ");
+            System.out.print("MultiGame.Server started.\nWaiting for a client ... ");
             for(int i=1;i<=1;i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();

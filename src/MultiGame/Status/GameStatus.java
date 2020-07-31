@@ -1,4 +1,6 @@
-package Game;
+package MultiGame.Status;
+
+import MultiGame.Game.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;

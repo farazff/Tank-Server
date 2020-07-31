@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

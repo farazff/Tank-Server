@@ -1,6 +1,7 @@
-package Game;
+package MultiGame.Game;
 
-import Server.ClientHandler;
+import MultiGame.Server.ClientHandler;
+import MultiGame.Status.GameStatus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class GameStateMulti implements Serializable
 		}
 
 
-		//status = new GameStatus(tanks,bullets,maps,prizes,players);
+		//status = new MultiGame.Status.GameStatus(tanks,bullets,maps,prizes,players);
 
 
 		gameOver = 0;
@@ -113,23 +114,22 @@ public class GameStateMulti implements Serializable
 //			e.printStackTrace ();
 //		}
 
-		try
-		{
-			while(true)
-			{
-				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
-				if(isDone)
-				{
-					System.out.println("Updating");
-					status = new GameStatus(tanks,bullets,maps,prizes,players);
-					break;
-				}
-			}
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			while(true)
+//			{
+//				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
+//				if(isDone)
+//				{
+//					status = new GameStatus(tanks,bullets,maps,prizes,players);
+//					break;
+//				}
+//			}
+//		}
+//		catch (InterruptedException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	public ArrayList<BulletMulti> getBullets () {

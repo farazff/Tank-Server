@@ -1,17 +1,17 @@
-package Game.Graph;
+package MultiGame.Game.GraphMulti;
 
 import java.util.*;
 
 
 // This class represents a directed graph using adjacency list
 // representation
-public class Graph
+public class GraphMulti
 {
     private int V;   // No. of vertices
     private LinkedList<Integer> adj[]; //Adjacency Lists
 
     // Constructor
-    public Graph(int v)
+    public GraphMulti(int v)
     {
         V = v;
         adj = new LinkedList[v];

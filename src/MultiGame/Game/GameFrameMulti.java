@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -77,7 +77,7 @@ public class GameFrameMulti extends JFrame implements Serializable
 	}
 
 	/**
-	 * Game rendering with triple-buffering using BufferStrategy.
+	 * MultiGame.Game rendering with triple-buffering using BufferStrategy.
 	 */
 	public void render(GameStateMulti state) throws IOException, InterruptedException
 	{

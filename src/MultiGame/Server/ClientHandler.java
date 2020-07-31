@@ -1,17 +1,10 @@
-package Server;
+package MultiGame.Server;
 
-import Game.GameFrameMulti;
-import Game.GameLoopMulti;
-import Game.GameLoopMulti;
-import Game.GameStatus;
+import MultiGame.Game.GameLoopMulti;
+import MultiGame.Status.GameStatus;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable
@@ -51,6 +44,7 @@ public class ClientHandler implements Runnable
             int l = inputStream.read(buff);
 
             String temp = new String(buff,0,l);
+            System.out.println(temp);
 
             data.clear();
             data.add(temp.charAt(0));
@@ -60,7 +54,6 @@ public class ClientHandler implements Runnable
             data.add(temp.charAt(4));
 
             GameStatus status = game.getState().getStatus();
-            System.out.println("In sending:" + status.getTanks().get(0).getDegree());
             outputStream.reset();
             outputStream.writeObject(status);
 

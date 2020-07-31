@@ -1,8 +1,7 @@
-package Game;
+package MultiGame.Game;
 
-import Server.ClientHandler;
+import MultiGame.Server.ClientHandler;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;

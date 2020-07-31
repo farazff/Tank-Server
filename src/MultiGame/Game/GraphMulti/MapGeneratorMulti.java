@@ -1,13 +1,13 @@
-package Game.Graph;
+package MultiGame.Game.GraphMulti;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
-public class MapGenerator
+public class MapGeneratorMulti
 {
-   public MapGenerator()
+   public MapGeneratorMulti()
     {
         try
         {

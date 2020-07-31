@@ -1,4 +1,4 @@
-package Game;
+package MultiGame.Game;
 
 import java.io.File;
 import java.io.FileReader;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import Game.Graph.*;
+import MultiGame.Game.GraphMulti.*;
 
 public class MapsMulti implements Serializable
 {
@@ -71,7 +71,7 @@ public class MapsMulti implements Serializable
     public void createGraph()
     {
         int vertexNum = (data.size()-1)/2 * (data.get(0).size()-1)/2;
-        Graph graph = new Graph(vertexNum + 1);
+        GraphMulti graph = new GraphMulti(vertexNum + 1);
         for(int j=1;j<data.size();j+=2)
         {
             for(int i=1;i<data.get(0).size();i+=2)
@@ -202,7 +202,7 @@ public class MapsMulti implements Serializable
     public void readFromFile()
     {
 
-        MapGenerator mapGenerator = new MapGenerator();
+        MapGeneratorMulti mapGenerator = new MapGeneratorMulti();
 
         File directory = new File("Files/Maps/");
 

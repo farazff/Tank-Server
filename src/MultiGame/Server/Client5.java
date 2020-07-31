@@ -1,16 +1,14 @@
-package Server;
+package MultiGame.Server;
 
-import Game.*;
-import Game.GameStateMulti;
+import MultiGame.Status.GameStatus;
 
-import javax.swing.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Client
+public class Client5
 {
-
     public static void main(String[] args)
     {
         try(Socket client = new Socket("127.0.0.1", 8080))
@@ -20,12 +18,11 @@ public class Client
 
             OutputStream outputStream = client.getOutputStream();
 
-            ObjectInputStream objectInputStream = new ObjectInputStream(client.getInputStream());
 
+            ObjectInputStream objectInputStream = new ObjectInputStream(client.getInputStream());
             while(true)
             {
-                outputStream.write("00100".getBytes());
-                System.out.println("received");
+                outputStream.write("00011".getBytes());
                 GameStatus status = (GameStatus) objectInputStream.readObject();
                 System.out.println(status.getTanks().get(0).getDegree());
             }
