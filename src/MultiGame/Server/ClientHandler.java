@@ -55,8 +55,9 @@ public class ClientHandler implements Runnable
 
             GameStatus status = game.getState().getStatus();
             outputStream.reset();
+            System.out.println("going to send object");
             outputStream.writeObject(status);
-
+            System.out.println("Done sending");
         }
         catch (IllegalArgumentException | IOException e)
         {

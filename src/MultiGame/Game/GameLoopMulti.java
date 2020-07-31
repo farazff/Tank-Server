@@ -59,37 +59,45 @@ public class GameLoopMulti implements Runnable , Serializable
 
 				ExecutorService pool = Executors.newCachedThreadPool();
 				for(ClientHandler clientHandler : clientHandlers)
-					pool.execute(clientHandler);
-				pool.shutdown();
-
-				try
 				{
-					while(!pool.isTerminated())
-					{
-						Thread.sleep(15);
-					}
-				}
-				catch(InterruptedException e)
-				{
-					e.printStackTrace ();
-				}
-
-				try
-				{
+					Thread test = new Thread(clientHandler);
+					test.start();
 					while(true)
 					{
-						boolean isDone = pool.awaitTermination(20, TimeUnit.MILLISECONDS);
-						if(isDone)
-						{
-							System.out.println("done loop");
+						if(!test.isAlive())
 							break;
-						}
 					}
 				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
+				pool.shutdown();
+
+//				try
+//				{
+//					while(!pool.isTerminated())
+//					{
+//						Thread.sleep(1);
+//					}
+//				}
+//				catch(InterruptedException e)
+//				{
+//					e.printStackTrace ();
+//				}
+
+//				try
+//				{
+//					while(true)
+//					{
+//						boolean isDone = pool.awaitTermination(0, TimeUnit.MILLISECONDS);
+//						if(isDone)
+//						{
+//							System.out.println("done loop");
+//							break;
+//						}
+//					}
+//				}
+//				catch (InterruptedException e)
+//				{
+//					e.printStackTrace();
+//				}
 				gameOver = state.gameOver;
 
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);

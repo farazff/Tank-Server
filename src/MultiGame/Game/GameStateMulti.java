@@ -44,8 +44,8 @@ public class GameStateMulti implements Serializable
 
 
 		gameOver = 0;
-		Thread t1 = new Thread(prizes);
-		t1.start();
+		//Thread t1 = new Thread(prizes);
+		//t1.start();
 
 	}
 
@@ -102,36 +102,36 @@ public class GameStateMulti implements Serializable
 		}
 		executorService.shutdown();
 
-		try
-		{
-			while(!executorService.isTerminated())
-			{
-				Thread.sleep(15);
-			}
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace ();
-		}
-
-		try
-		{
-			while(true)
-			{
-				boolean isDone = executorService.awaitTermination(5, TimeUnit.MILLISECONDS);
-				if(isDone)
-				{
-					System.out.println("Changing status");
-					status = new GameStatus(tanks,bullets,maps,prizes,players);
-					System.out.println("done updating");
-					break;
-				}
-			}
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			while(!executorService.isTerminated())
+//			{
+//				Thread.sleep(1);
+//			}
+//		}
+//		catch(InterruptedException e)
+//		{
+//			e.printStackTrace ();
+//		}
+		status = new GameStatus(tanks,bullets,maps,prizes,players);
+//		try
+//		{
+//			while(true)
+//			{
+//				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
+//				if(isDone)
+//				{
+//					System.out.println("Changing status");
+//					status = new GameStatus(tanks,bullets,maps,prizes,players);
+//					System.out.println("done updating");
+//					break;
+//				}
+//			}
+//		}
+//		catch (InterruptedException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	public ArrayList<BulletMulti> getBullets () {
