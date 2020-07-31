@@ -1,8 +1,7 @@
-package Game.Server;
+package Server;
 
-import Game.GameFrame;
-import Game.GameLoop;
-import Game.ThreadPool;
+import Game.*;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,38 +18,35 @@ public class Server
 
     public static void main(String[] args)
     {
-        final GameFrame frame = new GameFrame("Simple Ball !");
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
-            int players = 0;
+            int players = 2;
+            GameFrameMulti frame = new GameFrameMulti("Server side !");
+            GameLoopMulti game = new GameLoopMulti(frame, players,
+                    100,100,100,clientHandlers);
             System.out.print("Server started.\nWaiting for a client ... ");
-            for(int i=1;i<=1;i++)
+            for(int i=1;i<=2;i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();
                 System.out.println("client accepted!");
-                ClientHandler clientHandler = new ClientHandler(connectionSocket,frame);
+                ClientHandler clientHandler = new ClientHandler(connectionSocket,game);
                 players++;
                 clientHandlers.add(clientHandler);
             }
 
-            int finalPlayers = players;
-
-            ThreadPool.init();
+            ThreadPoolMulti.init();
             new Thread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-
                     frame.setLocationRelativeTo(null);
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.setVisible(true);
                     frame.initBufferStrategy();
 
-                    GameLoop game = new GameLoop(frame, finalPlayers,
-                            100,100,100,clientHandlers);
                     game.init();
-                    ThreadPool.execute(game);
+                    ThreadPoolMulti.execute(game);
                 }
             }).start();
         }

@@ -1,23 +1,18 @@
 package Game;
 
-import Game.Server.Buffer;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class GameFrame extends JFrame implements Serializable
+public class GameFrameMulti extends JFrame implements Serializable
 {
 	public static final int GAME_HEIGHT = 720;                  // 720p game resolution
 	public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
@@ -32,16 +27,17 @@ public class GameFrame extends JFrame implements Serializable
 	private BufferedImage wallNDV;
 	private BufferedImage wallDV;
 	private BufferedImage img;
-	private Buffer finalImg = new Buffer();
 
-	public Buffer getFinalImg()
-	{
-		return finalImg;
+	public BufferedImage getImg() {
+		return img;
 	}
 
-	public GameFrame(String title)
+
+	public GameFrameMulti(String title)
 	{
 		super(title);
+		img = new BufferedImage(1280, 720,
+				BufferedImage.TYPE_INT_ARGB);
 		setResizable(false);
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		lastRender = -1;
@@ -83,7 +79,7 @@ public class GameFrame extends JFrame implements Serializable
 	/**
 	 * Game rendering with triple-buffering using BufferStrategy.
 	 */
-	public void render(GameState state) throws IOException, InterruptedException
+	public void render(GameStateMulti state) throws IOException, InterruptedException
 	{
 		do
 		{
@@ -109,9 +105,8 @@ public class GameFrame extends JFrame implements Serializable
 	/**
 	 * Rendering all game elements based on the game state.
 	 */
-	private void doRendering(Graphics2D g3d, GameState state) throws IOException, InterruptedException {
-		img = new BufferedImage(1280, 720,
-				BufferedImage.TYPE_INT_ARGB);
+	private void doRendering(Graphics2D g3d, GameStateMulti state) throws IOException, InterruptedException
+	{
 
 		Graphics2D g2d = img.createGraphics();
 
@@ -121,22 +116,30 @@ public class GameFrame extends JFrame implements Serializable
 		{
 			drawRoads(g2d);
 
-			for (Tank tank : state.getTanks ()) {
-				if (tank.isFireDestroyed ()) {
+			for (TankMulti tank : state.getTanks ())
+			{
+				if (tank.isFireDestroyed ())
+				{
 					Music music = new Music();
 					music.setFilePath("Files/Sounds/Blast.au",false);
 					music.execute();
-					BufferedImage image1 = Tank.getFireDestroyImage ();
+
+
+					BufferedImage image1 = ImageIO.read(new File(TankMulti.getFireDestroyImageLoc()));
 					g2d.drawImage (image1, tank.getCenterX () - image1.getWidth () / 2 + 3,
 							tank.getCenterY () - image1.getHeight () / 2 + 2, null);
-				} else {
-					BufferedImage image = tank.getTankImage ();
+				}
+				else
+				{
+					BufferedImage image = ImageIO.read(new File(TankMulti.getTankImageLoc()));
 
 					g2d.drawImage (rotateImage (image, tank.getDegree () - 45),
 							tank.getLocX (), tank.getLocY (), null);
 
-					if (tank.isShot ()) {
-						BufferedImage image1 = rotateImageBullet (Tank.getFireImage ()
+					if (tank.isShot ())
+					{
+						BufferedImage image1 = rotateImageBullet (
+								ImageIO.read(new File(TankMulti.getFireImageLoc()))
 								, tank.getDegree () - 90);
 
 						g2d.drawImage (image1,
@@ -205,12 +208,13 @@ public class GameFrame extends JFrame implements Serializable
 				}
 			}
 
-			ArrayList<Bullet> bullets = new ArrayList<> (state.getBullets ());
+			ArrayList<BulletMulti> bullets = new ArrayList<> (state.getBullets ());
 
-			for (Bullet bullet : bullets)
+			for (BulletMulti bullet : bullets)
 			{
+				BufferedImage t = ImageIO.read(new File(bullet.getImageLoc()));
 				BufferedImage image2 = rotateImageBullet
-						(bullet.getImage (),bullet.getDegree () + 90);
+						(t,bullet.getDegree () + 90);
 
 				g2d.drawImage (image2,
 						bullet.getX () - image2.getWidth () / 2 + 3
@@ -219,9 +223,10 @@ public class GameFrame extends JFrame implements Serializable
 
 			for(int i=0;i<state.getPrizes().getPrizes().size();i++)
 			{
-				Prize prize = state.getPrizes().getPrizes().get(i);
+				PrizeMulti prize = state.getPrizes().getPrizes().get(i);
+				BufferedImage t = ImageIO.read(new File(prize.getImgLoc()));
 				if(prize.isActive())
-					g2d.drawImage(prize.getImg(),prize.getX(),prize.getY(),null);
+					g2d.drawImage(t,prize.getX(),prize.getY(),null);
 			}
 
 			new Thread(new Runnable()
@@ -231,7 +236,7 @@ public class GameFrame extends JFrame implements Serializable
 				{
 					for(int i=0;i<state.getMaps().getWalls().size();i++)
 					{
-						Wall temp = state.getMaps().getWalls().get(i);
+						WallMulti temp = state.getMaps().getWalls().get(i);
 						if(temp.getType().equals("H")) // ofoqi
 						{
 							int y = temp.getY();
@@ -343,15 +348,11 @@ public class GameFrame extends JFrame implements Serializable
 			g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
 		}
 
-		System.out.println("Writinggggg");
-		finalImg.put(img);
-		System.out.println("doooone");
-
 		g3d.drawImage(img,0,0,null);
 
 	}
 
-	private static BufferedImage rotateImage(BufferedImage sourceImage, double angle)
+	private BufferedImage rotateImage(BufferedImage sourceImage, double angle)
 	{
 		int width = sourceImage.getWidth();
 		int height = sourceImage.getHeight();

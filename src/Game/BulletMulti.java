@@ -8,31 +8,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Bullet implements Runnable , Serializable
+public class BulletMulti implements Runnable , Serializable
 
 {
-    private double x;
-    private static final int WALL_ACCURACY = 4;
-    private static final int TANK_ACCURACY = -10;
-    private long startTime;
-    private double y;
-    private int height;
-    private int width;
-    private String m;
-    private double degree;
-    private Direction direction;
-    private BufferedImage image;
+    private double x;  ////ok to serialize
+    private static final int WALL_ACCURACY = 4; ////ok to serialize
+    private static final int TANK_ACCURACY = -10; ////ok to serialize
+    private long startTime;  ////ok to serialize
+    private double y; ////ok to serialize
+    private int height; ////ok to serialize
+    private int width; ////ok to serialize
+    private String m; ////ok to serialize
+    private double degree; ////ok to serialize
+    private DirectionMulti direction; ////ok to serialize
+    private String imageLoc; ////ok to serialize
+    private static final int STEP = 12;////ok to serialize
+    private int canonPower;////ok to serialize
+    private ArrayList<WallMulti> walls;////ok to serialize
+    private ArrayList<TankMulti> tanks;
+    private boolean expired; ////ok to serialize
 
-
-    private static final int STEP = 12;
-    private int canonPower;
-    private ArrayList<Wall> walls;
-    private ArrayList<Tank> tanks;
-
-    private boolean expired;
-
-    public Bullet (int x, int y, double degree, long startTime, ArrayList<Wall> walls,
-                   ArrayList<Tank> tanks , int canonPower)
+    public BulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
+                   ArrayList<TankMulti> tanks , int canonPower)
     {
 
         this.degree = degree;
@@ -44,9 +41,14 @@ public class Bullet implements Runnable , Serializable
         this.startTime = startTime;
         this.walls = walls;
         this.tanks = tanks;
-        try {
+        imageLoc = "./Images/Bullet/bulletDark1_outline.png";
+
+        BufferedImage image = null;
+        try
+        {
             image = ImageIO.read (new File ("./Images/Bullet/bulletDark1_outline.png"));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace ();
         }
 
@@ -54,8 +56,8 @@ public class Bullet implements Runnable , Serializable
         height = image.getHeight ();
     }
 
-    public void setImage (BufferedImage image) {
-        this.image = image;
+    public void setImageLoc(String imageLoc) {
+        this.imageLoc = imageLoc;
     }
 
     private void findQuarterAndM (double degree)
@@ -63,13 +65,13 @@ public class Bullet implements Runnable , Serializable
         degree = Math.abs (degree);
 
         if (degree >= 0 && degree < 90)
-            this.direction = Direction.SOUTHEAST;
+            this.direction = DirectionMulti.SOUTHEAST;
         else if (degree >= 90 && degree < 180)
-            this.direction = Direction.SOUTHWEST;
+            this.direction = DirectionMulti.SOUTHWEST;
         else if (degree >= 180 && degree < 270)
-            this.direction = Direction.NORTHWEST;
+            this.direction = DirectionMulti.NORTHWEST;
         else if (degree >= 270)
-            this.direction = Direction.NORTHEAST;
+            this.direction = DirectionMulti.NORTHEAST;
 
         if (degree == 0)
             this.m = "0";
@@ -94,13 +96,13 @@ public class Bullet implements Runnable , Serializable
 
     protected void checkCoincidence ()
     {
-        Iterator<Wall> walls = this.walls.iterator ();
+        Iterator<WallMulti> walls = this.walls.iterator ();
         while (walls.hasNext ())
         {
-            Wall wall = walls.next ();
+            WallMulti wall = walls.next ();
 
 
-            if (wall.getType ().equals ("H"))
+            if(wall.getType ().equals ("H"))
             {
                 if ((getCenterX () < wall.getX () + wall.getLength () + WALL_ACCURACY) &&
                     getCenterX () > wall.getX () - WALL_ACCURACY)
@@ -175,10 +177,10 @@ public class Bullet implements Runnable , Serializable
                 }
             }
         }
-        Iterator<Tank> tanks = this.tanks.iterator ();
+        Iterator<TankMulti> tanks = this.tanks.iterator ();
         while (tanks.hasNext ())
         {
-            Tank tank = tanks.next ();
+            TankMulti tank = tanks.next ();
 
             if ((getCenterY () <= tank.getLocY () + tank.getHeight () + TANK_ACCURACY) &&
                     getCenterY () >= tank.getLocY () - 3) {
@@ -198,11 +200,11 @@ public class Bullet implements Runnable , Serializable
         return canonPower;
     }
 
-    public ArrayList<Tank> getTanks () {
+    public ArrayList<TankMulti> getTanks () {
         return tanks;
     }
 
-    public ArrayList<Wall> getWalls () {
+    public ArrayList<WallMulti> getWalls () {
         return walls;
     }
 
@@ -366,7 +368,8 @@ public class Bullet implements Runnable , Serializable
         return degree;
     }
 
-    public BufferedImage getImage () {
-        return image;
+    public String getImageLoc()
+    {
+        return imageLoc;
     }
 }

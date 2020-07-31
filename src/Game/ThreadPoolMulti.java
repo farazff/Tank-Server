@@ -1,4 +1,3 @@
-/*** In The Name of Allah ***/
 package Game;
 
 import java.util.concurrent.ExecutorService;
@@ -9,7 +8,8 @@ import java.util.concurrent.Executors;
  * 
  * @author Seyed Mohammad Ghaffarian
  */
-public class ThreadPool {
+public class ThreadPoolMulti
+{
 	
 	private static ExecutorService executor;
 	

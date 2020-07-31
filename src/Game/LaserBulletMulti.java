@@ -8,25 +8,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class LaserBullet extends Bullet implements Serializable
+public class LaserBulletMulti extends BulletMulti implements Serializable
 {
 
-    public LaserBullet (int x, int y, double degree, long startTime, ArrayList<Wall> walls, ArrayList<Tank> tanks, int canonPower) {
+    public LaserBulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
+                        ArrayList<TankMulti> tanks, int canonPower) {
         super (x, y, degree, startTime, walls, tanks, canonPower);
-        try {
-            super.setImage (ImageIO.read (new File ("./Images/Bullet/bulletRed1_outline.png")));
-        } catch (IOException e) {
-            e.printStackTrace ();
-        }
+        super.setImageLoc ("./Images/Bullet/bulletRed1_outline.png");
     }
 
 
     @Override
     protected void checkCoincidence () {
-        Iterator<Wall> walls = this.getWalls ().iterator ();
+        Iterator<WallMulti> walls = this.getWalls ().iterator ();
         while (walls.hasNext ())
         {
-            Wall wall = walls.next ();
+            WallMulti wall = walls.next ();
 
 
             if (wall.getType ().equals ("H"))
@@ -97,10 +94,10 @@ public class LaserBullet extends Bullet implements Serializable
                 }
             }
         }
-        Iterator<Tank> tanks = this.getTanks ().iterator ();
+        Iterator<TankMulti> tanks = this.getTanks ().iterator ();
         while (tanks.hasNext ())
         {
-            Tank tank = tanks.next ();
+            TankMulti tank = tanks.next ();
 
             if ((getCenterY () <= tank.getLocY () + tank.getHeight () + getTankAccuracy ()) &&
                     getCenterY () >= tank.getLocY () - 3) {

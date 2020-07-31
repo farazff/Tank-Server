@@ -1,14 +1,16 @@
 package Game;
 
-import Game.Server.ClientHandler;
+import Server.ClientHandler;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class GameLoop implements Runnable , Serializable
+public class GameLoopMulti implements Runnable , Serializable
 {
 
 	/**
@@ -17,12 +19,12 @@ public class GameLoop implements Runnable , Serializable
 	 */
 	public static final int FPS = 54;
 
-	private GameFrame canvas;
-	private GameState state;
+	private GameFrameMulti canvas;
+	private GameStateMulti state;
 	private int players,tankStamina,canonPower, wallStamina;
 	private ArrayList<ClientHandler> clientHandlers;
 
-	public GameLoop(GameFrame frame , int players,
+	public GameLoopMulti(GameFrameMulti frame , int players,
 					int tankStamina, int canonPower, int wallStamina,
 					ArrayList<ClientHandler> clientHandlers)
 	{
@@ -34,12 +36,14 @@ public class GameLoop implements Runnable , Serializable
 		canvas = frame;
 	}
 
-	/**
-	 * This must be called before the game loop starts.
-	 */
+	public GameStateMulti getState()
+	{
+		return state;
+	}
+
 	public void init()
 	{
-		state = new GameState(players,tankStamina,canonPower, wallStamina,clientHandlers);
+		state = new GameStateMulti(players,tankStamina,canonPower, wallStamina,clientHandlers);
 	}
 
 	@Override
@@ -51,16 +55,27 @@ public class GameLoop implements Runnable , Serializable
 			try
 			{
 				long start = System.currentTimeMillis();
-				//
 				state.update();
 				canvas.render(state);
-				Thread.sleep(100);
-				ExecutorService pool = Executors.newCachedThreadPool ();
-				for (ClientHandler clientHandler : clientHandlers)
-					pool.execute (clientHandler);
-				pool.shutdown ();
+
+				ExecutorService pool = Executors.newCachedThreadPool();
+				for(ClientHandler clientHandler : clientHandlers)
+					pool.execute(clientHandler);
+				pool.shutdown();
+
+				while(true)
+				{
+					boolean tasksEnded =
+							pool.awaitTermination(0, TimeUnit.MINUTES);
+
+					if(tasksEnded)
+					{
+						break;
+					}
+				}
+
 				gameOver = state.gameOver;
-				//
+
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
 				if (delay > 0)
 					Thread.sleep(delay);
@@ -74,10 +89,6 @@ public class GameLoop implements Runnable , Serializable
 		try
 		{
 			canvas.render(state);
-			ExecutorService pool = Executors.newCachedThreadPool ();
-			for (ClientHandler clientHandler : clientHandlers)
-				pool.execute (clientHandler);
-			pool.shutdown ();
 		}
 		catch (IOException | InterruptedException e)
 		{

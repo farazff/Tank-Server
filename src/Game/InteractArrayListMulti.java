@@ -1,8 +1,9 @@
 package Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class InteractArrayList <E> extends ArrayList<E>
+public class InteractArrayListMulti <E> extends ArrayList<E> implements Serializable
 {
 
     private boolean iterate = false;

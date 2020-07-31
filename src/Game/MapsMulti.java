@@ -9,29 +9,27 @@ import java.util.Objects;
 import java.util.Random;
 import Game.Graph.*;
 
-public class Maps implements Serializable
+public class MapsMulti implements Serializable
 {
-    private ArrayList<Wall> walls;
-    private ArrayList< ArrayList<Character> > data = new ArrayList<>();
+    private ArrayList<WallMulti> walls;   ////ok to serialize
+    private ArrayList< ArrayList<Character> > data = new ArrayList<>();  ////ok to serialize
 
-    private ArrayList< ArrayList<Character> > graph = new ArrayList<>();
+    private boolean[][] isOk = new boolean[30][30];  ////ok to serialize
 
-    private boolean[][] isOk = new boolean[30][30];
+    private int x = 0;  ////ok to serialize
+    private int y = 0;  ////ok to serialize
+    private int horizontal = 0; //ofoqi  ////ok to serialize
+    private int vertical = 0; //amodi  ////ok to serialize
+    private int houseX;  ////ok to serialize
+    private int houseY;  ////ok to serialize
+    private int wallStamina;  ////ok to serialize
 
-    private int x = 0;
-    private int y = 0;
-    private int horizontal = 0; //ofoqi
-    private int vertical = 0; //amodi
-    private int houseX;
-    private int houseY;
-    private int wallStamina;
-
-    public ArrayList<Wall> getWalls()
+    public ArrayList<WallMulti> getWalls()
     {
         return walls;
     }
 
-    public Maps(int wallStamina)
+    public MapsMulti(int wallStamina)
     {
         this.wallStamina = wallStamina;
         walls = new ArrayList<>();
@@ -171,12 +169,12 @@ public class Maps implements Serializable
                 {
                     if(data.get(j).get(i) == '1')
                     {
-                        walls.add(new Wall(horizontal * (i - 1)/2, vertical * (j)/2, horizontal, "H",
+                        walls.add(new WallMulti(horizontal * (i - 1)/2, vertical * (j)/2, horizontal, "H",
                                 false,wallStamina));
                     }
                     if(data.get(j).get(i) == '2')
                     {
-                        walls.add(new Wall(horizontal * (i - 1)/2, vertical * (j)/2, horizontal, "H",
+                        walls.add(new WallMulti(horizontal * (i - 1)/2, vertical * (j)/2, horizontal, "H",
                                 true,wallStamina));
                     }
                 }
@@ -187,12 +185,12 @@ public class Maps implements Serializable
                 {
                     if(data.get(j).get(i) == '1')
                     {
-                        walls.add(new Wall(horizontal * (i)/2,
+                        walls.add(new WallMulti(horizontal * (i)/2,
                                 vertical * (j-1)/2, vertical, "V",false,wallStamina));
                     }
                     if(data.get(j).get(i) == '2')
                     {
-                        walls.add(new Wall(horizontal * (i)/2,
+                        walls.add(new WallMulti(horizontal * (i)/2,
                                 vertical * (j-1)/2, vertical, "V",true,wallStamina));
                     }
                 }

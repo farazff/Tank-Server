@@ -2,15 +2,15 @@ package Game;
 
 import java.io.Serializable;
 
-public class Wall implements Serializable
+public class WallMulti implements Serializable
 {
-    private int x,y,length;
-    private String type;
-    private boolean destructible;
-    private boolean isOK;
-    private int health;
+    private int x,y,length;  ////ok to serialize
+    private String type;  ////ok to serialize
+    private boolean destructible;  ////ok to serialize
+    private boolean isOK;  ////ok to serialize
+    private int health;  ////ok to serialize
 
-    public Wall(int x,int y,int length,String type,boolean destructible,int health)
+    public WallMulti(int x,int y,int length,String type,boolean destructible,int health)
     {
         this.x = x;
         this.y = y;

@@ -1,44 +1,30 @@
 package Game;
 
 import javax.imageio.ImageIO;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
-public class Tank implements Runnable , Serializable
+public class TankMulti implements Runnable , Serializable
 {
-    private int locX,locY,stamina,degree,height,width ,canonPower;
-    private static String bulletType;
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT,shot,hasProtection,fireDestroyed,destroyed,canShot;
-    private ArrayList<Bullet> bullets;
-    private ArrayList<Wall> walls;
-    private ArrayList<Tank> tanks;
-    private BufferedImage tankImage;
-    private static BufferedImage fireImage,fireDestroyImage;
-    private Prize prizeOwn;
-    private Prizes prizes;
-    private ArrayList<Character> data;
+    private int locX,locY,stamina,degree,height,width ,canonPower;  ////ok to serialize
+    private String bulletType;   ////ok to serialize
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT,shot,hasProtection,fireDestroyed,destroyed,canShot;  ////ok to serialize
+    private ArrayList<BulletMulti> bullets;  ////ok to serialize
+    private ArrayList<WallMulti> walls;  ////ok to serialize
+    private ArrayList<TankMulti> tanks;////ok to serialize
+    private static String tankImageLoc;////ok to serialize
+    private static String fireImageLoc,fireDestroyImageLoc; ////ok to serialize
+    private PrizeMulti prizeOwn;  ////ok to serialize
+    private PrizesMulti prizes;  ////ok to serialize
+    private ArrayList<Character> data;  ////ok to serialize
 
-    static
-    {
-        try
-        {
-            fireImage = ImageIO.read (new File ("./Images/Bullet/shotLarge.png"));
-            fireDestroyImage = ImageIO.read (new File ("./Images/Explosion/explosion3.png"));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace ();
-        }
-    }
 
-    public Tank (ArrayList<Bullet> bullets, ArrayList<Wall> walls, ArrayList<Tank> tanks, Prizes prizes,
-                 int tankStamina, int canonPower , Maps maps ,
+
+
+    public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
+                 PrizesMulti prizes,
+                 int tankStamina, int canonPower , MapsMulti maps ,
                  ArrayList<Character> data)
     {
         this.data = data;
@@ -47,6 +33,8 @@ public class Tank implements Runnable , Serializable
         this.bullets = bullets;
         this.walls = walls;
         this.tanks = tanks;
+        fireImageLoc = "./Images/Bullet/shotLarge.png";
+        fireDestroyImageLoc = "./Images/Explosion/explosion3.png";
         destroyed = false;
         fireDestroyed = false;
         hasProtection = false;
@@ -67,9 +55,10 @@ public class Tank implements Runnable , Serializable
 
         stamina = tankStamina;
         degree = 45;
+        tankImageLoc =(getImageAddress ());
         try
         {
-            tankImage = ImageIO.read (new File (getImageAddress ()));
+            BufferedImage tankImage = ImageIO.read(new File(tankImageLoc));
             height = tankImage.getHeight ();
             width = tankImage.getWidth ();
         } catch (IOException e) {
@@ -110,11 +99,11 @@ public class Tank implements Runnable , Serializable
     {
         boolean ans = true;
 
-        Iterator<Wall> walls = this.walls.iterator();
+        Iterator<WallMulti> walls = this.walls.iterator();
 
         while(walls.hasNext ())
         {
-            Wall wall = walls.next();
+            WallMulti wall = walls.next();
 
             if(wall.getType ().equals ("H"))
             {
@@ -155,11 +144,11 @@ public class Tank implements Runnable , Serializable
     {
         boolean ans = true;
 
-        Iterator<Wall> walls = this.walls.iterator();
+        Iterator<WallMulti> walls = this.walls.iterator();
 
         while(walls.hasNext ())
         {
-            Wall wall = walls.next();
+            WallMulti wall = walls.next();
 
             if(wall.getType ().equals ("H"))
             {
@@ -229,7 +218,7 @@ public class Tank implements Runnable , Serializable
 
     public void checkPrize()
     {
-        for(Prize prize : prizes.getPrizes())
+        for(PrizeMulti prize : prizes.getPrizes())
         {
             if(prize.isActive())
             {
@@ -291,6 +280,14 @@ public class Tank implements Runnable , Serializable
 
     public void update()
     {
+        if(data.size()==0)
+        {
+            data.add('0');
+            data.add('0');
+            data.add('0');
+            data.add('0');
+            data.add('0');
+        }
         keyUP = data.get(0) == '1';
         keyDOWN = data.get(1) == '1';
         keyLEFT = data.get(2) == '1';
@@ -322,9 +319,9 @@ public class Tank implements Runnable , Serializable
 
 
         this.setLocX(Math.max(this.getLocX(), 0));
-        this.setLocX(Math.min(this.getLocX(), GameFrame.GAME_WIDTH - 30));
+        this.setLocX(Math.min(this.getLocX(), GameFrameMulti.GAME_WIDTH - 30));
         this.setLocY(Math.max(this.getLocY(), 0));
-        this.setLocY(Math.min(this.getLocY(), GameFrame.GAME_HEIGHT - 30));
+        this.setLocY(Math.min(this.getLocY(), GameFrameMulti.GAME_HEIGHT - 30));
     }
 
     @Override
@@ -353,19 +350,19 @@ public class Tank implements Runnable , Serializable
         return canShot;
     }
 
-    public  BufferedImage getTankImage ()
+    public static String getTankImageLoc()
     {
-        return tankImage;
+        return tankImageLoc;
     }
 
-    public static BufferedImage getFireDestroyImage ()
+    public static String getFireDestroyImageLoc()
     {
-        return fireDestroyImage;
+        return fireDestroyImageLoc;
     }
 
-    public static BufferedImage getFireImage ()
+    public static String getFireImageLoc()
     {
-        return fireImage;
+        return fireImageLoc;
     }
 
     public int getCenterX ()
@@ -431,17 +428,17 @@ public class Tank implements Runnable , Serializable
         return stamina;
     }
 
-    public ArrayList<Tank> getTanks ()
+    public ArrayList<TankMulti> getTanks ()
     {
         return tanks;
     }
 
-    public ArrayList<Bullet> getBullets ()
+    public ArrayList<BulletMulti> getBullets ()
     {
         return bullets;
     }
 
-    public ArrayList<Wall> getWalls ()
+    public ArrayList<WallMulti> getWalls ()
     {
         return walls;
     }
@@ -487,7 +484,7 @@ public class Tank implements Runnable , Serializable
         return height;
     }
 
-    public Prize getPrizeOwn()
+    public PrizeMulti getPrizeOwn()
     {
         return prizeOwn;
     }

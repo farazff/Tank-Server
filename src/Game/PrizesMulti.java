@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Prizes implements Runnable , Serializable
+public class PrizesMulti implements Runnable , Serializable
 {
-    private ArrayList<Prize> prizes;
-    private ArrayList<Tank> tanks;
-    private Maps maps;
+    private ArrayList<PrizeMulti> prizes;  ////ok to serialize
+    private ArrayList<TankMulti> tanks;////ok to serialize
+    private MapsMulti maps;  ////ok to serialize
 
-    public Prizes(Maps maps , ArrayList<Tank> tanks)
+    public PrizesMulti(MapsMulti maps , ArrayList<TankMulti> tanks)
     {
         prizes = new ArrayList<>();
         this.maps = maps;
@@ -38,7 +38,7 @@ public class Prizes implements Runnable , Serializable
                 Music music = new Music();
                 music.setFilePath("Files/Sounds/NewGift.au",false);
                 music.execute();
-                prizes.add(new Prize(r, x, y));
+                prizes.add(new PrizeMulti(r, x, y));
             }
             catch (InterruptedException e)
             {
@@ -98,7 +98,7 @@ public class Prizes implements Runnable , Serializable
         return true;
     }
 
-    public ArrayList<Prize> getPrizes()
+    public ArrayList<PrizeMulti> getPrizes()
     {
         return prizes;
     }

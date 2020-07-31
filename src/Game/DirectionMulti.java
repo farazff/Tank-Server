@@ -1,6 +1,8 @@
 package Game;
 
-public enum Direction
+import java.io.Serializable;
+
+public enum DirectionMulti implements Serializable
 {
     NORTHWEST ("-","-"),
     NORTHEAST ("-","+"),
@@ -10,7 +12,7 @@ public enum Direction
 
     private final String Y_AXIS;
     private final String X_AXIS;
-    Direction (String y_AXIS, String x_AXIS)
+    DirectionMulti (String y_AXIS, String x_AXIS)
     {
         this.X_AXIS = x_AXIS;
         this.Y_AXIS = y_AXIS;

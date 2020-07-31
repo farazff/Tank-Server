@@ -1,62 +1,56 @@
 package Game;
 
-import Game.Server.ClientHandler;
+import Server.ClientHandler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * This class holds the state of game and all of its elements.
- * This class also handles user inputs, which affect the game state.
- *
- * @author Seyed Mohammad Ghaffarian
- */
-public class GameState
+
+public class GameStateMulti implements Serializable
 {
 
-	private ArrayList<Tank> tanks;
-	private InteractArrayList<Bullet> bullets;
-	public int gameOver,players;
-	private Maps maps;
-	private Prizes prizes;
-	private Thread t1;
-	private ArrayList<ClientHandler> clientHandlers;
+	private ArrayList<TankMulti> tanks;                 ////ok to serialize
+	private InteractArrayListMulti<BulletMulti> bullets;     ////ok to serialize
+	public int gameOver,players;                  ////ok to serialize
+	private MapsMulti maps;								 ////ok to serialize
+	private PrizesMulti prizes;							 ////ok to serialize
 
-	public GameState(int players,int tankStamina,int canonPower,int wallStamina,
+	public GameStateMulti(int players,int tankStamina,int canonPower,int wallStamina,
 					 ArrayList<ClientHandler> clientHandlers)
 	{
-		this.clientHandlers = clientHandlers;
+		////not ok to serialize
 		this.players = players;
-		maps = new Maps(wallStamina);
-		bullets = new InteractArrayList<> ();
+		maps = new MapsMulti(wallStamina);
+		bullets = new InteractArrayListMulti<> ();
 		tanks = new ArrayList<> ();
-		prizes = new Prizes(maps,tanks);
+		prizes = new PrizesMulti(maps,tanks);
 
 		for(int i=1;i<=players;i++)
 		{
-			Tank tank1 = new Tank(bullets, maps.getWalls(), tanks, prizes,
+			TankMulti tank1 = new TankMulti(bullets, maps.getWalls(), tanks, prizes,
 					tankStamina, canonPower, maps,clientHandlers.get(i-1).getData());
 			tanks.add(tank1);
 		}
 
 		gameOver = 0;
-		t1 = new Thread(prizes);
+		Thread t1 = new Thread(prizes);
 		t1.start();
 	}
 
-	public Prizes getPrizes()
+	public PrizesMulti getPrizes()
 	{
 		return prizes;
 	}
 
-	public ArrayList<Tank> getTanks ()
+	public ArrayList<TankMulti> getTanks ()
 	{
 		return tanks;
 	}
 
-	public Maps getMaps()
+	public MapsMulti getMaps()
 	{
 		return maps;
 	}
@@ -69,11 +63,11 @@ public class GameState
 
 		ExecutorService executorService = Executors.newCachedThreadPool();
 
-		Iterator<Bullet> bulletIterator = bullets.iterator();
+		Iterator<BulletMulti> bulletIterator = bullets.iterator();
 		bullets.setIterate(true);
 		while(bulletIterator.hasNext())
 		{
-			Bullet bullet = bulletIterator.next ();
+			BulletMulti bullet = bulletIterator.next ();
 			if (bullet.hasExpired())
 				bulletIterator.remove();
 			else
@@ -82,10 +76,10 @@ public class GameState
 		bullets.setIterate(false);
 
 
-		Iterator<Tank> tankIterator = tanks.iterator();
+		Iterator<TankMulti> tankIterator = tanks.iterator();
 		while(tankIterator.hasNext())
 		{
-			Tank tank = tankIterator.next();
+			TankMulti tank = tankIterator.next();
 
 			if(tank.isDestroyed ())
 				tankIterator.remove ();
@@ -107,7 +101,7 @@ public class GameState
 		}
 	}
 
-	public ArrayList<Bullet> getBullets () {
+	public ArrayList<BulletMulti> getBullets () {
 		return bullets;
 	}
 
