@@ -288,12 +288,59 @@ public class TankMulti implements Runnable , Serializable
             data.add('0');
             data.add('0');
         }
+
+        boolean isPressed = shot;
+
         keyUP = data.get(0) == '1';
         keyDOWN = data.get(1) == '1';
         keyLEFT = data.get(2) == '1';
         keyRIGHT = data.get(3) == '1';
         shot = data.get(4) == '1';
 
+        if(isPressed && !shot)
+        {
+            if (canShot)
+            {
+                Music music = new Music ();
+                music.setFilePath ("Files/Sounds/Bullet.au", false);
+                music.execute ();
+                if (getBulletType ().equals ("Laser"))
+                {
+                    bullets.add (new LaserBulletMulti (getCanonStartX (), getCanonStartY (),
+                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
+                    setBulletType ("Normal");
+                } else
+                {
+                    bullets.add (new BulletMulti (getCanonStartX (), getCanonStartY (),
+                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
+                }
+
+                canShot = false;
+                shot = true;
+                new Thread (new Runnable () {
+                    @Override
+                    public void run () {
+                        try {
+                            Thread.sleep (100);
+                            shot = false;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }
+                }).start ();
+                new Thread (new Runnable () {
+                    @Override
+                    public void run () {
+                        try {
+                            Thread.sleep (500);
+                            canShot = true;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace ();
+                        }
+                    }
+                }).start ();
+            }
+        }
 
         int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
         int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));

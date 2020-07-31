@@ -2,7 +2,6 @@ package MultiGame.Game.GraphMulti;
 
 import java.util.*;
 
-
 // This class represents a directed graph using adjacency list
 // representation
 public class GraphMulti

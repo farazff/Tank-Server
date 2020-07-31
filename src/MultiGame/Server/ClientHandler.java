@@ -44,7 +44,7 @@ public class ClientHandler implements Runnable
             int l = inputStream.read(buff);
 
             String temp = new String(buff,0,l);
-            System.out.println(temp);
+            System.out.println("*" + temp);
 
             data.clear();
             data.add(temp.charAt(0));

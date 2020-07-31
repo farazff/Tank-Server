@@ -1,6 +1,7 @@
 package MultiGame.Game;
 
 import MultiGame.Server.ClientHandler;
+import MultiGame.Status.GameStatus;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,16 +24,15 @@ public class GameLoopMulti implements Runnable , Serializable
 	private int players,tankStamina,canonPower, wallStamina;
 	private ArrayList<ClientHandler> clientHandlers;
 
-	public GameLoopMulti(GameFrameMulti frame , int players,
-					int tankStamina, int canonPower, int wallStamina,
-					ArrayList<ClientHandler> clientHandlers)
+	public GameLoopMulti( int players,
+						 int tankStamina, int canonPower, int wallStamina,
+						 ArrayList<ClientHandler> clientHandlers)
 	{
 		this.clientHandlers = clientHandlers;
 		this.tankStamina = tankStamina;
 		this.canonPower = canonPower;
 		this.wallStamina = wallStamina;
 		this.players = players;
-		canvas = frame;
 	}
 
 	public GameStateMulti getState()
@@ -56,31 +56,47 @@ public class GameLoopMulti implements Runnable , Serializable
 
 				long start = System.currentTimeMillis();
 				state.update();
-				canvas.render(state);
 
 				ExecutorService pool = Executors.newCachedThreadPool();
 				for(ClientHandler clientHandler : clientHandlers)
 					pool.execute(clientHandler);
 				pool.shutdown();
 
-				while(true)
+				try
 				{
-					boolean tasksEnded =
-							pool.awaitTermination(0, TimeUnit.MINUTES);
-
-					if(tasksEnded)
+					while(!pool.isTerminated())
 					{
-						break;
+						Thread.sleep(15);
 					}
 				}
+				catch(InterruptedException e)
+				{
+					e.printStackTrace ();
+				}
 
+				try
+				{
+					while(true)
+					{
+						boolean isDone = pool.awaitTermination(20, TimeUnit.MILLISECONDS);
+						if(isDone)
+						{
+							System.out.println("done loop");
+							break;
+						}
+					}
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 				gameOver = state.gameOver;
 
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
 				if (delay > 0)
 					Thread.sleep(delay);
 			}
-			catch (InterruptedException | IOException ex)
+			catch (InterruptedException ex)
 			{
 				ex.printStackTrace();
 			}

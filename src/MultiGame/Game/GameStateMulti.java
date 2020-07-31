@@ -23,7 +23,7 @@ public class GameStateMulti implements Serializable
 
 
 	public GameStateMulti(int players,int tankStamina,int canonPower,int wallStamina,
-					 ArrayList<ClientHandler> clientHandlers)
+						  ArrayList<ClientHandler> clientHandlers)
 	{
 		////not ok to serialize
 		this.players = players;
@@ -106,7 +106,7 @@ public class GameStateMulti implements Serializable
 		{
 			while(!executorService.isTerminated())
 			{
-				Thread.sleep(1);
+				Thread.sleep(15);
 			}
 		}
 		catch(InterruptedException e)
@@ -118,10 +118,12 @@ public class GameStateMulti implements Serializable
 		{
 			while(true)
 			{
-				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
+				boolean isDone = executorService.awaitTermination(5, TimeUnit.MILLISECONDS);
 				if(isDone)
 				{
+					System.out.println("Changing status");
 					status = new GameStatus(tanks,bullets,maps,prizes,players);
+					System.out.println("done updating");
 					break;
 				}
 			}
