@@ -54,6 +54,7 @@ public class GameLoopMulti implements Runnable , Serializable
 		{
 			try
 			{
+
 				long start = System.currentTimeMillis();
 				state.update();
 				canvas.render(state);

@@ -3,6 +3,7 @@ package Server;
 import Game.GameFrameMulti;
 import Game.GameLoopMulti;
 import Game.GameLoopMulti;
+import Game.GameStatus;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -48,10 +49,8 @@ public class ClientHandler implements Runnable
         {
             byte[] buff = new byte[6];
             int l = inputStream.read(buff);
-            System.out.println("l===" + l);
 
             String temp = new String(buff,0,l);
-            System.out.println(temp);
 
             data.clear();
             data.add(temp.charAt(0));
@@ -60,7 +59,10 @@ public class ClientHandler implements Runnable
             data.add(temp.charAt(3));
             data.add(temp.charAt(4));
 
-            outputStream.writeObject(game.getState());
+            GameStatus status = game.getState().getStatus();
+            System.out.println("In sending:" + status.getTanks().get(0).getDegree());
+            outputStream.reset();
+            outputStream.writeObject(status);
 
         }
         catch (IllegalArgumentException | IOException e)

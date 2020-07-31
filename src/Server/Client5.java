@@ -23,8 +23,8 @@ public class Client5
             while(true)
             {
                 outputStream.write("00011".getBytes());
-                GameStateMulti state = (GameStateMulti) objectInputStream.readObject();
-                System.out.println(state.getTanks().size());
+                GameStatus status = (GameStatus) objectInputStream.readObject();
+                System.out.println(status.getTanks().get(0).getDegree());
             }
 
         }

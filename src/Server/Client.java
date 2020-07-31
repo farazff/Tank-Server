@@ -20,13 +20,14 @@ public class Client
 
             OutputStream outputStream = client.getOutputStream();
 
-
             ObjectInputStream objectInputStream = new ObjectInputStream(client.getInputStream());
+
             while(true)
             {
                 outputStream.write("00100".getBytes());
-                GameStateMulti state = (GameStateMulti) objectInputStream.readObject();
-                System.out.println(state.getTanks().size());
+                System.out.println("received");
+                GameStatus status = (GameStatus) objectInputStream.readObject();
+                System.out.println(status.getTanks().get(0).getDegree());
             }
 
         }

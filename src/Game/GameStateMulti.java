@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameStateMulti implements Serializable
@@ -17,6 +18,8 @@ public class GameStateMulti implements Serializable
 	public int gameOver,players;                  ////ok to serialize
 	private MapsMulti maps;								 ////ok to serialize
 	private PrizesMulti prizes;							 ////ok to serialize
+	private GameStatus status;
+
 
 	public GameStateMulti(int players,int tankStamina,int canonPower,int wallStamina,
 					 ArrayList<ClientHandler> clientHandlers)
@@ -35,9 +38,19 @@ public class GameStateMulti implements Serializable
 			tanks.add(tank1);
 		}
 
+
+		//status = new GameStatus(tanks,bullets,maps,prizes,players);
+
+
 		gameOver = 0;
 		Thread t1 = new Thread(prizes);
 		t1.start();
+
+	}
+
+	public GameStatus getStatus()
+	{
+		return status;
 	}
 
 	public PrizesMulti getPrizes()
@@ -88,16 +101,34 @@ public class GameStateMulti implements Serializable
 		}
 		executorService.shutdown();
 
+//		try
+//		{
+//			while(!executorService.isTerminated())
+//			{
+//				Thread.sleep(1);
+//			}
+//		}
+//		catch(InterruptedException e)
+//		{
+//			e.printStackTrace ();
+//		}
+
 		try
 		{
-			while(!executorService.isTerminated())
+			while(true)
 			{
-				Thread.sleep(1);
+				boolean isDone = executorService.awaitTermination(0, TimeUnit.MILLISECONDS);
+				if(isDone)
+				{
+					System.out.println("Updating");
+					status = new GameStatus(tanks,bullets,maps,prizes,players);
+					break;
+				}
 			}
 		}
-		catch(InterruptedException e)
+		catch (InterruptedException e)
 		{
-			e.printStackTrace ();
+			e.printStackTrace();
 		}
 	}
 
