@@ -42,8 +42,8 @@ public class GameStateMulti implements Serializable
 		status = new GameStatus(tanks,bullets,maps,prizes,players);
 
 		gameOver = 0;
-		Thread t1 = new Thread(prizes);
-		t1.start();
+//		Thread t1 = new Thread(prizes);
+//		t1.start();
 
 	}
 
