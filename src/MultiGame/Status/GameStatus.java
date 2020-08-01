@@ -24,6 +24,16 @@ public class GameStatus implements Serializable
         this.players = players;
     }
 
+    public void update(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
+                      MapsMulti maps, PrizesMulti prizes,int players)
+    {
+        this.tanks = tanks;
+        this.bullets = bullets;
+        this.maps = maps;
+        this.prizes = prizes;
+        this.players = players;
+    }
+
     public ArrayList<TankMulti> getTanks() {
         return tanks;
     }

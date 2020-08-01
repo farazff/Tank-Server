@@ -11,6 +11,7 @@ import java.util.Iterator;
 public class BulletMulti implements Runnable , Serializable
 
 {
+    boolean done;
     private double x;  ////ok to serialize
     private static final int WALL_ACCURACY = 4; ////ok to serialize
     private static final int TANK_ACCURACY = -10; ////ok to serialize
@@ -32,6 +33,7 @@ public class BulletMulti implements Runnable , Serializable
                    ArrayList<TankMulti> tanks , int canonPower)
     {
 
+        done = false;
         this.degree = degree;
         expired = false;
         findQuarterAndM (degree);
@@ -242,6 +244,7 @@ public class BulletMulti implements Runnable , Serializable
 
     private void update ()
     {
+        done = false;
         try {
             if (direction.getY_AXIS ().equals ("+"))  // that means UP
             {
@@ -330,7 +333,10 @@ public class BulletMulti implements Runnable , Serializable
                 }
             }
             checkCoincidence ();
-        } catch (NumberFormatException e)
+            System.out.println("Done Bullet update");
+            done = true;
+        }
+        catch (NumberFormatException e)
         {
             System.out.println (e.getMessage ());
         }

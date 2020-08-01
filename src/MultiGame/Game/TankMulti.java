@@ -7,6 +7,7 @@ import java.util.*;
 
 public class TankMulti implements Runnable , Serializable
 {
+    boolean done;
     private int locX,locY,stamina,degree,height,width ,canonPower,number;  ////ok to serialize
     private String bulletType;   ////ok to serialize
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT,shot,hasProtection,fireDestroyed,destroyed,canShot;  ////ok to serialize
@@ -24,6 +25,7 @@ public class TankMulti implements Runnable , Serializable
                  int tankStamina, int canonPower , MapsMulti maps ,
                  ArrayList<Character> data,int number)
     {
+        done = false;
         this.number= number;
         this.data = data;
         this.canonPower = canonPower;
@@ -274,8 +276,12 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+
+
+
     public void update()
     {
+        done = false;
         if(data.size()==0)
         {
             data.add('0');
@@ -366,6 +372,7 @@ public class TankMulti implements Runnable , Serializable
         this.setLocY(Math.max(this.getLocY(), 0));
         this.setLocY(Math.min(this.getLocY(), GameFrameMulti.GAME_HEIGHT - 30));
         System.out.println("done tank Update");
+        done = true;
     }
 
     @Override

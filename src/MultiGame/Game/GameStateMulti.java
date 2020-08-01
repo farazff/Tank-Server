@@ -39,6 +39,8 @@ public class GameStateMulti implements Serializable
 			tanks.add(tank1);
 		}
 
+		status = new GameStatus(tanks,bullets,maps,prizes,players);
+
 		gameOver = 0;
 		Thread t1 = new Thread(prizes);
 		t1.start();
@@ -98,18 +100,34 @@ public class GameStateMulti implements Serializable
 		}
 		executorService.shutdown();
 
-		try
+		while(true)
 		{
-			while(!executorService.isTerminated())
+			try
 			{
-				Thread.sleep(2);
+				Thread.sleep (10);
 			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace ();
+			}
+
+			boolean done = true;
+
+			for (TankMulti tank : tanks)
+			{
+				if(!tank.done)
+				{
+					done = false;
+					break;
+				}
+			}
+
+
+			if(done)
+				break;
 		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace ();
-		}
-		status = new GameStatus(tanks,bullets,maps,prizes,players);
+
+		status.update(tanks,bullets,maps,prizes,players);
 //
 	}
 

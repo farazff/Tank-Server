@@ -64,9 +64,11 @@ public class GameLoopMulti implements Runnable , Serializable
 					test.start();
 					while(true)
 					{
-						try {
+						try
+						{
 							Thread.sleep (10);
-						} catch (InterruptedException e)
+						}
+						catch (InterruptedException e)
 						{
 							e.printStackTrace ();
 						}
@@ -75,7 +77,6 @@ public class GameLoopMulti implements Runnable , Serializable
 							break;
 					}
 				}
-
 
 
 				gameOver = state.gameOver;
