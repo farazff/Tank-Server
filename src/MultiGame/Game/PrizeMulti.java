@@ -41,22 +41,6 @@ public class PrizeMulti implements Serializable
             imgLoc =("Images/Prizes/Power3.png");
         }
 
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try
-                {
-                    Thread.sleep(10000);
-                    deActive();
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
     public void deActive()

@@ -42,9 +42,12 @@ public class GameStateMulti implements Serializable
 		status = new GameStatus(tanks,bullets,maps,prizes,players);
 
 		gameOver = 0;
-		Thread t1 = new Thread(prizes);
-		t1.start();
 
+	}
+
+	public void addPrize()
+	{
+		prizes.putPrize();
 	}
 
 	public GameStatus getStatus()
@@ -137,7 +140,7 @@ public class GameStateMulti implements Serializable
 		}
 
 		status.update(tanks,bullets,maps,prizes,players);
-//
+
 	}
 
 	public ArrayList<BulletMulti> getBullets () {
