@@ -85,6 +85,15 @@ public class GameStateMulti implements Serializable
 			else
 				executorService.execute(bullet);
 		}
+		if (!executorService.isTerminated ())
+		{
+			try {
+				Thread.sleep (1);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace ();
+			}
+		}
 		bullets.setIterate(false);
 
 
