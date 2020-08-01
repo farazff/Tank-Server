@@ -57,30 +57,26 @@ public class GameLoopMulti implements Runnable , Serializable
 				long start = System.currentTimeMillis();
 				state.update();
 
-				ExecutorService pool = Executors.newCachedThreadPool();
+
 				for(ClientHandler clientHandler : clientHandlers)
 				{
 					Thread test = new Thread(clientHandler);
 					test.start();
 					while(true)
 					{
+						try {
+							Thread.sleep (10);
+						} catch (InterruptedException e)
+						{
+							e.printStackTrace ();
+						}
+
 						if(!test.isAlive())
 							break;
 					}
 				}
-				pool.shutdown();
 
-				try
-				{
-					while(!pool.isTerminated())
-					{
-						Thread.sleep(2);
-					}
-				}
-				catch(InterruptedException e)
-				{
-					e.printStackTrace ();
-				}
+
 
 				gameOver = state.gameOver;
 
