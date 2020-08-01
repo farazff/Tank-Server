@@ -52,17 +52,24 @@ public class GameLoopMulti implements Runnable , Serializable
 		int prizeTime = 1;
 		while(gameOver == 0)
 		{
+			state.getStatus().setNewPrize(false);
+			state.getStatus().setUsePrize(false);
+			state.getStatus().setShot(false);
+			state.getStatus().setExplode(false);
+
 			try
 			{
 				prizeTime++;
 				if(prizeTime%75==0)
 				{
+					state.getStatus().setNewPrize(true);
 					state.addPrize();
 				}
 				if(prizeTime%190==0)
 				{
 					state.getPrizes().getPrizes().get((prizeTime/190)-1).deActive();
 				}
+
 				long start = System.currentTimeMillis();
 				state.update();
 

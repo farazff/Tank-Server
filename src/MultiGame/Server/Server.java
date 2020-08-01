@@ -2,8 +2,6 @@ package MultiGame.Server;
 
 import MultiGame.Game.*;
 
-
-import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.*;
@@ -27,7 +25,6 @@ public class Server
                 Socket connectionSocket = welcomingSocket.accept();
                 System.out.println("client accepted!");
                 ClientHandler clientHandler = new ClientHandler(connectionSocket,game);
-                players++;
                 clientHandlers.add(clientHandler);
             }
 

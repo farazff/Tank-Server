@@ -31,9 +31,6 @@ public class PrizesMulti implements Serializable
             y = random.nextInt(650) + 60;
         } while(!isEmpty(x, y));
 
-        Music music = new Music();
-        music.setFilePath("Files/Sounds/NewGift.au",false);
-        music.execute();
         prizes.add(new PrizeMulti(r, x, y));
 
     }

@@ -13,10 +13,15 @@ public class GameStatus implements Serializable
     public int players;                  ////ok to serialize
     private MapsMulti maps;								 ////ok to serialize
     private PrizesMulti prizes;							 ////ok to serialize
+    private boolean newPrize , usePrize , shot , explode;
 
     public GameStatus(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
                       MapsMulti maps, PrizesMulti prizes,int players)
     {
+        newPrize = false;
+        usePrize = false;
+        shot = false;
+        explode = false;
         this.tanks = tanks;
         this.bullets = bullets;
         this.maps = maps;
@@ -52,6 +57,46 @@ public class GameStatus implements Serializable
 
     public int getPlayers() {
         return players;
+    }
+
+    public void setNewPrize(boolean newPrize)
+    {
+        this.newPrize = newPrize;
+    }
+
+    public boolean isNewPrize()
+    {
+        return newPrize;
+    }
+
+    public void setUsePrize(boolean usePrize)
+    {
+        this.usePrize = usePrize;
+    }
+
+    public boolean isUsePrize()
+    {
+        return usePrize;
+    }
+
+    public void setShot(boolean shot)
+    {
+        this.shot = shot;
+    }
+
+    public boolean isShot()
+    {
+        return shot;
+    }
+
+    public void setExplode(boolean explode)
+    {
+        this.explode = explode;
+    }
+
+    public boolean isExplode()
+    {
+        return explode;
     }
 }
 

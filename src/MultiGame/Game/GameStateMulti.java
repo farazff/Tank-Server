@@ -32,21 +32,19 @@ public class GameStateMulti implements Serializable
 		tanks = new ArrayList<> ();
 		prizes = new PrizesMulti(maps,tanks);
 
+		status = new GameStatus(tanks,bullets,maps,prizes,players);
+
 		for(int i=1;i<=players;i++)
 		{
 			TankMulti tank1 = new TankMulti(bullets, maps.getWalls(), tanks, prizes,
-					tankStamina, canonPower, maps,clientHandlers.get(i-1).getData(),i);
+					tankStamina, canonPower, maps,clientHandlers.get(i-1).getData(),i,status);
 			tanks.add(tank1);
 		}
 
-		status = new GameStatus(tanks,bullets,maps,prizes,players);
+
 
 		gameOver = 0;
-<<<<<<< HEAD
-=======
-//		Thread t1 = new Thread(prizes);
-//		t1.start();
->>>>>>> 2d8c181a673a705cc32d6f54462f3f1c3dece36f
+
 
 	}
 
@@ -145,7 +143,6 @@ public class GameStateMulti implements Serializable
 		}
 
 		status.update(tanks,bullets,maps,prizes,players);
-
 	}
 
 	public ArrayList<BulletMulti> getBullets () {

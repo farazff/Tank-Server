@@ -1,5 +1,7 @@
 package MultiGame.Game;
 
+import MultiGame.Status.GameStatus;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -17,14 +19,15 @@ public class TankMulti implements Runnable , Serializable
     private PrizeMulti prizeOwn;  ////ok to serialize
     private PrizesMulti prizes;  ////ok to serialize
     private ArrayList<Character> data;  ////ok to serialize
-
+    private GameStatus status;
 
 
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
-                 PrizesMulti prizes,
-                 int tankStamina, int canonPower , MapsMulti maps ,
-                 ArrayList<Character> data,int number)
+                      PrizesMulti prizes,
+                      int tankStamina, int canonPower , MapsMulti maps ,
+                      ArrayList<Character> data, int number, GameStatus status)
     {
+        this.status = status;
         done = false;
         this.number= number;
         this.data = data;
@@ -70,6 +73,7 @@ public class TankMulti implements Runnable , Serializable
             stamina -= damage;
         if(stamina <= 0)
         {
+            status.setExplode(true);
             fireDestroyed = true;
             keyUP = false;
             keyDOWN = false;
@@ -223,10 +227,7 @@ public class TankMulti implements Runnable , Serializable
                 if (((locX - prize.getX()) * (locX - prize.getX()) + (locY - prize.getY()) * (locY - prize.getY())) <= 35 * 35) {
                     if (prizeOwn == null)
                     {
-                        Music music = new Music();
-                        music.setFilePath("Files/Sounds/GetPrize.au",false);
-                        music.execute();
-
+                        status.setUsePrize(true);
                         prize.deActive();
                         prizeOwn = prize;
                         if (prize.getType().equals("Health")) {
@@ -303,9 +304,7 @@ public class TankMulti implements Runnable , Serializable
         {
             if (canShot)
             {
-                Music music = new Music ();
-                music.setFilePath ("Files/Sounds/Bullet.au", false);
-                music.execute ();
+                status.setShot(true);
                 if (getBulletType ().equals ("Laser"))
                 {
                     bullets.add (new LaserBulletMulti (getCanonStartX (), getCanonStartY (),

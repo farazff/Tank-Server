@@ -124,10 +124,10 @@ public class GameFrameMulti extends JFrame implements Serializable
 			{
 				if (tank.isFireDestroyed ())
 				{
-					Music music = new Music();
-					music.setFilePath("Files/Sounds/Blast.au",false);
-					music.execute();
-
+//					Music music = new Music();
+//					music.setFilePath("Files/Sounds/Blast.au",false);
+//					music.execute();
+//
 
 					BufferedImage image1 = destroy;
 					g2d.drawImage (image1, tank.getCenterX () - image1.getWidth () / 2 + 3,
