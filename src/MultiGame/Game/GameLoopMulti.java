@@ -71,7 +71,7 @@ public class GameLoopMulti implements Runnable , Serializable
 							e.printStackTrace ();
 						}
 
-						if(!test.isAlive())
+						if(!clientHandler.isWait ())
 							break;
 					}
 				}

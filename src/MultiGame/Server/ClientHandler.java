@@ -12,6 +12,7 @@ public class ClientHandler implements Runnable
     private Socket connectionSocket;
     private ArrayList<Character> data = new ArrayList<>();
     private GameLoopMulti game;
+    private boolean wait;
 
     public ArrayList<Character> getData()
     {
@@ -22,6 +23,7 @@ public class ClientHandler implements Runnable
 
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
+        wait = false;
         this.connectionSocket = connectionSocket;
         try
         {
@@ -38,6 +40,7 @@ public class ClientHandler implements Runnable
     @Override
     public void run()
     {
+        wait = true;
         try
         {
             byte[] buff = new byte[6];
@@ -63,7 +66,10 @@ public class ClientHandler implements Runnable
         {
             e.printStackTrace();
         }
+        wait = false;
     }
 
-
+    public boolean isWait () {
+        return wait;
+    }
 }
