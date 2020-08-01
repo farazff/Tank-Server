@@ -19,7 +19,6 @@ public class Server
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
             int players = 2;
-//            GameFrameMulti frame = new GameFrameMulti("MultiGame.Server side !");
             GameLoopMulti game = new GameLoopMulti( players,
                     100,100,100,clientHandlers);
             System.out.print("MultiGame.Server started.\nWaiting for a client ... ");
@@ -38,11 +37,6 @@ public class Server
                 @Override
                 public void run()
                 {
-//                    frame.setLocationRelativeTo(null);
-//                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//                    frame.setVisible(true);
-//                    frame.initBufferStrategy();
-
                     game.init();
                     ThreadPoolMulti.execute(game);
                 }

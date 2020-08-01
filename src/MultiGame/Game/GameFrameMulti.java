@@ -21,12 +21,8 @@ public class GameFrameMulti extends JFrame implements Serializable
 	private ArrayList<Float> fpsHistory;
 	private BufferStrategy bufferStrategy;
 	private int mapTheme;
-	private BufferedImage theme;
-	private BufferedImage wallNDH;
-	private BufferedImage wallDH;
-	private BufferedImage wallNDV;
-	private BufferedImage wallDV;
-	private BufferedImage img;
+	private BufferedImage theme,wallNDH,wallDH,wallNDV,wallDV,img;
+	private BufferedImage one,two,three,four,five,destroy,fire;
 
 	public BufferedImage getImg() {
 		return img;
@@ -57,6 +53,14 @@ public class GameFrameMulti extends JFrame implements Serializable
 			wallDH = ImageIO.read (new File("Images/Walls/YellowH.png"));
 			wallNDV = ImageIO.read(new File("Images/Walls/RedV.png"));
 			wallDV  = ImageIO.read(new File("Images/Walls/YellowV.png"));
+
+			one = ImageIO.read (new File("Images/Tanks/1.png"));
+			two = ImageIO.read (new File("Images/Tanks/2.png"));
+			three = ImageIO.read(new File("Images/Tanks/3.png"));
+			four  = ImageIO.read(new File("Images/Tanks/4.png"));
+			five = ImageIO.read (new File("Images/Tanks/5.png"));
+			destroy = ImageIO.read (new File("Images/Explosion/explosion3.png"));
+			fire = ImageIO.read(new File("Images/Bullet/shotLarge.png"));
 		}
 		catch (IOException e)
 		{
@@ -125,13 +129,13 @@ public class GameFrameMulti extends JFrame implements Serializable
 					music.execute();
 
 
-					BufferedImage image1 = ImageIO.read(new File(TankMulti.getFireDestroyImageLoc()));
+					BufferedImage image1 = destroy;
 					g2d.drawImage (image1, tank.getCenterX () - image1.getWidth () / 2 + 3,
 							tank.getCenterY () - image1.getHeight () / 2 + 2, null);
 				}
 				else
 				{
-					BufferedImage image = ImageIO.read(new File(TankMulti.getTankImageLoc()));
+					BufferedImage image = one;
 
 					g2d.drawImage (rotateImage (image, tank.getDegree () - 45),
 							tank.getLocX (), tank.getLocY (), null);
@@ -139,7 +143,7 @@ public class GameFrameMulti extends JFrame implements Serializable
 					if (tank.isShot ())
 					{
 						BufferedImage image1 = rotateImageBullet (
-								ImageIO.read(new File(TankMulti.getFireImageLoc()))
+								fire
 								, tank.getDegree () - 90);
 
 						g2d.drawImage (image1,
@@ -203,7 +207,7 @@ public class GameFrameMulti extends JFrame implements Serializable
 						g2d.draw(new Arc2D.Double(tank.getLocX()-11,tank.getLocY()-11,84,84,
 								270,30,Arc2D.OPEN));
 						g2d.draw(new Arc2D.Double(tank.getLocX()-11,tank.getLocY()-11,84,84,
-							315,30,Arc2D.OPEN));
+								315,30,Arc2D.OPEN));
 					}
 				}
 			}

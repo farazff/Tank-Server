@@ -35,17 +35,13 @@ public class GameStateMulti implements Serializable
 		for(int i=1;i<=players;i++)
 		{
 			TankMulti tank1 = new TankMulti(bullets, maps.getWalls(), tanks, prizes,
-					tankStamina, canonPower, maps,clientHandlers.get(i-1).getData());
+					tankStamina, canonPower, maps,clientHandlers.get(i-1).getData(),i);
 			tanks.add(tank1);
 		}
 
-
-		//status = new MultiGame.Status.GameStatus(tanks,bullets,maps,prizes,players);
-
-
 		gameOver = 0;
-		//Thread t1 = new Thread(prizes);
-		//t1.start();
+		Thread t1 = new Thread(prizes);
+		t1.start();
 
 	}
 

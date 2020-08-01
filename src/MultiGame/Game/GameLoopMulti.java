@@ -70,17 +70,17 @@ public class GameLoopMulti implements Runnable , Serializable
 				}
 				pool.shutdown();
 
-//				try
-//				{
-//					while(!pool.isTerminated())
-//					{
-//						Thread.sleep(1);
-//					}
-//				}
-//				catch(InterruptedException e)
-//				{
-//					e.printStackTrace ();
-//				}
+				try
+				{
+					while(!pool.isTerminated())
+					{
+						Thread.sleep(1);
+					}
+				}
+				catch(InterruptedException e)
+				{
+					e.printStackTrace ();
+				}
 
 //				try
 //				{
