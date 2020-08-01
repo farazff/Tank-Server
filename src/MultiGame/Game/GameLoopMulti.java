@@ -74,7 +74,7 @@ public class GameLoopMulti implements Runnable , Serializable
 				{
 					while(!pool.isTerminated())
 					{
-						Thread.sleep(1);
+						Thread.sleep(2);
 					}
 				}
 				catch(InterruptedException e)
@@ -82,22 +82,6 @@ public class GameLoopMulti implements Runnable , Serializable
 					e.printStackTrace ();
 				}
 
-//				try
-//				{
-//					while(true)
-//					{
-//						boolean isDone = pool.awaitTermination(0, TimeUnit.MILLISECONDS);
-//						if(isDone)
-//						{
-//							System.out.println("done loop");
-//							break;
-//						}
-//					}
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
 				gameOver = state.gameOver;
 
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
