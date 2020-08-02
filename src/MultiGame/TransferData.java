@@ -1,7 +1,7 @@
 package MultiGame;
 
 
-import GameData.User;
+import GameData.*;
 
 import java.io.Serializable;
 

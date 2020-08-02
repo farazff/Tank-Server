@@ -1,5 +1,6 @@
 package MultiGame.Game;
 
+import GameData.User;
 import MultiGame.Status.GameStatus;
 
 import javax.imageio.ImageIO;
@@ -20,12 +21,12 @@ public class TankMulti implements Runnable , Serializable
     private PrizesMulti prizes;  ////ok to serialize
     private ArrayList<Character> data;  ////ok to serialize
     private GameStatus status;
-
+    private User user;
 
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
                       PrizesMulti prizes,
                       int tankStamina, int canonPower , MapsMulti maps ,
-                      ArrayList<Character> data, int number, GameStatus status)
+                      ArrayList<Character> data, int number, GameStatus status, User user)
     {
         this.status = status;
         done = false;
@@ -37,6 +38,7 @@ public class TankMulti implements Runnable , Serializable
         this.walls = walls;
         this.tanks = tanks;
         destroyed = false;
+        this.user = user;
         fireDestroyed = false;
         hasProtection = false;
         canShot = true;
@@ -95,6 +97,10 @@ public class TankMulti implements Runnable , Serializable
                 }
             }).start ();
         }
+    }
+
+    public User getUser () {
+        return user;
     }
 
     public boolean canMoveForward()
