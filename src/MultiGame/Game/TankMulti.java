@@ -1,5 +1,7 @@
 package MultiGame.Game;
 
+import GameData.User;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -17,13 +19,13 @@ public class TankMulti implements Runnable , Serializable
     private PrizeMulti prizeOwn;  ////ok to serialize
     private PrizesMulti prizes;  ////ok to serialize
     private ArrayList<Character> data;  ////ok to serialize
-
+    private User user;
 
 
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
                  PrizesMulti prizes,
                  int tankStamina, int canonPower , MapsMulti maps ,
-                 ArrayList<Character> data,int number)
+                 ArrayList<Character> data,int number, User user)
     {
         done = false;
         this.number= number;
@@ -34,6 +36,7 @@ public class TankMulti implements Runnable , Serializable
         this.walls = walls;
         this.tanks = tanks;
         destroyed = false;
+        this.user = user;
         fireDestroyed = false;
         hasProtection = false;
         canShot = true;
@@ -62,6 +65,10 @@ public class TankMulti implements Runnable , Serializable
         } catch (IOException e) {
             e.printStackTrace ();
         }
+    }
+
+    public User getUser () {
+        return user;
     }
 
     public void looseStamina (int damage)

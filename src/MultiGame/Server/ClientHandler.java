@@ -1,7 +1,9 @@
 package MultiGame.Server;
 
+import GameData.User;
 import MultiGame.Game.GameLoopMulti;
 import MultiGame.Status.GameStatus;
+import MultiGame.TransferData;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,13 +15,19 @@ public class ClientHandler implements Runnable
     private ArrayList<Character> data = new ArrayList<>();
     private GameLoopMulti game;
     private boolean wait;
+    private User user;
 
     public ArrayList<Character> getData()
     {
         return data;
     }
+
+    public User getUser () {
+        return user;
+    }
+
     public ObjectOutputStream outputStream = null;
-    public InputStream inputStream = null;
+    public ObjectInputStream inputStream = null;
 
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
@@ -27,7 +35,7 @@ public class ClientHandler implements Runnable
         this.connectionSocket = connectionSocket;
         try
         {
-            inputStream = connectionSocket.getInputStream();
+            inputStream = new ObjectInputStream (connectionSocket.getInputStream());
             outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
         }
         catch(IOException e)
@@ -43,12 +51,10 @@ public class ClientHandler implements Runnable
         wait = true;
         try
         {
-            byte[] buff = new byte[6];
-            int l = inputStream.read(buff);
-
-            String temp = new String(buff,0,l);
+            TransferData transferData = (TransferData) inputStream.readObject ();
+            String temp = transferData.getCommand ();
             System.out.println("*" + temp);
-
+            user = transferData.getUser ();
             data.clear();
             data.add(temp.charAt(0));
             data.add(temp.charAt(1));
@@ -62,7 +68,7 @@ public class ClientHandler implements Runnable
             outputStream.writeObject(status);
             System.out.println("Done sending");
         }
-        catch (IllegalArgumentException | IOException e)
+        catch (IllegalArgumentException | IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }
