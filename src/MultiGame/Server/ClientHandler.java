@@ -3,6 +3,7 @@ package MultiGame.Server;
 import GameData.User;
 import MultiGame.Game.GameLoopMulti;
 import MultiGame.Status.GameStatus;
+import MultiGame.Status.NullStatus;
 import MultiGame.TransferData;
 
 import java.io.*;
@@ -30,16 +31,26 @@ public class ClientHandler implements Runnable
 
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
-        wait = false;
+        wait = true;
         try
         {
             inputStream = new ObjectInputStream (connectionSocket.getInputStream());
             outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+
+
+                TransferData transferData = (TransferData) inputStream.readObject ();
+                user = transferData.getUser ();
+                outputStream.reset();
+                System.out.println("going to send object");
+                outputStream.writeObject(new NullStatus ());
+                System.out.println("Done sending");
+
         }
-        catch(IOException e)
+        catch (IllegalArgumentException | IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }
+        wait = false;
         this.game = game;
     }
 
