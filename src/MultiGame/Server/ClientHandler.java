@@ -8,10 +8,12 @@ import MultiGame.TransferData;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable
 {
+    boolean active;
     private ArrayList<Character> data = new ArrayList<>();
     private GameLoopMulti game;
     private boolean wait;
@@ -22,7 +24,8 @@ public class ClientHandler implements Runnable
         return data;
     }
 
-    public User getUser () {
+    public User getUser ()
+    {
         return user;
     }
 
@@ -31,6 +34,7 @@ public class ClientHandler implements Runnable
 
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
+        active = true;
         wait = true;
         try
         {
@@ -71,14 +75,30 @@ public class ClientHandler implements Runnable
             outputStream.reset();
             outputStream.writeObject(status);
         }
-        catch (IllegalArgumentException | IOException | ClassNotFoundException e)
+        catch (SocketException | StreamCorruptedException e)
+        {
+            active = false;
+        }
+        catch(IllegalArgumentException | IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }
         wait = false;
     }
 
-    public boolean isWait () {
+    public boolean isWait ()
+    {
         return wait;
     }
+
+    public boolean isActive()
+    {
+        return active;
+    }
+
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }
+
 }

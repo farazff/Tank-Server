@@ -16,11 +16,11 @@ public class Server
     {
         try(ServerSocket welcomingSocket = new ServerSocket(8080))
         {
-            int players = 2;
+            int players = 3;
             GameLoopMulti game = new GameLoopMulti( players,
                     100,100,100,clientHandlers);
             System.out.print("MultiGame.Server started.\nWaiting for a client ... ");
-            for(int i=1;i<=2;i++)
+            for(int i=1;i<=3;i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();
                 System.out.println("client accepted!");
