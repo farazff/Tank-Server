@@ -1,12 +1,10 @@
 package MultiGame.Game;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PrizesMulti implements Runnable , Serializable
+public class PrizesMulti implements Serializable
 {
     private ArrayList<PrizeMulti> prizes;  ////ok to serialize
     private ArrayList<TankMulti> tanks;////ok to serialize
@@ -21,30 +19,20 @@ public class PrizesMulti implements Runnable , Serializable
 
     public void putPrize()
     {
-        while(true)
+
+
+        Random random = new Random();
+        int r = random.nextInt(5) + 1;
+        int x, y;
+
+        do
         {
-            try {
-                Thread.sleep(4000);
-                Random random = new Random();
-                int r = random.nextInt(5) + 1;
-                int x, y;
+            x = random.nextInt(1240) + 20;
+            y = random.nextInt(650) + 60;
+        } while(!isEmpty(x, y));
 
-                do
-                    {
-                    x = random.nextInt(1240) + 20;
-                    y = random.nextInt(650) + 60;
-                } while(!isEmpty(x, y));
+        prizes.add(new PrizeMulti(r, x, y));
 
-                Music music = new Music();
-                music.setFilePath("Files/Sounds/NewGift.au",false);
-                music.execute();
-                prizes.add(new PrizeMulti(r, x, y));
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
     }
 
     public boolean isEmpty(int x ,int y)
@@ -103,9 +91,4 @@ public class PrizesMulti implements Runnable , Serializable
         return prizes;
     }
 
-    @Override
-    public void run()
-    {
-        putPrize();
-    }
 }

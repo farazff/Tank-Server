@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class ClientHandler implements Runnable
 {
-    private Socket connectionSocket;
     private ArrayList<Character> data = new ArrayList<>();
     private GameLoopMulti game;
     private boolean wait;
@@ -32,7 +31,6 @@ public class ClientHandler implements Runnable
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
         wait = false;
-        this.connectionSocket = connectionSocket;
         try
         {
             inputStream = new ObjectInputStream (connectionSocket.getInputStream());
