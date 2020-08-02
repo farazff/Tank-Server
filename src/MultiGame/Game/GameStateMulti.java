@@ -42,11 +42,7 @@ public class GameStateMulti implements Serializable
 			tanks.add(tank1);
 		}
 
-
-
 		gameOver = 0;
-
-
 	}
 
 	public void addPrize()
@@ -141,6 +137,13 @@ public class GameStateMulti implements Serializable
 
 			if(done)
 				break;
+		}
+
+		if(tanks.size()==1)
+		{
+			status.addWinners(tanks.get(0).getUser().getUserName());
+			tanks.clear();
+			status.setGameOver(true);
 		}
 
 		status.update(tanks,bullets,maps,prizes,players);

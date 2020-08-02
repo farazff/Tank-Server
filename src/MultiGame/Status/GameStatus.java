@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class GameStatus implements Serializable
 {
 
+    private ArrayList<String> winners;
+    private boolean gameOver;
+
     private ArrayList<TankMulti> tanks;                 ////ok to serialize
     private InteractArrayListMulti<BulletMulti> bullets;     ////ok to serialize
     public int players;                  ////ok to serialize
@@ -18,6 +21,8 @@ public class GameStatus implements Serializable
     public GameStatus(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
                       MapsMulti maps, PrizesMulti prizes,int players)
     {
+        winners = new ArrayList<>();
+        gameOver = false;
         newPrize = false;
         usePrize = false;
         shot = false;
@@ -98,5 +103,26 @@ public class GameStatus implements Serializable
     {
         return explode;
     }
+
+    public boolean isGameOver()
+    {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver)
+    {
+        this.gameOver = gameOver;
+    }
+
+    public ArrayList<String> getWinners()
+    {
+        return winners;
+    }
+
+    public void addWinners(String temp)
+    {
+        winners.add(temp);
+    }
+
 }
 

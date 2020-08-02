@@ -37,13 +37,10 @@ public class ClientHandler implements Runnable
             inputStream = new ObjectInputStream (connectionSocket.getInputStream());
             outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
 
-
-                TransferData transferData = (TransferData) inputStream.readObject ();
-                user = transferData.getUser ();
-                outputStream.reset();
-                System.out.println("going to send object");
-                outputStream.writeObject(new NullStatus ());
-                System.out.println("Done sending");
+            TransferData transferData = (TransferData) inputStream.readObject ();
+            user = transferData.getUser ();
+            outputStream.reset();
+            outputStream.writeObject(new NullStatus ());
 
         }
         catch (IllegalArgumentException | IOException | ClassNotFoundException e)
@@ -62,7 +59,6 @@ public class ClientHandler implements Runnable
         {
             TransferData transferData = (TransferData) inputStream.readObject ();
             String temp = transferData.getCommand ();
-            System.out.println("*" + temp);
             user = transferData.getUser ();
             data.clear();
             data.add(temp.charAt(0));
@@ -73,9 +69,7 @@ public class ClientHandler implements Runnable
 
             GameStatus status = game.getState().getStatus();
             outputStream.reset();
-            System.out.println("going to send object");
             outputStream.writeObject(status);
-            System.out.println("Done sending");
         }
         catch (IllegalArgumentException | IOException | ClassNotFoundException e)
         {

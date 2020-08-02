@@ -76,6 +76,7 @@ public class TankMulti implements Runnable , Serializable
         if(stamina <= 0)
         {
             status.setExplode(true);
+            status.addWinners(this.getUser().getUserName());
             fireDestroyed = true;
             keyUP = false;
             keyDOWN = false;
@@ -376,7 +377,6 @@ public class TankMulti implements Runnable , Serializable
         this.setLocX(Math.min(this.getLocX(), GameFrameMulti.GAME_WIDTH - 30));
         this.setLocY(Math.max(this.getLocY(), 0));
         this.setLocY(Math.min(this.getLocY(), GameFrameMulti.GAME_HEIGHT - 30));
-        System.out.println("done tank Update");
         done = true;
     }
 

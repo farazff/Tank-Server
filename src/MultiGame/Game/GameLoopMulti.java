@@ -48,9 +48,10 @@ public class GameLoopMulti implements Runnable , Serializable
 	@Override
 	public void run()
 	{
-		int gameOver = 0;
+		boolean gameOver = false;
 		int prizeTime = 1;
-		while(gameOver == 0)
+
+		while(!gameOver)
 		{
 			state.getStatus().setNewPrize(false);
 			state.getStatus().setUsePrize(false);
@@ -73,6 +74,8 @@ public class GameLoopMulti implements Runnable , Serializable
 				long start = System.currentTimeMillis();
 				state.update();
 
+				System.out.println(state.getStatus().isGameOver());
+
 				for(ClientHandler clientHandler : clientHandlers)
 				{
 					Thread test = new Thread(clientHandler);
@@ -93,8 +96,7 @@ public class GameLoopMulti implements Runnable , Serializable
 					}
 				}
 
-
-				gameOver = state.gameOver;
+				gameOver = state.getStatus().isGameOver();
 
 				long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
 				if (delay > 0)
@@ -106,13 +108,26 @@ public class GameLoopMulti implements Runnable , Serializable
 			}
 		}
 
-		try
+		for(ClientHandler clientHandler : clientHandlers)
 		{
-			canvas.render(state);
+			Thread test = new Thread(clientHandler);
+			test.start();
+			while(true)
+			{
+				try
+				{
+					Thread.sleep (10);
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace ();
+				}
+
+				if(!clientHandler.isWait ())
+					break;
+			}
 		}
-		catch (IOException | InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+
+
 	}
 }
