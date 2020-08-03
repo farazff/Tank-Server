@@ -1,7 +1,11 @@
 package GameData;
 
-import java.io.Serializable;
+import java.io.*;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServerInformation implements Serializable
 {
@@ -10,21 +14,16 @@ public class ServerInformation implements Serializable
     private static final int MAX_CAPACITY = 100;
     private int currentCapacity;
     private int numOfActiveGames;
-    private final ArrayList<MultiGame> multiGames;
+    private final HashMap<Integer,MultiGame> multiGames;
 
-    public ServerInformation (String url, ArrayList<MultiGame> multiGames, char[] password)
+    public ServerInformation (String url, char[] password)
     {
         this.url = url;
         this.password = password;
-        if (multiGames != null)
-            this.multiGames = new ArrayList<> (multiGames);
-        else
-            this.multiGames = new ArrayList<> ();
 
-        if (multiGames == null)
-            numOfActiveGames = 0;
-        else
-            numOfActiveGames = multiGames.size ();
+        this.multiGames = new HashMap<> ();
+
+
 
         currentCapacity = MAX_CAPACITY - numOfActiveGames;
     }
@@ -45,10 +44,64 @@ public class ServerInformation implements Serializable
         return url;
     }
 
-    public void addGame (MultiGame MultiGame)
+    public void addGame (MultiGame multiGame)
     {
-        multiGames.add (MultiGame);
-        numOfActiveGames = multiGames.size ();
+        if (multiGame == null)
+            return;
+        new Thread (new Runnable () {
+            @Override
+            public void run () {
+                DataInputStream in = null;
+                ObjectOutputStream out = null;
+                try (Socket socket = new Socket ("127.0.0.1",9093)){
+                    out = new ObjectOutputStream (socket.getOutputStream ());
+                    out.writeObject (multiGame);
+                    out.flush ();
+
+                    in = new DataInputStream (socket.getInputStream ());
+                    int res = in.readInt ();
+                    multiGames.put (res,multiGame);
+                    numOfActiveGames = multiGames.size ();
+                } catch (IllegalArgumentException e)
+                {
+                    System.err.println ("Some went Wrong in start");
+                }
+                catch (ConnectException e)
+                {
+                    System.err.println ("Couldn't connect to ServerInformation");
+                }
+                catch (SocketException e)
+                {
+                    System.err.println ("ServerInformation Not Responding");
+                } catch (IOException e)
+                {
+                    System.err.println ("Some went Wrong");
+                } finally {
+                    try {
+                        if (in != null)
+                            in.close ();
+                    }
+                    catch (SocketException ignore)
+                    {
+                    }
+                    catch (IOException e)
+                    {
+                        System.err.println ("Some thing went wrong in closing ServerInputStream");
+                    }
+                    try {
+                        if (out != null)
+                            out.close ();
+                    }
+                    catch (SocketException ignore)
+                    {
+                    }
+                    catch (IOException e)
+                    {
+                        System.err.println ("Some thing went wrong in closing ServerOutputStream");
+                    }
+                }
+            }
+        }).start ();
     }
 
     public void removeMultiGame (int index)
@@ -62,8 +115,8 @@ public class ServerInformation implements Serializable
         }
     }
 
-    public ArrayList<MultiGame> getMultiGames () {
-        return multiGames;
+    public ArrayList<MultiGame> getMultiGamesValue () {
+        return new ArrayList<> (multiGames.values ());
     }
 
     public MultiGame getMultiGame (int index)
@@ -75,5 +128,9 @@ public class ServerInformation implements Serializable
             System.out.println ("Some Thing went Wrong in getting indexed multi game");
             return null;
         }
+    }
+
+    public HashMap<Integer, MultiGame> getMultiGames () {
+        return multiGames;
     }
 }

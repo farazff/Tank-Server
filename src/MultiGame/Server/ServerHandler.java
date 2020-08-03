@@ -33,7 +33,7 @@ public class ServerHandler implements Runnable
             new Thread (server).start ();
 
             out = new DataOutputStream (socket.getOutputStream ());
-            out.writeUTF ((7070 + id + ""));
+            out.writeInt ((7070 + id));
             out.flush ();
 
         } catch (ClassNotFoundException e) {

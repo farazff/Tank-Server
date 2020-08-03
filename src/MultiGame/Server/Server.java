@@ -31,7 +31,7 @@ public class Server implements Runnable
             GameLoopMulti game = new GameLoopMulti( multiGame.getNumberOfPlayers (),
                     multiGame.getTankStamina (),multiGame.getCanonPower ()
                     ,multiGame.getWallStamina (),clientHandlers);
-            System.out.print("MultiGame.Server started.\nWaiting for a client ... ");
+            System.out.println("MultiGame.Server started.\nWaiting for a client ... ");
             for(int i=1;i<=multiGame.getNumberOfPlayers ();i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();
