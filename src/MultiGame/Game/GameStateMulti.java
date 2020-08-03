@@ -116,7 +116,7 @@ public class GameStateMulti implements Serializable
 		{
 			try
 			{
-				Thread.sleep (8);
+				Thread.sleep (10);
 			}
 			catch (InterruptedException e)
 			{

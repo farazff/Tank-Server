@@ -333,7 +333,6 @@ public class BulletMulti implements Runnable , Serializable
                 }
             }
             checkCoincidence ();
-            System.out.println("Done Bullet update");
             done = true;
         }
         catch (NumberFormatException e)

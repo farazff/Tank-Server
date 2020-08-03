@@ -84,7 +84,7 @@ public class GameLoopMulti implements Runnable , Serializable
 						{
 							try
 							{
-								Thread.sleep(8);
+								Thread.sleep(9);
 							}
 							catch(InterruptedException e)
 							{
