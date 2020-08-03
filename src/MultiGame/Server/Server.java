@@ -1,5 +1,6 @@
 package MultiGame.Server;
 
+import GameData.MultiGame;
 import MultiGame.Game.*;
 
 import java.io.IOException;
@@ -7,25 +8,37 @@ import java.net.ServerSocket;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Server
+public class Server implements Runnable
 {
 
-    private static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-
-    public static void main(String[] args)
+    private ArrayList<ClientHandler> clientHandlers;
+    private MultiGame multiGame;
+    private int port;
+    public Server (MultiGame multiGame, int port)
     {
-        try(ServerSocket welcomingSocket = new ServerSocket(8080))
+        clientHandlers = new ArrayList<> ();
+        this.multiGame = multiGame;
+        this.port = port;
+    }
+
+
+    @Override
+    public void run ()
+    {
+        try(ServerSocket welcomingSocket = new ServerSocket(port))
         {
-            int players = 3;
-            GameLoopMulti game = new GameLoopMulti( players,
-                    100,100,100,clientHandlers);
+
+            GameLoopMulti game = new GameLoopMulti( multiGame.getNumberOfPlayers (),
+                    multiGame.getTankStamina (),multiGame.getCanonPower ()
+                    ,multiGame.getWallStamina (),clientHandlers);
             System.out.print("MultiGame.Server started.\nWaiting for a client ... ");
-            for(int i=1;i<=3;i++)
+            for(int i=1;i<=multiGame.getNumberOfPlayers ();i++)
             {
                 Socket connectionSocket = welcomingSocket.accept();
                 System.out.println("client accepted!");
                 ClientHandler clientHandler = new ClientHandler(connectionSocket,game);
                 clientHandlers.add(clientHandler);
+                multiGame.addUser (clientHandler.getUser ());
             }
 
             ThreadPoolMulti.init();
