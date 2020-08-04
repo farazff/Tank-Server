@@ -41,6 +41,11 @@ public class User implements Serializable
         return userName;
     }
 
+
+    public char[] getPassword () {
+        return password;
+    }
+
     public void setDefaultWallStamina (int defaultWallStamina) {
         this.defaultWallStamina = defaultWallStamina;
     }
