@@ -9,7 +9,7 @@ public class GameStatus implements Serializable
 {
 
     private ArrayList<String> winners;
-    private boolean gameOver;
+    private boolean gameOver,gameOverAll;
 
     private ArrayList<TankMulti> tanks;                 ////ok to serialize
     private InteractArrayListMulti<BulletMulti> bullets;     ////ok to serialize
@@ -22,6 +22,7 @@ public class GameStatus implements Serializable
                       MapsMulti maps, PrizesMulti prizes,int players)
     {
         winners = new ArrayList<>();
+        gameOverAll = false;
         gameOver = false;
         newPrize = false;
         usePrize = false;
@@ -42,6 +43,16 @@ public class GameStatus implements Serializable
         this.maps = maps;
         this.prizes = prizes;
         this.players = players;
+    }
+
+    public boolean isGameOverAll()
+    {
+        return gameOverAll;
+    }
+
+    public void setGameOverAll(boolean gameOverAll)
+    {
+        this.gameOverAll = gameOverAll;
     }
 
     public ArrayList<TankMulti> getTanks() {
