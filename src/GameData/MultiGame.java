@@ -14,6 +14,7 @@ public class MultiGame implements Serializable
     private final int canonPower;
     private int onlineUsersNumber;
     private ArrayList<User> onlineUsers;
+    private int port;
 
     public MultiGame (String name, GameFinishType gameFinishType,
                       GameMemberShipType gameMemberShipType, int numberOfPlayers,
@@ -28,6 +29,14 @@ public class MultiGame implements Serializable
         this.numberOfPlayers = numberOfPlayers;
         this.onlineUsersNumber = 0;
         onlineUsers = new ArrayList<> ();
+    }
+
+    public void setPort (int port) {
+        this.port = port;
+    }
+
+    public int getPort () {
+        return port;
     }
 
     public String getName () {

@@ -14,14 +14,14 @@ public class ServerInformation implements Serializable
     private static final int MAX_CAPACITY = 100;
     private int currentCapacity;
     private int numOfActiveGames;
-    private final HashMap<Integer,MultiGame> multiGames;
+    private final ArrayList<MultiGame> multiGames;
 
     public ServerInformation (String url, char[] password)
     {
         this.url = url;
         this.password = password;
 
-        this.multiGames = new HashMap<> ();
+        this.multiGames = new ArrayList<> ();
 
 
 
@@ -60,7 +60,8 @@ public class ServerInformation implements Serializable
 
                     in = new DataInputStream (socket.getInputStream ());
                     int res = in.readInt ();
-                    multiGames.put (res,multiGame);
+                    multiGame.setPort (res);
+                    multiGames.add (multiGame);
                     numOfActiveGames = multiGames.size ();
                 } catch (IllegalArgumentException e)
                 {
@@ -115,8 +116,8 @@ public class ServerInformation implements Serializable
         }
     }
 
-    public ArrayList<MultiGame> getMultiGamesValue () {
-        return new ArrayList<> (multiGames.values ());
+    public ArrayList<MultiGame> getMultiGames () {
+        return multiGames;
     }
 
     public MultiGame getMultiGame (int index)
@@ -130,7 +131,5 @@ public class ServerInformation implements Serializable
         }
     }
 
-    public HashMap<Integer, MultiGame> getMultiGames () {
-        return multiGames;
-    }
+
 }
