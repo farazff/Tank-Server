@@ -17,10 +17,12 @@ public class GameStatus implements Serializable
     private MapsMulti maps;								 ////ok to serialize
     private PrizesMulti prizes;							 ////ok to serialize
     private boolean newPrize , usePrize , shot , explode;
+    private ArrayList<String> names;
 
     public GameStatus(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
                       MapsMulti maps, PrizesMulti prizes,int players)
     {
+        names = new ArrayList<>();
         winners = new ArrayList<>();
         gameOverAll = false;
         gameOver = false;
@@ -36,8 +38,9 @@ public class GameStatus implements Serializable
     }
 
     public void update(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
-                      MapsMulti maps, PrizesMulti prizes,int players,int[] kills)
+                      MapsMulti maps, PrizesMulti prizes,int players,int[] kills,ArrayList<String> names)
     {
+        this.names = names;
         this.kills = kills;
         this.tanks = tanks;
         this.bullets = bullets;
@@ -139,6 +142,11 @@ public class GameStatus implements Serializable
     public int[] getKills()
     {
         return kills;
+    }
+
+    public ArrayList<String> getNames()
+    {
+        return names;
     }
 }
 

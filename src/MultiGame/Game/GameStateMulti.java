@@ -21,12 +21,14 @@ public class GameStateMulti implements Serializable
 	private PrizesMulti prizes;							 ////ok to serialize
 	private GameStatus status;
 	int[] kills;
+	private ArrayList<String> names;
 
 
 	public GameStateMulti(int players,int tankStamina,int canonPower,int wallStamina,
-						  ArrayList<ClientHandler> clientHandlers,int[] kills)
+						  ArrayList<ClientHandler> clientHandlers,int[] kills,ArrayList<String> names)
 	{
 		////not ok to serialize
+		this.names = names;
 		this.kills = kills;
 		this.players = players;
 		maps = new MapsMulti(wallStamina);
@@ -148,7 +150,7 @@ public class GameStateMulti implements Serializable
 			status.setGameOver(true);
 		}
 
-		status.update(tanks,bullets,maps,prizes,players,kills);
+		status.update(tanks,bullets,maps,prizes,players,kills,names);
 	}
 
 	public ArrayList<BulletMulti> getBullets () {
