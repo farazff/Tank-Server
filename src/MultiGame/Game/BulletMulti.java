@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class BulletMulti implements Runnable , Serializable
-
 {
+    int code;
     boolean done;
     private double x;  ////ok to serialize
     private static final int WALL_ACCURACY = 4; ////ok to serialize
@@ -28,11 +28,13 @@ public class BulletMulti implements Runnable , Serializable
     private ArrayList<WallMulti> walls;////ok to serialize
     private ArrayList<TankMulti> tanks;
     private boolean expired; ////ok to serialize
+    int[] kills;
 
     public BulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
-                   ArrayList<TankMulti> tanks , int canonPower)
+                   ArrayList<TankMulti> tanks , int canonPower,int code,int[] kills)
     {
-
+        this.kills = kills;
+        this.code = code;
         done = false;
         this.degree = degree;
         expired = false;
@@ -189,6 +191,10 @@ public class BulletMulti implements Runnable , Serializable
                 if ((getCenterX () <= tank.getLocX () + tank.getHeight () + TANK_ACCURACY) &&
                         getCenterX () >= tank.getLocX () - TANK_ACCURACY) {
                     tank.looseStamina (canonPower);
+                    if(tank.getStamina()<=0 && tank.code!=this.code)
+                    {
+                        kills[this.code-1]++;
+                    }
                     setExpired ();
                     return;
                 }

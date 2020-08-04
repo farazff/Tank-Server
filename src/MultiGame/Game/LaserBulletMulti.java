@@ -8,8 +8,8 @@ public class LaserBulletMulti extends BulletMulti implements Serializable
 {
 
     public LaserBulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
-                        ArrayList<TankMulti> tanks, int canonPower) {
-        super (x, y, degree, startTime, walls, tanks, canonPower);
+                        ArrayList<TankMulti> tanks, int canonPower,int code,int[] kills) {
+        super (x, y, degree, startTime, walls, tanks, canonPower,code,kills);
         super.setImageLoc ("./Images/Bullet/bulletRed1_outline.png");
     }
 

@@ -25,11 +25,13 @@ public class GameLoopMulti implements Runnable , Serializable
 	private int players,tankStamina,canonPower, wallStamina;
 	private ArrayList<ClientHandler> clientHandlers;
 	private int t;
+	int[] kills;
 
 	public GameLoopMulti( int players,
 						 int tankStamina, int canonPower, int wallStamina,
 						 ArrayList<ClientHandler> clientHandlers , int t)
 	{
+		kills = new int[players];
 		this.t = t;
 		this.clientHandlers = clientHandlers;
 		this.tankStamina = tankStamina;
@@ -45,7 +47,7 @@ public class GameLoopMulti implements Runnable , Serializable
 
 	public void init()
 	{
-		state = new GameStateMulti(players,tankStamina,canonPower, wallStamina,clientHandlers);
+		state = new GameStateMulti(players,tankStamina,canonPower, wallStamina,clientHandlers,kills);
 	}
 
 	@Override
