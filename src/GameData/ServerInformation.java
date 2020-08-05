@@ -7,6 +7,9 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * this class contains server's data
+ */
 public class ServerInformation implements Serializable
 {
     private final char[] password;
@@ -16,6 +19,11 @@ public class ServerInformation implements Serializable
     private int numOfActiveGames;
     private final ArrayList<MultiGame> multiGames;
 
+    /**
+     * creates a new Instance of ServerInformation
+     * @param url url
+     * @param password password
+     */
     public ServerInformation (String url, char[] password)
     {
         this.url = url;
@@ -28,22 +36,42 @@ public class ServerInformation implements Serializable
         currentCapacity = MAX_CAPACITY - numOfActiveGames;
     }
 
+    /**
+     *
+     * @return password of server
+     */
     public char[] getPassword () {
         return password;
     }
 
+    /**
+     *
+     * @return num of active games
+     */
     public int getNumOfActiveGames () {
         return numOfActiveGames;
     }
 
+    /**
+     *
+     * @return current capacity
+     */
     public int getCurrentCapacity () {
         return currentCapacity;
     }
 
+    /**
+     *
+     * @return url
+     */
     public String getUrl () {
         return url;
     }
 
+    /**
+     * adds a new multiGame
+     * @param multiGame multiGame
+     */
     public void addGame (MultiGame multiGame)
     {
         if (multiGame == null)
@@ -69,7 +97,7 @@ public class ServerInformation implements Serializable
                 }
                 catch (ConnectException e)
                 {
-                    System.err.println ("Couldn't connect to ServerInformation");
+                    System.err.println ("Couldn't connect to Server");
                 }
                 catch (SocketException e)
                 {
@@ -105,21 +133,19 @@ public class ServerInformation implements Serializable
         }).start ();
     }
 
-    public void removeMultiGame (int index)
-    {
-        try {
-            multiGames.remove (index);
-            numOfActiveGames = multiGames.size ();
-        } catch (IndexOutOfBoundsException e)
-        {
-            System.out.println ("Some Thing went Wrong in removing indexed multi game");
-        }
-    }
-
+    /**
+     *
+     * @return multiGames
+     */
     public ArrayList<MultiGame> getMultiGames () {
         return multiGames;
     }
 
+    /**
+     * get multiGame by index
+     * @param index index
+     * @return multiGame
+     */
     public MultiGame getMultiGame (int index)
     {
         try {

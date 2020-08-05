@@ -3,6 +3,9 @@ package GameData;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * this class represents a MultiGame in game
+ */
 public class MultiGame implements Serializable
 {
     private final String name;
@@ -13,9 +16,18 @@ public class MultiGame implements Serializable
     private final int wallStamina;
     private final int canonPower;
     private int onlineUsersNumber;
-    private ArrayList<User> onlineUsers;
     private int port;
 
+    /**
+     * creates a new Game
+     * @param name name of game
+     * @param gameFinishType gameFinishType of game
+     * @param gameMemberShipType gameMemberShipType if game
+     * @param numberOfPlayers numberOfPlayers of game
+     * @param tankStamina tankStamina
+     * @param wallStamina wallStamina
+     * @param canonPower canonPower
+     */
     public MultiGame (String name, GameFinishType gameFinishType,
                       GameMemberShipType gameMemberShipType, int numberOfPlayers,
                       int tankStamina, int wallStamina, int canonPower)
@@ -28,55 +40,92 @@ public class MultiGame implements Serializable
         this.wallStamina = wallStamina;
         this.numberOfPlayers = numberOfPlayers;
         this.onlineUsersNumber = 0;
-        onlineUsers = new ArrayList<> ();
     }
 
+    /**
+     * sets port for game
+     * @param port port
+     */
     public void setPort (int port) {
         this.port = port;
     }
 
+    /**
+     *
+     * @return port of game
+     */
     public int getPort () {
         return port;
     }
 
+    /**
+     *
+     * @return name of game
+     */
     public String getName () {
         return name;
     }
 
-    public void addUser (User user)
+    /**
+     * add User
+     */
+    public void addUser ()
     {
-        onlineUsers.add (user);
         onlineUsersNumber++;
     }
 
-    public ArrayList<User> getOnlineUsers () {
-        return onlineUsers;
-    }
-
+    /**
+     *
+     * @return number of online Users
+     */
     public int getOnlineUsersNumber () {
         return onlineUsersNumber;
     }
 
+    /**
+     *
+     * @return game finishType
+     */
     public GameFinishType getGameFinishType () {
         return gameFinishType;
     }
 
+    /**
+     *
+     * @return game memberShip type
+     */
     public GameMemberShipType getGameMemberShipType () {
         return gameMemberShipType;
     }
 
+    /**
+     *
+     * @return get canon power
+     */
     public int getCanonPower () {
         return canonPower;
     }
 
+    /**
+     *
+     * @return get number of players
+     */
     public int getNumberOfPlayers () {
         return numberOfPlayers;
     }
 
+    /**
+     *
+     * @return get tanks stamina
+     */
     public int getTankStamina () {
         return tankStamina;
     }
 
+    /**
+     *
+     * @return get Wall stamina
+     */
     public int getWallStamina () {
         return wallStamina;
     }
