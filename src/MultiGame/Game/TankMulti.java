@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
+/**
+ * the tank clss
+ */
+
 public class TankMulti implements Runnable , Serializable
 {
     int code;
@@ -25,6 +29,22 @@ public class TankMulti implements Runnable , Serializable
     private User user;
     int[] kills;
 
+    /**
+     * the constructor
+     * @param bullets bullets
+     * @param walls walls
+     * @param tanks tanks
+     * @param prizes prizes
+     * @param tankStamina tank stamina
+     * @param canonPower canon power
+     * @param maps maps
+     * @param data data
+     * @param number number
+     * @param status status
+     * @param user user
+     * @param code code
+     * @param kills kills
+     */
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
                       PrizesMulti prizes,
                       int tankStamina, int canonPower , MapsMulti maps ,
@@ -73,6 +93,10 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     * lose stamina
+     * @param damage the amount of damage
+     */
     public void looseStamina (int damage)
     {
         if(!hasProtection)
@@ -104,6 +128,10 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     *
+     * @return user field
+     */
     public User getUser () {
         return user;
     }
@@ -202,6 +230,13 @@ public class TankMulti implements Runnable , Serializable
         return ans;
     }
 
+    /**
+     * check if the place is empty on the map
+     * @param forX x
+     * @param forY y
+     * @param dir dir
+     * @return true if empty an false otherwise
+     */
     public boolean isEmpty(int forX , int forY , int dir)
     {
         boolean ans = true;
@@ -229,6 +264,9 @@ public class TankMulti implements Runnable , Serializable
         return ans;
     }
 
+    /**
+     * check if the tank can get any prize
+     */
     public void checkPrize()
     {
         for(PrizeMulti prize : prizes.getPrizes())
@@ -391,9 +429,9 @@ public class TankMulti implements Runnable , Serializable
         return true;
     }
 
-
-
-
+    /**
+     * update the tank in every frame
+     */
     public void update()
     {
         done = false;
