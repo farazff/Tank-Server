@@ -40,6 +40,7 @@ public class GameLoopMulti implements Runnable , Serializable
 						  int tankStamina, int canonPower, int wallStamina,
 						  ArrayList<ClientHandler> clientHandlers , int t)
 	{
+		names = new ArrayList<>();
 		kills = new int[players];
 		this.t = t;
 		this.clientHandlers = clientHandlers;
