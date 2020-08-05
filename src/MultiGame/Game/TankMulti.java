@@ -289,6 +289,109 @@ public class TankMulti implements Runnable , Serializable
     }
 
 
+    /**
+     * check if the tank can move
+     * @param forX the distance of x
+     * @param forY the distance of y
+     * @return true it the tank can move
+     */
+    public boolean canMove(int forX , int forY)
+    {
+
+
+        int tankX = locX + width/2;
+        int tankY = locY + height/2;
+
+
+        for(WallMulti wall : walls)
+        {
+            if(wall.getType().equals("H"))
+            {
+
+                int disStart = (wall.getX()-tankX)*(wall.getX()-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disStart<=700)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disStart)
+                        return false;
+                }
+
+                int disEnd = ((wall.getX()+wall.getLength())-tankX)*((wall.getX()+wall.getLength())-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disEnd<=1700)
+                {
+                    int dis2 = ((wall.getX()+wall.getLength())-(tankX+forX))*((wall.getX()+wall.getLength())-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disEnd)
+                        return false;
+                }
+
+                if(tankX >= wall.getX() && tankX <= (wall.getX() + wall.getLength()))
+                {
+                    //tank upper than wall
+                    if( tankY+20 < wall.getY() && wall.getY()-(tankY+40)<=20 )
+                    {
+                        if( wall.getY() <= (tankY+20 + forY) )
+                        {
+                            return false;
+                        }
+                    }
+
+                    //tank lower than wall
+                    if( (tankY-35) > wall.getY() && (tankY-35)-wall.getY()<=25 )
+                    {
+                        if( wall.getY() >= (tankY - 35 + forY) )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            if(wall.getType().equals("V"))
+            {
+
+                int disStart = (wall.getX()-tankX)*(wall.getX()-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disStart<=700)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disStart)
+                        return false;
+                }
+
+                int disEnd = (wall.getX()-tankX)*(wall.getX()-tankX) + ((wall.getY()+wall.getLength())-tankY)*((wall.getY()+wall.getLength())-tankY);
+                if(disEnd<=3600)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + ((wall.getY()+wall.getLength())-(tankY+forY))*((wall.getY()+wall.getLength())-(tankY+forY));
+                    if(dis2<disEnd)
+                        return false;
+                }
+
+
+                if(tankY >= wall.getY() && tankY <= (wall.getY() + wall.getLength()))
+                {
+                    //tank at the left side of the wall
+                    if( tankX+20 < wall.getX() && wall.getX()-(tankX+40)<=20 )
+                    {
+                        if( wall.getX() <= (tankX+20 + forX) )
+                        {
+                            return false;
+                        }
+                    }
+
+                    //tank lower than wall
+                    if( (tankX-35) > wall.getX() && (tankX-35)-wall.getX()<=25 )
+                    {
+                        if( wall.getX() >= (tankX - 35 + forX) )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
 
 
     public void update()
@@ -357,12 +460,12 @@ public class TankMulti implements Runnable , Serializable
         int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
         int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));
 
-        if(keyUP && canMoveForward() && isEmpty(forX,forY,1))
+        if(keyUP && canMove(forX , forY) && isEmpty(forX,forY,1))
         {
             this.addLocX(forX);
             this.addLocY(forY);
         }
-        if(keyDOWN && canMoveBackward() && isEmpty(forX,forY,-1))
+        if(keyDOWN && canMove(-1*forX , -1*forY) && isEmpty(forX,forY,-1))
         {
             this.addLocX(-1*forX);
             this.addLocY(-1*forY);

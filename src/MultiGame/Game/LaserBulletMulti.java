@@ -112,8 +112,13 @@ public class LaserBulletMulti extends BulletMulti implements Serializable
             if ((getCenterY () <= tank.getLocY () + tank.getHeight () + getTankAccuracy ()) &&
                     getCenterY () >= tank.getLocY () - 3) {
                 if ((getCenterX () <= tank.getLocX () + tank.getHeight () + getTankAccuracy ()) &&
-                        getCenterX () >= tank.getLocX () - getTankAccuracy ()) {
+                        getCenterX () >= tank.getLocX () - getTankAccuracy ())
+                {
                     tank.looseStamina (tank.getStamina ());
+                    if(tank.getStamina()<=0 && tank.code!=this.code)
+                    {
+                        kills[this.code-1]++;
+                    }
                     return;
                 }
             }
