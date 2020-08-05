@@ -17,6 +17,7 @@ public class MultiGame implements Serializable
     private final int canonPower;
     private int onlineUsersNumber;
     private int port;
+    private boolean expired;
 
     /**
      * creates a new Game
@@ -40,6 +41,23 @@ public class MultiGame implements Serializable
         this.wallStamina = wallStamina;
         this.numberOfPlayers = numberOfPlayers;
         this.onlineUsersNumber = 0;
+        this.expired = false;
+    }
+
+    /**
+     * set expired
+     * @param expired expired
+     */
+    public void setExpired (boolean expired) {
+        this.expired = expired;
+    }
+
+    /**
+     *
+     * @return isExpired
+     */
+    public boolean isExpired () {
+        return expired;
     }
 
     /**
