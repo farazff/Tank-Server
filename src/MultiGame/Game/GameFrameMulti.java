@@ -11,7 +11,16 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+/**
+ * The window on which the rendering is performed.
+ * This example uses the modern BufferStrategy approach for double-buffering,
+ * actually it performs triple-buffering!
+ * For more information on BufferStrategy check out:
+ *    http://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
+ *    http://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferStrategy.html
+ *
+ * @author Seyed Mohammad Ghaffarian
+ */
 public class GameFrameMulti extends JFrame implements Serializable
 {
 	public static final int GAME_HEIGHT = 720;                  // 720p game resolution
@@ -24,11 +33,18 @@ public class GameFrameMulti extends JFrame implements Serializable
 	private BufferedImage theme,wallNDH,wallDH,wallNDV,wallDV,img;
 	private BufferedImage one,two,three,four,five,destroy,fire;
 
+	/**
+	 *
+	 * @return get image
+	 */
 	public BufferedImage getImg() {
 		return img;
 	}
 
-
+	/**
+	 * creates new game frame
+	 * @param title title
+	 */
 	public GameFrameMulti(String title)
 	{
 		super(title);
@@ -124,10 +140,10 @@ public class GameFrameMulti extends JFrame implements Serializable
 			{
 				if (tank.isFireDestroyed ())
 				{
-//					Music music = new Music();
-//					music.setFilePath("Files/Sounds/Blast.au",false);
-//					music.execute();
-//
+					Music music = new Music();
+					music.setFilePath("Files/Sounds/Blast.au",false);
+					music.execute();
+
 
 					BufferedImage image1 = destroy;
 					g2d.drawImage (image1, tank.getCenterX () - image1.getWidth () / 2 + 3,
@@ -356,6 +372,12 @@ public class GameFrameMulti extends JFrame implements Serializable
 
 	}
 
+	/**
+	 * rotate image from center of pic
+	 * @param sourceImage sourceImage
+	 * @param angle angle
+	 * @return rotated pic
+	 */
 	private BufferedImage rotateImage(BufferedImage sourceImage, double angle)
 	{
 		int width = sourceImage.getWidth();
@@ -371,6 +393,12 @@ public class GameFrameMulti extends JFrame implements Serializable
 		return destImage;
 	}
 
+	/**
+	 * rotate image from x , y  of edge of pic
+	 * @param img img
+	 * @param angle angle
+	 * @return rotated pic
+	 */
 	public BufferedImage rotateImageBullet(BufferedImage img, double angle) {
 
 		double rads = Math.toRadians(angle);
@@ -396,6 +424,11 @@ public class GameFrameMulti extends JFrame implements Serializable
 		return rotated;
 	}
 
+	/**
+	 * draws roads
+	 * @param g2d g2d
+	 * @throws IOException IOException
+	 */
 	public void drawRoads(Graphics2D g2d) throws IOException
 	{
 		g2d.drawImage(theme,5,31,null);

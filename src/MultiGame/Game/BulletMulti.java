@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/**
+ * this class represents Bullet in game : serialized
+ */
 public class BulletMulti implements Runnable , Serializable
 {
     int code;
@@ -30,8 +32,20 @@ public class BulletMulti implements Runnable , Serializable
     private boolean expired; ////ok to serialize
     int[] kills;
 
+    /**
+     * creating new bullet
+     * @param x the x coordinate of the bullet
+     * @param y the y coordinate of the bullet
+     * @param degree the degree of the bullet
+     * @param startTime starting time of the bullet
+     * @param walls list of all walls
+     * @param tanks the list of all tanks
+     * @param canonPower the power of every bullet
+     * @param code the code of the bullet
+     * @param kills kills array
+     */
     public BulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
-                   ArrayList<TankMulti> tanks , int canonPower,int code,int[] kills)
+                        ArrayList<TankMulti> tanks , int canonPower,int code,int[] kills)
     {
         this.kills = kills;
         this.code = code;
@@ -60,10 +74,18 @@ public class BulletMulti implements Runnable , Serializable
         height = image.getHeight ();
     }
 
+    /**
+     * set image location
+     * @param imageLoc imageLoc
+     */
     public void setImageLoc(String imageLoc) {
         this.imageLoc = imageLoc;
     }
 
+    /**
+     * find the quarter of the bullet
+     * @param degree the degree of the bullet
+     */
     private void findQuarterAndM (double degree)
     {
         degree = Math.abs (degree);
@@ -89,15 +111,26 @@ public class BulletMulti implements Runnable , Serializable
             this.m = "" + Math.abs (Math.tan (Math.toRadians (degree)));
     }
 
+    /**
+     * get the x center of the bullet
+     * @return the x center of the bullet
+     */
     public int getCenterX ()  {
 
         return (int)x + width/2;
     }
 
+    /**
+     * get the y center of the bullet
+     * @return the y center of the bullet
+     */
     public int getCenterY () {
         return (int)y + height/2;
     }
 
+    /**
+     * check if the bullet reflects from wall or it destroys any tank
+     */
     protected void checkCoincidence ()
     {
         Iterator<WallMulti> walls = this.walls.iterator ();
@@ -109,10 +142,10 @@ public class BulletMulti implements Runnable , Serializable
             if(wall.getType ().equals ("H"))
             {
                 if ((getCenterX () < wall.getX () + wall.getLength () + WALL_ACCURACY) &&
-                    getCenterX () > wall.getX () - WALL_ACCURACY)
+                        getCenterX () > wall.getX () - WALL_ACCURACY)
                 {
                     if ((getCenterY () <= wall.getY () + wall.getThick () + WALL_ACCURACY) &&
-                        getCenterY () >= wall.getY () - WALL_ACCURACY)
+                            getCenterY () >= wall.getY () - WALL_ACCURACY)
                     {
                         if (wall.isDestructible ())
                         {
@@ -146,10 +179,10 @@ public class BulletMulti implements Runnable , Serializable
             else
             {
                 if ((getCenterY () < wall.getY () + wall.getLength () + WALL_ACCURACY) &&
-                    getCenterY () > wall.getY () - 3)
+                        getCenterY () > wall.getY () - 3)
                 {
                     if ((getCenterX () <= wall.getX () + wall.getThick () + WALL_ACCURACY) &&
-                        getCenterX () >= wall.getX () - WALL_ACCURACY)
+                            getCenterX () >= wall.getX () - WALL_ACCURACY)
                     {
                         if (wall.isDestructible ())
                         {
@@ -204,31 +237,58 @@ public class BulletMulti implements Runnable , Serializable
 
     }
 
+    /**
+     * get the canon power
+     * @return canonPower Filed
+     */
     public int getCanonPower () {
         return canonPower;
     }
 
+    /**
+     * get the list of all tanks
+     * @return tanks field
+     */
     public ArrayList<TankMulti> getTanks () {
         return tanks;
     }
 
+    /**
+     * get the list of all walls
+     * @return thw walls field
+     */
     public ArrayList<WallMulti> getWalls () {
         return walls;
     }
 
+    /**
+     *
+     * @return get WallAccuracy
+     */
     public static int getWallAccuracy () {
         return WALL_ACCURACY;
     }
 
+    /**
+     *
+     * @return get TankAccuracy
+     */
     public static int getTankAccuracy () {
         return TANK_ACCURACY;
     }
 
+    /**
+     * set expired true means the bullet is not active any more
+     */
     protected void setExpired ()
     {
         expired = true;
     }
 
+    /**
+     * reflecting the bullet when it hits any wall
+     * @param axis the axis of the bullet
+     */
     protected void mirrorBack (String axis)
     {
         if (axis == null)
@@ -248,6 +308,9 @@ public class BulletMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     * updating the bullet by checking if it hits any wall or tank
+     */
     private void update ()
     {
         done = false;
@@ -347,16 +410,28 @@ public class BulletMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     * give Expired info about the bullet
+     * @return true if it is expired and false otherwise
+     */
     public boolean hasExpired ()
     {
         return System.currentTimeMillis () - startTime >= 3500 ||
                 expired;
     }
 
+    /**
+     * get the star time of the tank
+     * @return the startTime filed
+     */
     public long getStartTime () {
         return startTime;
     }
 
+    /**
+     *
+     * @return is bullet expired in hits
+     */
     public boolean getHandExpired ()
     {
         return expired;
@@ -367,18 +442,34 @@ public class BulletMulti implements Runnable , Serializable
         update ();
     }
 
+    /**
+     * get the x coordinate of the bullet
+     * @return the X filed
+     */
     public int getX () {
         return ((int)x);
     }
 
+    /**
+     * get the Y coordinate of the bullet
+     * @return the Y filed
+     */
     public int getY () {
         return ((int)y);
     }
 
+    /**
+     * get the degree of the bullet
+     * @return the degree filed
+     */
     public double getDegree () {
         return degree;
     }
 
+    /**
+     * get the location of image of the bullet
+     * @return the location of image filed
+     */
     public String getImageLoc()
     {
         return imageLoc;

@@ -10,7 +10,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * This class holds the state of game and all of its elements.
+ * This class also handles user inputs, which affect the game state.
+ *
+ * @author Seyed Mohammad Ghaffarian
+ */
 public class GameStateMulti implements Serializable
 {
 
@@ -24,6 +29,16 @@ public class GameStateMulti implements Serializable
 	private ArrayList<String> names;
 
 
+	/**
+	 *  creates new game state
+	 * @param players players
+	 * @param tankStamina tankStamina
+	 * @param canonPower canonPower
+	 * @param wallStamina wallStamina
+	 * @param clientHandlers clientHandlers
+	 * @param kills kills
+	 * @param names names
+	 */
 	public GameStateMulti(int players,int tankStamina,int canonPower,int wallStamina,
 						  ArrayList<ClientHandler> clientHandlers,int[] kills,ArrayList<String> names)
 	{
@@ -49,26 +64,45 @@ public class GameStateMulti implements Serializable
 		gameOver = 0;
 	}
 
+	/**
+	 * add prize
+	 */
 	public void addPrize()
 	{
 		prizes.putPrize();
 	}
 
+	/**
+	 *
+	 * @return get Status
+	 */
 	public GameStatus getStatus()
 	{
 		return status;
 	}
 
+	/**
+	 *
+	 * @return get Prizes
+	 */
 	public PrizesMulti getPrizes()
 	{
 		return prizes;
 	}
 
+	/**
+	 *
+	 * @return get Tanks
+	 */
 	public ArrayList<TankMulti> getTanks ()
 	{
 		return tanks;
 	}
 
+	/**
+	 *
+	 * @return get Maps
+	 */
 	public MapsMulti getMaps()
 	{
 		return maps;
@@ -153,6 +187,10 @@ public class GameStateMulti implements Serializable
 		status.update(tanks,bullets,maps,prizes,players,kills,names);
 	}
 
+	/**
+	 *
+	 * @return get Bullets
+	 */
 	public ArrayList<BulletMulti> getBullets () {
 		return bullets;
 	}

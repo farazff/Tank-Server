@@ -3,7 +3,6 @@ package MultiGame.Game;
 import MultiGame.Server.ClientHandler;
 import MultiGame.Status.GameStatus;
 
-import java.awt.font.TextHitInfo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,11 +27,19 @@ public class GameLoopMulti implements Runnable , Serializable
 	int[] kills;
 	ArrayList<String> names;
 
+	/**
+	 * create a game loop
+	 * @param players players
+	 * @param tankStamina tankStamina
+	 * @param canonPower canonPower
+	 * @param wallStamina wallStamina
+	 * @param clientHandlers  clientHandlers
+	 * @param t time
+	 */
 	public GameLoopMulti( int players,
-						 int tankStamina, int canonPower, int wallStamina,
-						 ArrayList<ClientHandler> clientHandlers , int t)
+						  int tankStamina, int canonPower, int wallStamina,
+						  ArrayList<ClientHandler> clientHandlers , int t)
 	{
-		names = new ArrayList<>();
 		kills = new int[players];
 		this.t = t;
 		this.clientHandlers = clientHandlers;
@@ -42,11 +49,18 @@ public class GameLoopMulti implements Runnable , Serializable
 		this.players = players;
 	}
 
+	/**
+	 *
+	 * @return get State
+	 */
 	public GameStateMulti getState()
 	{
 		return state;
 	}
 
+	/**
+	 * This must be called before the game loop starts.
+	 */
 	public void init()
 	{
 		state = new GameStateMulti(players,tankStamina,canonPower, wallStamina,clientHandlers,kills,names);

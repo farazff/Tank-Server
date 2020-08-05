@@ -2,7 +2,10 @@ package MultiGame.Game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * this class will reduce concurrent modification
+ * @param <E> any Thing
+ */
 public class InteractArrayListMulti <E> extends ArrayList<E> implements Serializable
 {
 
@@ -24,6 +27,10 @@ public class InteractArrayListMulti <E> extends ArrayList<E> implements Serializ
         return super.add (e);
     }
 
+    /**
+     * sets Iterate that means now the list is iterating
+     * @param iterate iterate
+     */
     public void setIterate (boolean iterate) {
         this.iterate = iterate;
     }

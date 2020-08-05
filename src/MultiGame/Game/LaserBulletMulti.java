@@ -3,12 +3,26 @@ package MultiGame.Game;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+/**
+ * this class represents laser
+ */
 public class LaserBulletMulti extends BulletMulti implements Serializable
 {
 
+    /**
+     * creates laser
+     * @param x x
+     * @param y y
+     * @param degree degree
+     * @param startTime startTime
+     * @param walls walls
+     * @param tanks tanks
+     * @param canonPower canonPower
+     * @param code code
+     * @param kills kills
+     */
     public LaserBulletMulti (int x, int y, double degree, long startTime, ArrayList<WallMulti> walls,
-                        ArrayList<TankMulti> tanks, int canonPower,int code,int[] kills) {
+                             ArrayList<TankMulti> tanks, int canonPower,int code,int[] kills) {
         super (x, y, degree, startTime, walls, tanks, canonPower,code,kills);
         super.setImageLoc ("./Images/Bullet/bulletRed1_outline.png");
     }
