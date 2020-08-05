@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * the tank clss
+ * the tank class
  */
 
 public class TankMulti implements Runnable , Serializable
@@ -136,6 +136,10 @@ public class TankMulti implements Runnable , Serializable
         return user;
     }
 
+    /**
+     * check if the tank can move forward
+     * @return true if it can and false otherwise
+     */
     public boolean canMoveForward()
     {
         boolean ans = true;
@@ -181,6 +185,10 @@ public class TankMulti implements Runnable , Serializable
         return ans;
     }
 
+    /**
+     * check if the tank can move backward
+     * @return true if it can and false otherwise
+     */
     public boolean canMoveBackward()
     {
         boolean ans = true;
@@ -531,6 +539,10 @@ public class TankMulti implements Runnable , Serializable
         this.update();
     }
 
+    /**
+     * check if FireDestroyed
+     * @return fireDestroyed field
+     */
     public boolean isFireDestroyed ()
     {
         return fireDestroyed;

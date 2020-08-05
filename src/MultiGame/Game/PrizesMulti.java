@@ -4,12 +4,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * this class handles all of the prizes
+ */
+
 public class PrizesMulti implements Serializable
 {
     private ArrayList<PrizeMulti> prizes;  ////ok to serialize
     private ArrayList<TankMulti> tanks;////ok to serialize
     private MapsMulti maps;  ////ok to serialize
 
+    /**
+     * constructor  the prize class
+     * @param maps
+     * @param tanks
+     */
     public PrizesMulti(MapsMulti maps , ArrayList<TankMulti> tanks)
     {
         prizes = new ArrayList<>();
@@ -17,6 +26,9 @@ public class PrizesMulti implements Serializable
         this.tanks = tanks;
     }
 
+    /**
+     * put the prize of the map
+     */
     public void putPrize()
     {
 
@@ -35,6 +47,12 @@ public class PrizesMulti implements Serializable
 
     }
 
+    /**
+     * check if the place is empty of tge map
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @return true if it is empty and false otherwise
+     */
     public boolean isEmpty(int x ,int y)
     {
         for(int i=0;i<tanks.size();i++)
@@ -86,6 +104,10 @@ public class PrizesMulti implements Serializable
         return true;
     }
 
+    /**
+     * get list of all prizes
+     * @return the prizes field
+     */
     public ArrayList<PrizeMulti> getPrizes()
     {
         return prizes;

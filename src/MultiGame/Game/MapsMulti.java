@@ -9,6 +9,10 @@ import java.util.Objects;
 import java.util.Random;
 import MultiGame.Game.GraphMulti.*;
 
+/**
+ * this class handles map creating
+ */
+
 public class MapsMulti implements Serializable
 {
     private ArrayList<WallMulti> walls;   ////ok to serialize
@@ -24,11 +28,19 @@ public class MapsMulti implements Serializable
     private int houseY;  ////ok to serialize
     private int wallStamina;  ////ok to serialize
 
+    /**
+     * get the walls of the map
+     * @return
+     */
     public ArrayList<WallMulti> getWalls()
     {
         return walls;
     }
 
+    /**
+     * constructor of the Map class
+     * @param wallStamina the stamina of the walls
+     */
     public MapsMulti(int wallStamina)
     {
         this.wallStamina = wallStamina;
@@ -67,7 +79,9 @@ public class MapsMulti implements Serializable
         return isOk[yy][xx];
     }
 
-
+    /**
+     * this class converts map to graph
+     */
     public void createGraph()
     {
         int vertexNum = (data.size()-1)/2 * (data.get(0).size()-1)/2;
@@ -159,6 +173,10 @@ public class MapsMulti implements Serializable
 
     }
 
+
+    /**
+     * create the walls
+     */
     public void createWalls()
     {
         for(int j=0;j<data.size();j++)
@@ -199,6 +217,9 @@ public class MapsMulti implements Serializable
     }
 
 
+    /**
+     * read a random map form files
+     */
     public void readFromFile()
     {
 
