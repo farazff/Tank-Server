@@ -43,7 +43,7 @@ public class Server implements Runnable
                 System.out.println("client accepted! with port " + port);
                 ClientHandler clientHandler = new ClientHandler(connectionSocket,game);
                 clientHandlers.add(clientHandler);
-                multiGame.addUser (clientHandler.getUser ());
+                multiGame.addUser ();
             }
 
             ThreadPoolMulti.init();
