@@ -117,8 +117,10 @@ public class LaserBulletMulti extends BulletMulti implements Serializable
                     tank.looseStamina (tank.getStamina ());
                     if(tank.getStamina()<=0 && tank.code!=this.code)
                     {
+                        System.out.println("Laseeer");
                         kills[this.code-1]++;
                     }
+                    setExpired();
                     return;
                 }
             }
