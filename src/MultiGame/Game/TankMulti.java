@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
+/**
+ * the tank clss
+ */
+
 public class TankMulti implements Runnable , Serializable
 {
     int code;
@@ -25,6 +29,22 @@ public class TankMulti implements Runnable , Serializable
     private User user;
     int[] kills;
 
+    /**
+     * the constructor
+     * @param bullets bullets
+     * @param walls walls
+     * @param tanks tanks
+     * @param prizes prizes
+     * @param tankStamina tank stamina
+     * @param canonPower canon power
+     * @param maps maps
+     * @param data data
+     * @param number number
+     * @param status status
+     * @param user user
+     * @param code code
+     * @param kills kills
+     */
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
                       PrizesMulti prizes,
                       int tankStamina, int canonPower , MapsMulti maps ,
@@ -73,6 +93,10 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     * lose stamina
+     * @param damage the amount of damage
+     */
     public void looseStamina (int damage)
     {
         if(!hasProtection)
@@ -104,6 +128,10 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     *
+     * @return user field
+     */
     public User getUser () {
         return user;
     }
@@ -202,6 +230,13 @@ public class TankMulti implements Runnable , Serializable
         return ans;
     }
 
+    /**
+     * check if the place is empty on the map
+     * @param forX x
+     * @param forY y
+     * @param dir dir
+     * @return true if empty an false otherwise
+     */
     public boolean isEmpty(int forX , int forY , int dir)
     {
         boolean ans = true;
@@ -229,6 +264,9 @@ public class TankMulti implements Runnable , Serializable
         return ans;
     }
 
+    /**
+     * check if the tank can get any prize
+     */
     public void checkPrize()
     {
         for(PrizeMulti prize : prizes.getPrizes())
@@ -289,8 +327,111 @@ public class TankMulti implements Runnable , Serializable
     }
 
 
+    /**
+     * check if the tank can move
+     * @param forX the distance of x
+     * @param forY the distance of y
+     * @return true it the tank can move
+     */
+    public boolean canMove(int forX , int forY)
+    {
 
 
+        int tankX = locX + width/2;
+        int tankY = locY + height/2;
+
+
+        for(WallMulti wall : walls)
+        {
+            if(wall.getType().equals("H"))
+            {
+
+                int disStart = (wall.getX()-tankX)*(wall.getX()-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disStart<=700)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disStart)
+                        return false;
+                }
+
+                int disEnd = ((wall.getX()+wall.getLength())-tankX)*((wall.getX()+wall.getLength())-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disEnd<=1700)
+                {
+                    int dis2 = ((wall.getX()+wall.getLength())-(tankX+forX))*((wall.getX()+wall.getLength())-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disEnd)
+                        return false;
+                }
+
+                if(tankX >= wall.getX() && tankX <= (wall.getX() + wall.getLength()))
+                {
+                    //tank upper than wall
+                    if( tankY+20 < wall.getY() && wall.getY()-(tankY+40)<=20 )
+                    {
+                        if( wall.getY() <= (tankY+20 + forY) )
+                        {
+                            return false;
+                        }
+                    }
+
+                    //tank lower than wall
+                    if( (tankY-35) > wall.getY() && (tankY-35)-wall.getY()<=25 )
+                    {
+                        if( wall.getY() >= (tankY - 35 + forY) )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            if(wall.getType().equals("V"))
+            {
+
+                int disStart = (wall.getX()-tankX)*(wall.getX()-tankX) + (wall.getY()-tankY)*(wall.getY()-tankY);
+                if(disStart<=700)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + (wall.getY()-(tankY+forY))*(wall.getY()-(tankY+forY));
+                    if(dis2<disStart)
+                        return false;
+                }
+
+                int disEnd = (wall.getX()-tankX)*(wall.getX()-tankX) + ((wall.getY()+wall.getLength())-tankY)*((wall.getY()+wall.getLength())-tankY);
+                if(disEnd<=3600)
+                {
+                    int dis2 = (wall.getX()-(tankX+forX))*(wall.getX()-(tankX+forX)) + ((wall.getY()+wall.getLength())-(tankY+forY))*((wall.getY()+wall.getLength())-(tankY+forY));
+                    if(dis2<disEnd)
+                        return false;
+                }
+
+
+                if(tankY >= wall.getY() && tankY <= (wall.getY() + wall.getLength()))
+                {
+                    //tank at the left side of the wall
+                    if( tankX+20 < wall.getX() && wall.getX()-(tankX+40)<=20 )
+                    {
+                        if( wall.getX() <= (tankX+20 + forX) )
+                        {
+                            return false;
+                        }
+                    }
+
+                    //tank lower than wall
+                    if( (tankX-35) > wall.getX() && (tankX-35)-wall.getX()<=25 )
+                    {
+                        if( wall.getX() >= (tankX - 35 + forX) )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * update the tank in every frame
+     */
     public void update()
     {
         done = false;
@@ -357,12 +498,12 @@ public class TankMulti implements Runnable , Serializable
         int forX = (int) (6 * Math.cos (Math.toRadians (this.getDegree ())));
         int forY = (int) (6 * Math.sin (Math.toRadians (this.getDegree ())));
 
-        if(keyUP && canMoveForward() && isEmpty(forX,forY,1))
+        if(keyUP && canMove(forX , forY) && isEmpty(forX,forY,1))
         {
             this.addLocX(forX);
             this.addLocY(forY);
         }
-        if(keyDOWN && canMoveBackward() && isEmpty(forX,forY,-1))
+        if(keyDOWN && canMove(-1*forX , -1*forY) && isEmpty(forX,forY,-1))
         {
             this.addLocX(-1*forX);
             this.addLocY(-1*forY);

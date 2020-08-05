@@ -9,12 +9,22 @@ import java.net.ServerSocket;
 import java.net.*;
 import java.util.ArrayList;
 
+/**
+ * this class handles a single game
+ */
+
 public class Server implements Runnable
 {
 
     private ArrayList<ClientHandler> clientHandlers;
     private MultiGame multiGame;
     private int port;
+
+    /**
+     * the constructor
+     * @param multiGame thr game info
+     * @param port the port of the sockrt
+     */
     public Server (MultiGame multiGame, int port)
     {
         clientHandlers = new ArrayList<> ();

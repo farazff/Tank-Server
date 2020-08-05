@@ -11,6 +11,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+/**
+ * this class handles  single multiPlayer game
+ */
+
 public class ClientHandler implements Runnable
 {
     boolean active;
@@ -19,11 +23,19 @@ public class ClientHandler implements Runnable
     private boolean wait;
     private User user;
 
+    /**
+     * get data of the game
+     * @return data field
+     */
     public ArrayList<Character> getData()
     {
         return data;
     }
 
+    /**
+     * get the use
+     * @return user field
+     */
     public User getUser ()
     {
         return user;
@@ -91,6 +103,10 @@ public class ClientHandler implements Runnable
         return wait;
     }
 
+    /**
+     * check if ClientHandler is active or not
+     * @return active field
+     */
     public boolean isActive()
     {
         return active;
