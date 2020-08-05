@@ -10,6 +10,7 @@ import java.util.*;
 
 public class TankMulti implements Runnable , Serializable
 {
+    int code;
     boolean done;
     private int locX,locY,stamina,degree,height,width ,canonPower,number;  ////ok to serialize
     private String bulletType;   ////ok to serialize
@@ -22,12 +23,15 @@ public class TankMulti implements Runnable , Serializable
     private ArrayList<Character> data;  ////ok to serialize
     private GameStatus status;
     private User user;
+    int[] kills;
 
     public TankMulti (ArrayList<BulletMulti> bullets, ArrayList<WallMulti> walls, ArrayList<TankMulti> tanks,
                       PrizesMulti prizes,
                       int tankStamina, int canonPower , MapsMulti maps ,
-                      ArrayList<Character> data, int number, GameStatus status, User user)
+                      ArrayList<Character> data, int number, GameStatus status, User user,int code,int[] kills)
     {
+        this.kills = kills;
+        this.code = code;
         this.status = status;
         done = false;
         this.number= number;
@@ -315,12 +319,12 @@ public class TankMulti implements Runnable , Serializable
                 if (getBulletType ().equals ("Laser"))
                 {
                     bullets.add (new LaserBulletMulti (getCanonStartX (), getCanonStartY (),
-                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
+                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower,this.code,kills));
                     setBulletType ("Normal");
                 } else
                 {
                     bullets.add (new BulletMulti (getCanonStartX (), getCanonStartY (),
-                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower));
+                            getDegree (), System.currentTimeMillis (), walls, tanks,canonPower,this.code,kills));
                 }
 
                 canShot = false;

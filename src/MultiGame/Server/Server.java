@@ -1,5 +1,6 @@
 package MultiGame.Server;
 
+import GameData.GameFinishType;
 import GameData.MultiGame;
 import MultiGame.Game.*;
 
@@ -28,9 +29,13 @@ public class Server implements Runnable
         try(ServerSocket welcomingSocket = new ServerSocket(port))
         {
 
+            int type = 5;
+            if(multiGame.getGameFinishType() == GameFinishType.DEATH_MATCH)
+                type = 1;
+
             GameLoopMulti game = new GameLoopMulti( multiGame.getNumberOfPlayers (),
                     multiGame.getTankStamina (),multiGame.getCanonPower ()
-                    ,multiGame.getWallStamina (),clientHandlers);
+                    ,multiGame.getWallStamina (),clientHandlers,type);
             System.out.println("MultiGame.Server started with port " + port);
             for(int i=1;i<=multiGame.getNumberOfPlayers ();i++)
             {

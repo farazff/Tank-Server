@@ -9,19 +9,22 @@ public class GameStatus implements Serializable
 {
 
     private ArrayList<String> winners;
-    private boolean gameOver;
-
+    private boolean gameOver,gameOverAll;
+    private int[] kills;
     private ArrayList<TankMulti> tanks;                 ////ok to serialize
     private InteractArrayListMulti<BulletMulti> bullets;     ////ok to serialize
     public int players;                  ////ok to serialize
     private MapsMulti maps;								 ////ok to serialize
     private PrizesMulti prizes;							 ////ok to serialize
     private boolean newPrize , usePrize , shot , explode;
+    private ArrayList<String> names;
 
     public GameStatus(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
                       MapsMulti maps, PrizesMulti prizes,int players)
     {
+        names = new ArrayList<>();
         winners = new ArrayList<>();
+        gameOverAll = false;
         gameOver = false;
         newPrize = false;
         usePrize = false;
@@ -35,13 +38,25 @@ public class GameStatus implements Serializable
     }
 
     public void update(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
-                      MapsMulti maps, PrizesMulti prizes,int players)
+                      MapsMulti maps, PrizesMulti prizes,int players,int[] kills,ArrayList<String> names)
     {
+        this.names = names;
+        this.kills = kills;
         this.tanks = tanks;
         this.bullets = bullets;
         this.maps = maps;
         this.prizes = prizes;
         this.players = players;
+    }
+
+    public boolean isGameOverAll()
+    {
+        return gameOverAll;
+    }
+
+    public void setGameOverAll(boolean gameOverAll)
+    {
+        this.gameOverAll = gameOverAll;
     }
 
     public ArrayList<TankMulti> getTanks() {
@@ -124,5 +139,14 @@ public class GameStatus implements Serializable
         winners.add(temp);
     }
 
+    public int[] getKills()
+    {
+        return kills;
+    }
+
+    public ArrayList<String> getNames()
+    {
+        return names;
+    }
 }
 
