@@ -5,8 +5,6 @@ import java.io.Serializable;
 /**
  *  this class saves walls
  */
-
-
 public class WallMulti implements Serializable
 {
     private int x,y,length;  ////ok to serialize
@@ -43,6 +41,7 @@ public class WallMulti implements Serializable
     {
         return x;
     }
+
 
     /**
      * get y of the wall
@@ -89,6 +88,11 @@ public class WallMulti implements Serializable
             return getY () + (getLength () / 2);
         }
     }
+
+    /**
+     *
+     * @return get Thick
+     */
     public int getThick ()
     {
         return 10;
@@ -112,6 +116,10 @@ public class WallMulti implements Serializable
         return destructible;
     }
 
+    /**
+     *
+     * @return is wall OK ?
+     */
     public boolean isOK()
     {
         return isOK;

@@ -12,9 +12,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
- * this class handles  single multiPlayer game
+ * this class handles client for multi games (User)
  */
-
 public class ClientHandler implements Runnable
 {
     boolean active;
@@ -24,8 +23,8 @@ public class ClientHandler implements Runnable
     private User user;
 
     /**
-     * get data of the game
-     * @return data field
+     *
+     * @return list of data
      */
     public ArrayList<Character> getData()
     {
@@ -33,17 +32,23 @@ public class ClientHandler implements Runnable
     }
 
     /**
-     * get the use
-     * @return user field
+     *
+     * @return user
      */
     public User getUser ()
     {
         return user;
     }
 
+
     public ObjectOutputStream outputStream = null;
     public ObjectInputStream inputStream = null;
 
+    /**
+     * creates new Client handler
+     * @param connectionSocket connectionSocket
+     * @param game game
+     */
     public ClientHandler(Socket connectionSocket , GameLoopMulti game)
     {
         active = true;
@@ -87,7 +92,7 @@ public class ClientHandler implements Runnable
             outputStream.reset();
             outputStream.writeObject(status);
         }
-        catch (SocketException | StreamCorruptedException e)
+        catch (SocketException e)
         {
             active = false;
         }
@@ -98,20 +103,28 @@ public class ClientHandler implements Runnable
         wait = false;
     }
 
+    /**
+     *
+     * @return is wait
+     */
     public boolean isWait ()
     {
         return wait;
     }
 
     /**
-     * check if ClientHandler is active or not
-     * @return active field
+     *
+     * @return is Active
      */
     public boolean isActive()
     {
         return active;
     }
 
+    /**
+     * sets Active
+     * @param active active
+     */
     public void setActive(boolean active)
     {
         this.active = active;

@@ -12,7 +12,6 @@ import MultiGame.Game.GraphMulti.*;
 /**
  * this class handles map creating
  */
-
 public class MapsMulti implements Serializable
 {
     private ArrayList<WallMulti> walls;   ////ok to serialize
@@ -30,7 +29,7 @@ public class MapsMulti implements Serializable
 
     /**
      * get the walls of the map
-     * @return
+     * @return walls
      */
     public ArrayList<WallMulti> getWalls()
     {
@@ -69,7 +68,12 @@ public class MapsMulti implements Serializable
 
     }
 
-
+    /**
+     * can put
+     * @param x x
+     * @param y y
+     * @return result
+     */
     public boolean canPut(int x,int y)
     {
         int xx = 0 , yy = 0;
@@ -78,6 +82,7 @@ public class MapsMulti implements Serializable
         yy = (int) (Math.floor(y/vertical) + 1);
         return isOk[yy][xx];
     }
+
 
     /**
      * this class converts map to graph
@@ -172,7 +177,6 @@ public class MapsMulti implements Serializable
 //        }
 
     }
-
 
     /**
      * create the walls

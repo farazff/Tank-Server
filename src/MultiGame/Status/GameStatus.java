@@ -60,7 +60,7 @@ public class GameStatus implements Serializable
      * @param names names
      */
     public void update(ArrayList<TankMulti> tanks, InteractArrayListMulti<BulletMulti> bullets ,
-                      MapsMulti maps, PrizesMulti prizes,int players,int[] kills,ArrayList<String> names)
+                       MapsMulti maps, PrizesMulti prizes,int players,int[] kills,ArrayList<String> names)
     {
         this.names = names;
         this.kills = kills;
@@ -82,7 +82,7 @@ public class GameStatus implements Serializable
 
     /**
      * setGameOverAll
-     * @param gameOverAll
+     * @param gameOverAll gameOverAll
      */
     public void setGameOverAll(boolean gameOverAll)
     {
@@ -167,7 +167,7 @@ public class GameStatus implements Serializable
 
     /**
      * set shot
-     * @param shot
+     * @param shot shot
      */
     public void setShot(boolean shot)
     {
@@ -185,7 +185,7 @@ public class GameStatus implements Serializable
 
     /**
      * e explode field
-     * @param explode
+     * @param explode explode
      */
     public void setExplode(boolean explode)
     {
@@ -212,7 +212,7 @@ public class GameStatus implements Serializable
 
     /**
      * set game over
-     * @param gameOver
+     * @param gameOver gameOver
      */
     public void setGameOver(boolean gameOver)
     {
@@ -229,8 +229,8 @@ public class GameStatus implements Serializable
     }
 
     /**
-     *
-     * @param temp
+     * add winners
+     * @param temp temp
      */
     public void addWinners(String temp)
     {

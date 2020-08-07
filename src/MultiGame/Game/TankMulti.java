@@ -11,7 +11,6 @@ import java.util.*;
 /**
  * the tank class
  */
-
 public class TankMulti implements Runnable , Serializable
 {
     int code;
@@ -437,9 +436,11 @@ public class TankMulti implements Runnable , Serializable
         return true;
     }
 
+
     /**
      * update the tank in every frame
      */
+
     public void update()
     {
         done = false;
@@ -548,98 +549,173 @@ public class TankMulti implements Runnable , Serializable
         return fireDestroyed;
     }
 
+    /**
+     *
+     * @return isDestroyed
+     */
     public boolean isDestroyed ()
     {
         return destroyed;
     }
 
+    /**
+     *
+     * @return isShot
+     */
     public boolean isShot ()
     {
         return shot;
     }
 
+    /**
+     *
+     * @return isCanShot
+     */
     public boolean isCanShot ()
     {
         return canShot;
     }
 
+    /**
+     *
+     * @return get CenterX
+     */
     public int getCenterX ()
     {
         return locX + width / 2 - 2;
     }
 
+    /**
+     *
+     * @return get CenterY
+     */
     public int getCenterY ()
     {
         return locY + height / 2 - 2;
     }
 
+    /**
+     *
+     * @return get CanonStartX
+     */
     public int getCanonStartX ()
     {
         return getCenterX () +
                 ((int) (Math.sqrt (968) * Math.cos (Math.toRadians (degree))));
     }
 
+    /**
+     *
+     * @return get CanonStartX
+     */
     public int getCanonStartY ()
     {
         return getCenterY () +
                 ((int) (Math.sqrt (968) * Math.sin (Math.toRadians (degree))));
     }
 
+    /**
+     *
+     * @return getLocX
+     */
     public int getLocX ()
     {
         return locX;
     }
 
+    /**
+     * set LocX
+     * @param locX locX
+     */
     public void setLocX (int locX)
     {
         this.locX = locX;
     }
 
+    /**
+     * add to loc x
+     * @param adder number
+     */
     public void addLocX (int adder)
     {
         locX += adder;
     }
 
+    /**
+     * add to loc y
+     * @return number
+     */
     public int getLocY ()
     {
         return locY;
     }
 
+    /**
+     * setLocY
+     * @param locY locY
+     */
     public void setLocY (int locY)
     {
         this.locY = locY;
     }
 
+    /**
+     * add to loc y
+     * @param adder number
+     */
     public void addLocY (int adder)
     {
         locY += adder;
     }
 
+    /**
+     *
+     * @return Stamina
+     */
     public int getStamina ()
     {
         return stamina;
     }
 
+    /**
+     *
+     * @return Tanks
+     */
     public ArrayList<TankMulti> getTanks ()
     {
         return tanks;
     }
 
+    /**
+     *
+     * @return Bullets
+     */
     public ArrayList<BulletMulti> getBullets ()
     {
         return bullets;
     }
 
+    /**
+     *
+     * @return Walls
+     */
     public ArrayList<WallMulti> getWalls ()
     {
         return walls;
     }
 
+    /**
+     *
+     * @return Degree
+     */
     public int getDegree ()
     {
         return degree;
     }
 
+    /**
+     *  increaseDegree
+     */
     public void increaseDegree ()
     {
         degree += 10;
@@ -647,6 +723,9 @@ public class TankMulti implements Runnable , Serializable
             degree = 0;
     }
 
+    /**
+     * decreaseDegree
+     */
     public void decreaseDegree ()
     {
         degree -= 10;
@@ -656,31 +735,55 @@ public class TankMulti implements Runnable , Serializable
         }
     }
 
+    /**
+     * set protection
+     * @param hasProtection type of protection
+     */
     public void setProtection (boolean hasProtection)
     {
         this.hasProtection = hasProtection;
     }
 
+    /**
+     * set bullet type
+     * @param bulletType bulletType
+     */
     public void setBulletType (String bulletType)
     {
         this.bulletType = bulletType;
     }
 
+    /**
+     *
+     * @return get BulletType
+     */
     public String getBulletType ()
     {
         return bulletType;
     }
 
+    /**
+     *
+     * @return Height
+     */
     public int getHeight ()
     {
         return height;
     }
 
+    /**
+     *
+     * @return PrizeOwn
+     */
     public PrizeMulti getPrizeOwn()
     {
         return prizeOwn;
     }
 
+    /**
+     *
+     * @return Number
+     */
     public int getNumber()
     {
         return number;

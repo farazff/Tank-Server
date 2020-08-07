@@ -98,6 +98,9 @@ public class GameFrameMulti extends JFrame implements Serializable
 
 	/**
 	 * MultiGame.Game rendering with triple-buffering using BufferStrategy.
+	 * @param state state
+	 * @throws IOException IOException
+	 * @throws InterruptedException InterruptedException
 	 */
 	public void render(GameStateMulti state) throws IOException, InterruptedException
 	{
@@ -124,6 +127,10 @@ public class GameFrameMulti extends JFrame implements Serializable
 
 	/**
 	 * Rendering all game elements based on the game state.
+	 * @param state state
+	 * @param g3d  g3d
+	 * @throws IOException IOException
+	 * @throws InterruptedException InterruptedException
 	 */
 	private void doRendering(Graphics2D g3d, GameStateMulti state) throws IOException, InterruptedException
 	{
