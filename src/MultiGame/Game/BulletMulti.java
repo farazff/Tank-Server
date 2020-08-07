@@ -226,7 +226,6 @@ public class BulletMulti implements Runnable , Serializable
                     tank.looseStamina (canonPower);
                     if(tank.getStamina()<=0 && tank.code!=this.code)
                     {
-                        System.out.println("Bulllet");
                         kills[this.code-1]++;
                     }
                     setExpired ();

@@ -9,6 +9,7 @@ import java.util.Objects;
  */
 public class User implements Serializable
 {
+    private int tankCode;
     private char[] password;
     private String userName;
     private long signedUpTime;
@@ -31,6 +32,7 @@ public class User implements Serializable
      */
     public User (String userName, char[] password, ServerInformationStorage serverInformationStorage)
     {
+        tankCode = 4;
         this.password = password;
         this.userName = userName;
         signedUpTime = System.currentTimeMillis ();
@@ -221,7 +223,23 @@ public class User implements Serializable
     public ServerInformationStorage getServerInformationStorage () {
         return serverInformationStorage;
     }
+    /**
+     *
+     * @return tankCode field
+     */
+    public int getTankCode()
+    {
+        return tankCode;
+    }
 
+    /**
+     *
+     * @param tankCode the tank's code
+     */
+    public void setTankCode(int tankCode)
+    {
+        this.tankCode = tankCode;
+    }
 
     @Override
     public boolean equals (Object o) {
