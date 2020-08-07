@@ -16,8 +16,8 @@ public class PrizesMulti implements Serializable
 
     /**
      * constructor  the prize class
-     * @param maps
-     * @param tanks
+     * @param maps maps
+     * @param tanks tanks
      */
     public PrizesMulti(MapsMulti maps , ArrayList<TankMulti> tanks)
     {
