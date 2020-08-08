@@ -18,7 +18,7 @@ public class ServerInformationStorage implements Serializable
     public ServerInformationStorage ()
     {
         this.serverData = new ArrayList<> ();
-        iterate = true;
+        iterate = false;
     }
 
     /**
@@ -52,9 +52,9 @@ public class ServerInformationStorage implements Serializable
     public void addNewServer (ServerInformation serverInformation)
     {
         try {
-            while (!iterate)
+            while (iterate)
             {
-                Thread.sleep (250);
+                Thread.sleep (25);
             }
         }catch (InterruptedException e)
         {
@@ -71,6 +71,17 @@ public class ServerInformationStorage implements Serializable
      */
     public void removeServer (ServerInformation serverInformation)
     {
-        this.serverData.remove (serverInformation);
+        try {
+            while (iterate)
+            {
+                Thread.sleep (25);
+            }
+        }catch (InterruptedException e)
+        {
+            e.printStackTrace ();
+        }
+        finally {
+            this.serverData.remove (serverInformation);
+        }
     }
 }
